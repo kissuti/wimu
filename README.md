@@ -16,21 +16,21 @@
 ## **Technológiák amiket használunk**
 
 ### Backend  
-- **PHP 8.0+**: Erőteljes és gyors szerveroldali nyelv.  
-- **MySQL**: Adataid biztonságos tárolása egy strukturált adatbázisban.  
+- **PHP 8.0+:** Erőteljes és gyors szerveroldali nyelv.  
+- **MySQL:** Adataid biztonságos tárolása egy strukturált adatbázisban.  
 
 ### Frontend  
-- **HTML5**: A modern és reszponzív weboldal alapja.  
+- **HTML5:** A modern és reszponzív weboldal alapja.  
 - **BOOTSTRAP (CSS, SASS)**: Stílusos és könnyen karbantartható megjelenés.  
-- **JavaScript**: Interaktív elemek és dinamikus funkciók.
+- **JavaScript:** Interaktív elemek és dinamikus funkciók.
 
 ## Admin Panel
 
-- **Termék felvétel**: Lehetőséged van feltölteni közvetlenül egy admin felületről egy terméket.
-- **Termék módosítása**: Bármelyik terméket tudod módosítani.
-- **Termék törlése:**: Egy gomb nyomás és törölve, ha már a készletről kifogyott.
-- **Rendelési lista**: Kik rendeltek, mit és mennyiért.
-- **Kategóriák felvétele**: Kategóriát fel tudsz venni, ahhoz egy alkategóriát és még ahhoz is. Törölni is lehet közvetlenül innen.
+- **Termék felvétel:** Lehetőséged van feltölteni közvetlenül egy admin felületről egy terméket.
+- **Termék módosítása:** Bármelyik terméket tudod módosítani.
+- **Termék törlése:** Egy gomb nyomás és törölve, ha már a készletről kifogyott.
+- **Rendelési lista:** Kik rendeltek, mit és mennyiért.
+- **Kategóriák felvétele:** Kategóriát fel tudsz venni, ahhoz egy alkategóriát és még ahhoz is. Törölni is lehet közvetlenül innen.
 
   ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)
 
