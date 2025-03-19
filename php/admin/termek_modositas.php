@@ -67,6 +67,7 @@ if ($mit == "urlap" && $id > 0) {
     <body style="font-family: tahoma;">
       <div class="container mt-4">
         <h1 class="mb-4 text-primary">Termék adatainak módosítása</h1>
+        <a href="../admin-index.php" class="btn btn-primary btn-danger">Vissza az admin főoldalra</a>
         <form name="urlap" action="termek_modositas.php" method="POST" enctype="multipart/form-data" class="bg-light p-4 rounded">
           <input type="hidden" name="id" value="<?= $id ?>">
           <input type="hidden" name="mit" value="urlap">

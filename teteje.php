@@ -3,12 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-// Hiányzó változók inicializálása
-$hatter = "#FFFFFF";
-$sotet = "#000000";
-$szoveg = "#000000";
-$vilagos = "#FFFFFF"; // Hiányzó változó
-
 include("php/dbconn.php"); // Új elérési út
 
 if (!$kapcsolat) {

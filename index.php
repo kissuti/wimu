@@ -84,6 +84,8 @@ if ($sorrend == "nepszeruseg") {
   $eredmeny = mysqli_query($kapcsolat, $sql);
   $sor = mysqli_fetch_array($eredmeny);
   $osszes = $sor["osszes"];
+  // A webshop szerepkörét a POST-ból kapott jogosultság alapján állítjuk be
+  $webshop_role = ($jogosultsag == 1) ? "admin" : "user";
 }
 
 $oldalak = ceil($osszes / $laponkent);
@@ -121,11 +123,6 @@ $oldalak = ceil($osszes / $laponkent);
   </script>
   <script src="js/preloader.js"></script>
 </head>
-<style>
-  div{
-    color: black;
-  }
-</style>
 <body style="background-color: #F0EFE7;">
   <!-- Preloader -->
   <div id="preloader">
@@ -153,15 +150,22 @@ $oldalak = ceil($osszes / $laponkent);
                 $id = $sor["id"];
                 $nev = $sor["nev"];
                 ?>
-                <option value="<?= $id ?>" <?php if ($kat1==$id) { print "selected"; } ?>><?= $nev ?></option>
+                <option value="<?= $id ?>" <?php if ($kat1 == $id) { print "selected"; } ?>><?= $nev ?></option>
                 <?php
               }
               ?>
             </select>
           </div>
           <div class="col-md-6 mb-3">
+            <!-- Keresés eleje -->
             <label for="mitkeres" class="form-label"><b>Keresés:</b></label>
-            <input name="mitkeres" value="<?= $mitkeres ?>" class="form-control">
+            <div class="keresesmezo-container">
+              <input type="text" name="text" class="keresesmezo" placeholder="Keresés..." value="<?= $mitkeres ?>">
+              <span class="keresesicon"> 
+                <svg width="19px" height="19px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="1" d="M14 5H20" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="1" d="M14 8H17" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="1" d="M22 22L20 20" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </span>
+            </div>
+            <!-- Keresés vége -->
             <div class="form-check mt-2">
               <input type="checkbox" name="leirasban" value="1" class="form-check-input" <?php if ($leirasban==1) { print "checked"; } ?>>
               <label class="form-check-label">keresés a termékleírásban is</label>
@@ -172,7 +176,7 @@ $oldalak = ceil($osszes / $laponkent);
         <?php if ($kat1>0) { ?>
           <div class="mb-3">
             <label for="kat2" class="form-label"><b>Alkategóriák:</b></label>
-            <select name="kat2" class="form-select" onChange="document.listazas.szint.value=2; document.listazas.submit()">
+            <select name="kat2" class="form-select" onChange="document.listazas.szint.value=1; document.listazas.submit()">
               <option value="0" <?php if ($kat2==0) { print "selected"; } ?>>Összes</option>
               <?php
               $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2=0 ORDER BY id";
@@ -220,65 +224,6 @@ $oldalak = ceil($osszes / $laponkent);
         </thead>
         <tbody>
           <?php
-          if ($sorrend=="nepszeruseg") {
-            $sql = "SELECT arucikk_id, sum(db) as hanydarab FROM kosar WHERE rendeles_id>0 GROUP BY arucikk_id ORDER BY hanydarab $irany LIMIT $mettol, $laponkent";
-            $eredmeny = mysqli_query($kapcsolat, $sql);
-            while ($sor = mysqli_fetch_array($eredmeny)) {
-              $arucikk_id = $sor["arucikk_id"];
-              if ($mitkeres=="") {
-                $sql = "SELECT * FROM arucikk WHERE id=$arucikk_id AND $katszuro";
-              } else {
-                if ($leirasban==1) {
-                  $sql = "SELECT * FROM arucikk WHERE (nev LIKE '%$mitkeres%' OR nev2 LIKE '%$mitkeres%' OR rovidnev LIKE '%$mitkeres%' OR leiras LIKE '%$mitkeres%' OR hosszu_leiras LIKE '%$mitkeres%') AND id=$arucikk_id AND $katszuro";
-                } else {
-                  $sql = "SELECT * FROM arucikk WHERE (nev LIKE '%$mitkeres%' OR nev2 LIKE '%$mitkeres%' OR rovidnev LIKE '%$mitkeres%') AND id=$arucikk_id AND $katszuro";
-                }
-              }
-              $eredm = mysqli_query($kapcsolat, $sql);
-              if (mysqli_num_rows($eredm) > 0) {
-                $egysor = mysqli_fetch_array($eredm);
-                $id = $egysor["id"];
-                $nev = $egysor["nev"];
-                $nev2 = $egysor["nev2"];
-                $foto = $egysor["foto"];
-                $raktaron = $egysor["raktaron"];
-                $leiras = $egysor["leiras"];
-                $ar_huf = $egysor["ar_huf"];
-                $egyseg = $egysor["egyseg"];
-                ?>
-                <tr>
-                  <td class="text-center">
-                    <?php if ($jogosultsag=="45521dfhe78rjd54") { ?>
-                      <a href="admin/termek_modositas.php?id=<?= $id ?>" target="ujablak"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a termék módosításához!"></a>
-                    <?php } else { ?>
-                      <a href="img/<?= $foto ?>" target="kepablak"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a nagy kép megtekintéséhez!"></a>
-                    <?php } ?>
-                  </td>
-                  <td>
-                    <a href="leiras.php?id=<?= $id ?>&oldal=<?= $oldal ?>&laponkent=<?= $laponkent ?>&kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=<?= $kat3 ?>&jogosultsag=<?= $jogosultsag ?>&mitkeres=<?= $mitkeres ?>&irany=<?= $irany ?>" class="text-dark font-weight-bold"><?= $nev ?></a><br>
-                    <small class="text-muted"><?= $nev2 ?></small>
-                    <div class="mt-2 mb-2"><?= $leiras ?></div>
-                    <a href="termek.php?id=<?= $id ?>&oldal=<?= $oldal ?>&laponkent=<?= $laponkent ?>&kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=<?= $kat3 ?>&jogosultsag=<?= $jogosultsag ?>&mitkeres=<?= urlencode($mitkeres) ?>&irany=<?= $irany ?>" class="btn btn-link p-0">részletesebb tájékoztató...</a>
-                  </td>
-                  <td class="text-center">
-                    <form class="add-to-cart" action="kosarba_tesz.php" method="POST">
-                      <input type="hidden" name="arucikk_id" value="<?= $id ?>">
-                      <div class="h5 font-weight-bold"><?= szampontos($ar_huf) ?> HUF</div>
-                      <input name="db" class="form-control text-center" style="width: 51px; display: inline-block;" value="1" min="1" max="<?= $raktaron ?>""> <?= $egyseg ?><br><br>
-                      <button type="submit" class="kosarbtn"> <span>Kosárba</span></button>
-                      <br><br>
-                      <?php if ($raktaron>0) { ?>
-                        <span class="badge badge-success">Raktáron: <?= $raktaron ?> <?= $egyseg ?></span>
-                      <?php } else { ?>
-                        <span class="badge badge-danger">Elfogyott!</span>
-                      <?php } ?>
-                    </form>
-                  </td>
-                </tr>
-                <?php
-              }
-            }
-          } else {
             if ($mitkeres=="") {
               $sql = "SELECT * FROM arucikk WHERE $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
             } else {
@@ -301,8 +246,8 @@ $oldalak = ceil($osszes / $laponkent);
               ?>
               <tr>
                 <td class="text-center">
-                  <?php if ($jogosultsag=="45521dfhe78rjd54") { ?>
-                    <a href="admin/termek_modositas.php?id=<?= $id ?>" target="ujablak"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a termék módosításához!"></a>
+                  <?php if ($webshop_role=="admin") { ?>
+                    <a href="php/admin/termek_modositas.php?id=<?= $id ?>"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a termék módosításához!"></a>
                   <?php } else { ?>
                     <a href="img/<?= $foto ?>" target="kepablak"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a nagy kép megtekintéséhez!"></a>
                   <?php } ?>
@@ -318,7 +263,7 @@ $oldalak = ceil($osszes / $laponkent);
                     <input type="hidden" name="arucikk_id" value="<?= $id ?>">
                     <div class="h5 font-weight-bold"><?= szampontos($ar_huf) ?> HUF</div>
                     <input name="db" class="form-control text-center" style="width: 60px; display: inline-block;" value="1"> <?= $egyseg ?><br><br>
-                    <button type="submit" class="btn btn-primary">Kosárba</button>
+                    <button type="submit" class="kosarbtn"><span>Kosárba</span></button>
                     <br><br>
                     <?php if ($raktaron>0) { ?>
                       <span class="badge badge-success">Raktáron: <?= $raktaron ?> <?= $egyseg ?></span>
@@ -330,7 +275,6 @@ $oldalak = ceil($osszes / $laponkent);
               </tr>
               <?php
             }
-          }
           ?>
         </tbody>
       </table>

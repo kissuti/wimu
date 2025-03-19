@@ -50,12 +50,6 @@ if (isset($_POST['emailcim']) && isset($_POST['nev']) && isset($_POST['jelszo'])
 
   <?php include("teteje.php"); ?>
 
-  <div style="width:100%; text-align:right">
-    <a href="index.php"><font color="<?= $hatter?>">visszatérés a webshop-hoz</font></a>
-  </div>
-  <font style="font-size:14pt;color:<?= $sotet?>"><b>Regisztráció</b></font>
-  <br><br><br>
-
   <?php
   if (isset($successMessage)) {
     ?>

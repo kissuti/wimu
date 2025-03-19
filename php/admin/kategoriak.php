@@ -34,6 +34,7 @@ if ($szint == 2) {
 <body style="font-family:tahoma">
   <div class="container mt-4">
     <h1 class="mb-4">Kategóriák adminisztrációja</h1>
+    <a href="../admin-index.php" class="btn btn-primary btn-danger">Vissza az admin főoldalra</a>
 
     <?php
     if ($mit=="lista") {

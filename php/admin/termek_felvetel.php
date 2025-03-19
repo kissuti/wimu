@@ -33,6 +33,7 @@ if ($mit == "kategoria") {
   <body style="font-family:tahoma">
     <div class="container mt-4">
       <h1 class="mb-4 text-primary">Új termék felvitele - a kategória kiválasztása</h1>
+      <a href="../admin-index.php" class="btn btn-primary btn-danger">Vissza az admin főoldalra</a>
       <form name="urlap" action="termek_felvetel.php" method="POST" class="bg-light p-4 rounded">
         <input type="hidden" name="mit" value="kategoria">
         <input type="hidden" name="szint" value="0">
