@@ -1,0 +1,35 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 800px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.form-check-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}

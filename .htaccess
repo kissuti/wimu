@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Ha a kapcsolat HTTPS-en történik, irányítsuk át HTTP-re
+RewriteCond %{HTTPS} on
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]
+
+# Ha a felhasználó az wimu/admin/ mappára navigál, irányítsuk át index.php-re
+RewriteRule ^admin/?$ /index.php [R=301,L]
