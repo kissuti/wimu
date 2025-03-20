@@ -70,11 +70,6 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
       }
     }
   </script>
-  <style>
-    div {
-      color: black;
-    }
-  </style>
 <script src="js/preloader.js"></script>
 </head>
 
@@ -84,8 +79,8 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
   <div id="preloader">
     <div class="spinner"></div>
   </div>
-<div class="container mt-4 d-flex justify-content-center shadow border kulonshadow" id="main-content">
-  <div class="col-md-8 kulonshadow">
+<div class="container mt-4 d-flex justify-content-center" id="main-content">
+  <div class="col-md-8">
     
     <form name="urlap" action="reg_ellenoriz.php" method="POST" class="bg-light p-4 rounded regform">
       <p class="szovegreg fs-4">Regisztráció</p>

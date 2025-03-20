@@ -123,7 +123,7 @@ mail("webshop@oktato2.info", "Új rendelés: $rendeles_id ($osszeg HUF)", $uzene
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
 </head>
 
-<?php include("teteje_2.php"); ?>
+<?php include("php/teteje_2.php"); ?>
 
 <div class="container mt-4">
   <div class="d-flex justify-content-end mb-3">

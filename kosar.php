@@ -76,7 +76,7 @@ if (isset($_GET['torolni'])) {
                 $egysor = mysqli_fetch_array($termek);
                 $osszeg += $db * $egysor["ar_huf"];
                 ?>
-                <tr style="border-bottom: 1px solid <?= $sotet ?>;">
+                <tr style="border-bottom: 1px solid;">
                   <td align="right" style="padding: 8px;"><?= $egysor["nev"] ?></td>
                   <td align="left" style="padding: 8px;">x <?= $db ?></td>
                   <td align="right" style="padding: 8px;"><?= szampontos($db * $egysor["ar_huf"]) ?> HUF</td>
@@ -93,18 +93,18 @@ if (isset($_GET['torolni'])) {
           <td colspan="3" align="center" style="padding: 20px;">
             <?php if ($belepve == 1): ?>
               <button onclick="top.location='1_kosar_tartalma.php'" 
-                      style="background:<?= $sotet ?>;color:<?= $vilagos ?>;padding:8px 15px;border:none;cursor:pointer;">
+                      style="padding:8px 15px;border:none;cursor:pointer;">
                 Vásárlás befejezése
               </button>
             <?php else: ?>
               <button onclick="alert('Előbb be kell jelentkezned!')" 
-                      style="background:<?= $sotet ?>;color:<?= $vilagos ?>;padding:8px 15px;border:none;cursor:pointer;">
+                      style="padding:8px 15px;border:none;cursor:pointer;">
                 Vásárlás befejezése
               </button>
             <?php endif; ?>
             <br><br>
             <button onclick="window.open('kosar.php?torolni=1','kosar')" 
-                    style="background:#800000;color:<?= $vilagos ?>;padding:8px 15px;border:none;cursor:pointer;">
+                    style="background:#800000; color:#FFFFFF; padding:8px 15px; border:none; cursor:pointer;">
               Kosár ürítése
             </button>
           </td>

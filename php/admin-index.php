@@ -15,7 +15,6 @@
             <a href="admin/rendeles_lista.php" class="list-group-item list-group-item-action">Rendelési lista</a>
             <a href="admin/termek_felvetel.php" class="list-group-item list-group-item-action">Termék felvétel</a>
             <a href="admin/termek_modositas.php" class="list-group-item list-group-item-action">Termék módosítás</a>
-            <a href="admin/termek_torles.php" class="list-group-item list-group-item-action">Termék törlése</a>
         </div>
         <div class="list-group mt-4">
         <a href="../index.php" class="btn btn-primary btn-danger">Vissza a főoldalra</a>

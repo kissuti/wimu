@@ -60,7 +60,7 @@ if ($id > 0) {
           <h4 class="alert-heading">A termék nem törölhető!</h4>
           <p>A termék raktáron van, szerepel a kosárban, vagy megtekintették.</p>
           <hr>
-          <a href="termek_modositas.php?id=<?= $id ?>" class="btn btn-primary">A termék adatainak módosítása...</a>
+          <a href="termek_modositas2.php?id=<?= $id ?>" class="btn btn-primary">A termék adatainak módosítása...</a>
         </div>
         <?php
       }

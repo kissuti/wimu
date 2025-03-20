@@ -99,7 +99,7 @@ $oldalak = ceil($osszes / $laponkent);
   <link rel="stylesheet" href="styles/index.css" />
   <link rel="stylesheet" href="styles/preloader.css">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
   <script>
     // Az add-to-cart űrlapokhoz használt jQuery kód
     $(document).ready(function() {
@@ -133,9 +133,9 @@ $oldalak = ceil($osszes / $laponkent);
   <div id="main-content">
     <?php include("teteje.php"); ?>
 
-    <div class="container mt-4 kulonshadow">
+    <div class="container mt-4">
       <!-- Webshop tartalma -->
-      <form name="listazas" action="index.php" method="POST" class="bg-light p-3 rounded border">
+      <form name="listazas" action="index.php" method="POST" class="bg-light p-3 rounded">
         <input type="hidden" name="szint" value="0">
         <input type="hidden" name="jogosultsag" value="<?= $jogosultsag ?>">
         <div class="row">
@@ -214,7 +214,7 @@ $oldalak = ceil($osszes / $laponkent);
         <?php } ?>
       </form>
 
-      <table class="table table-bordered table-hover table-responsive">
+      <table class="table table-bordered table-hover table-responsive rounded-0">
         <thead class="thead-light">
           <tr>
             <th scope="col">Kép</th>
@@ -247,7 +247,7 @@ $oldalak = ceil($osszes / $laponkent);
               <tr>
                 <td class="text-center">
                   <?php if ($webshop_role=="admin") { ?>
-                    <a href="php/admin/termek_modositas.php?id=<?= $id ?>"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a termék módosításához!"></a>
+                    <a href="php/admin/termek_modositas2.php?id=<?= $id ?>"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a termék módosításához!"></a>
                   <?php } else { ?>
                     <a href="img/<?= $foto ?>" target="kepablak"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a nagy kép megtekintéséhez!"></a>
                   <?php } ?>

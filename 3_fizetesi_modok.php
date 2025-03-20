@@ -69,7 +69,7 @@ if ($belepve == 1) {
   </head>
 
   <body>
-    <?php include("teteje_2.php"); ?>
+    <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
       <h2 class="text-dark">Fizetési mód kiválasztása</h2>
@@ -109,7 +109,7 @@ if ($belepve == 1) {
       </form>
     </div>
 
-    <?php include("alja_2.php"); ?>
+    <?php include("alja.php"); ?>
 
     <script>
       paypal.Buttons({

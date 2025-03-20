@@ -67,7 +67,7 @@ if ($id && $kod) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
   </head>
-  <?php include("teteje.php"); ?>
+  <?php include("php/teteje.php"); ?>
   <div style="width:100%; text-align:right">
     <a href="index.php"><font color="<?= $hatter ?>">visszatérés a webshophoz</font></a>
   </div>

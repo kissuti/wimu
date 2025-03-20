@@ -100,10 +100,12 @@ if ($mit=="" || $mit=="keres") {
     </style>
   </head>
 
-  <body style="font-family:tahoma; font-size:8pt; color:<?= $sotet?>">
+  <body style="font-family:tahoma; font-size:8pt;">
+  
 
     <div class="container mt-4">
       <h1 class="mb-4"><?= $cimke?></h1>
+      <a href="../admin-index.php" class="btn btn-primary btn-danger">Vissza az admin főoldalra</a>
 
       <form name="urlap" action="rendeles_lista.php" method="POST" class="bg-light p-4 rounded">
         <input type="hidden" name="mit" value="vegrehajt">

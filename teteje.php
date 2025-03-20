@@ -60,17 +60,20 @@ if(isset($_POST['mit']) && $_POST['mit'] == 'ellenoriz') {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
-<body style="margin:0px;border:0px; background-color: #F0EFE7;">
+<body style="margin:0px;border:0px;" background="img/bg1.jpg">
 
   <div class="container">
-  <div class="row">
+  <div class="row" style="margin-bottom: -16px;">
       <div class="col-12 text-center" onClick="window.location='index.php'" style="cursor:pointer; background:url('img/banner2.png') center center no-repeat; background-repeat:no-repeat; border-top:0px #FFFFFF solid; height:250px;">
       </div>
     </div>
 
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mt-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mt-3 rounded-top" style="
+    margin-right: -12px;
+    margin-left: -12px;
+    border-bottom: 1px solid #dfdede;">
       <div class="container-fluid">
         <a class="navbar-brand gombok" href="index.php">Főoldal</a>
           <button 
@@ -105,7 +108,7 @@ if(isset($_POST['mit']) && $_POST['mit'] == 'ellenoriz') {
   </a>
   <ul class="dropdown-menu" aria-labelledby="userDropdown">
     <?php if ($belepve == 1) { ?>
-      <li><a class="dropdown-item" href="profil_modosit.php">Beállításaid módosítása</a></li>
+      <li><a class="dropdown-item" href="profil_modosit.php">Adatok módosítása</a></li>
       <li><a class="dropdown-item" href="korabbi_rendelesek.php">Korábbi rendeléseid</a></li>
       <?php 
       // Ha a felhasználó role értéke admin, akkor megjelenítjük az admin felület linket
@@ -130,10 +133,10 @@ if(isset($_POST['mit']) && $_POST['mit'] == 'ellenoriz') {
 
 
     <div class="row">
-      <div class="col-md-3 kulonshadow" style="background: rgb(255 255 255);padding: 0px; height: 364px;">
-        <div class="bg-white p-3 mt-3 text-center border shadow-sm">
+      <div class="col-md-3" style="background-color: white;">
+        <div class="bg-white p-3 mt-4 text-center border shadow-sm">
           <b>Kosár tartalma</b>
           <iframe id="kosar" name="kosar" src="kosar.php" class="w-100" height="100" scrolling="no" frameborder="0"></iframe>
         </div>
       </div>
-      <div class="col-md-9" style="color:<?= $szoveg?>; padding:20px; border-bottom:2px <?= $hatter?> solid;">
+      <div class="col-md-9" style="background-color: white;border-left: 0.8px solid #dfdede;">

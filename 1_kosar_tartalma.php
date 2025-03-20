@@ -16,19 +16,20 @@ if (!isset($mit)) {
   <head>
     <title>Wimu Webshop</title>
     <meta charset="UTF-8">
-    <meta name="cache-control" content="private, no-store, no-cache, must-revalidate" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/preloader.css">
-    <meta http-equiv="Content-Type" content="text/html"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/index.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="styles/teteje.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   </head>
 
-  <?php include("teteje_2.php"); ?>
+  <?php include("teteje.php"); ?>
 
   <div class="container mt-4">
-    <div class="d-flex justify-content-end mb-3">
-      <a href="index.php" class="text-decoration-none text-dark">Visszatérés a webshop-hoz</a>
-    </div>
-    <h2 class="text-dark">A kosár tartalma</h2>
+    <h2 class="text-dark">Kosár tartalma</h2>
     
     <form name="urlap" action="1_kosar_tartalma.php" method="POST">
       <input type="hidden" name="mit" value="modosit">
@@ -106,7 +107,7 @@ if (!isset($mit)) {
     </form>
   </div>
 
-  <?php include("alja_2.php"); ?>
+  <?php include("alja.php"); ?>
 
   <?php
 } elseif ($mit == "modosit") {

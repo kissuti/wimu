@@ -23,7 +23,7 @@ if ($mit == "") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles/belepes.css">
     <link rel="stylesheet" href="styles/preloader.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript">
       function helyescim(emcim) {
         if (emcim.length < 5) {
@@ -63,16 +63,11 @@ if ($mit == "") {
         if (mehet == 1) {
           document.urlap.submit();
         } else {
-          document.urlap.elkuldgomb.value = 'Kattints ide a belépéshez!';
+          document.urlap.elkuldgomb.value = 'Belépés';
           document.urlap.elkuldgomb.disabled = false;
         }
       }
     </script>
-    <style>
-      div{
-        color: black;
-      }
-    </style>
     <script src="js/preloader.js"></script>
   </head>
 
@@ -121,7 +116,7 @@ if ($mit == "") {
         }
         ?>
 
-        <button id="elkuldgomb" name="elkuldgomb" type="button" class="belepesbtn" onclick="this.disabled='disabled';this.value='Kis türelmet kérek, az ellenőrzés folyamatban van...';ellenoriz()">Kattints ide a belépéshez!</button>
+        <button id="elkuldgomb" name="elkuldgomb" type="button" class="belepesbtn" onclick="this.disabled='disabled';this.value='Kis türelmet kérek, az ellenőrzés folyamatban van...';ellenoriz()">Belépés</button>
       </form>
     </div>
   </div>
