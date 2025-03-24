@@ -8,69 +8,131 @@ header("Pragma: no-cache");
 header("Cache-control: private, no-store, no-cache, must-revalidate");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
+session_start();
+if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') {
+    header('HTTP/1.0 403 Forbidden');
+    exit('Hozzáférés megtagadva!');
+}
+
 // Az ID beolvasása a GET paraméterből
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$confirm = isset($_GET['confirm']) ? intval($_GET['confirm']) : 0;
 
-$torolhet = 1;
+// Ellenőrizzük a termék állapotát
+$problémák = [];
 
-// Ellenőrizzük, hogy a termék raktáron van-e
-$sql = "SELECT * FROM arucikk WHERE id=$id AND raktaron>0";
+// 1. Raktárkészlet ellenőrzése
+$sql = "SELECT nev, raktaron FROM arucikk WHERE id=$id";
 $eredmeny = mysqli_query($kapcsolat, $sql);
-if (mysqli_num_rows($eredmeny) > 0) {
-  $torolhet = 0;
+if ($sor = mysqli_fetch_array($eredmeny)) {
+    $termek_nev = $sor['nev'];
+    if ($sor['raktaron'] > 0) {
+        $problémák[] = "A termék még raktáron van (" . $sor['raktaron'] . " db)";
+    }
+} else {
+    die("<div class='alert alert-danger'>Nem létező termék!</div>");
 }
 
-// Ellenőrizzük, hogy a termék szerepel-e a kosárban
-$sql = "SELECT * FROM kosar WHERE arucikk_id=$id";
+// 2. Kosárban szerepel-e
+$sql = "SELECT COUNT(*) AS db FROM kosar WHERE arucikk_id=$id";
 $eredmeny = mysqli_query($kapcsolat, $sql);
-if (mysqli_num_rows($eredmeny) > 0) {
-  $torolhet = 0;
+$sor = mysqli_fetch_array($eredmeny);
+if ($sor['db'] > 0) {
+    $problémák[] = "A termék szerepel " . $sor['db'] . " kosárban";
 }
 
-// Ellenőrizzük, hogy a terméket megtekintették-e
-$sql = "SELECT * FROM megtekintve WHERE arucikk_id=$id";
+// 3. Megtekintések ellenőrzése
+$sql = "SELECT COUNT(*) AS db FROM megtekintve WHERE arucikk_id=$id";
 $eredmeny = mysqli_query($kapcsolat, $sql);
-if (mysqli_num_rows($eredmeny) > 0) {
-  $torolhet = 0;
+$sor = mysqli_fetch_array($eredmeny);
+if ($sor['db'] > 0) {
+    $problémák[] = "A termék " . $sor['db'] . " alkalommal lett megtekintve";
 }
 
 if ($id > 0) {
-  ?>
-  <html>
-  <head>
-    <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Termék Törlés</title>
-  </head>
-  <body style="font-family:tahoma">
-    <div class="container mt-4">
-      <?php
-      if ($torolhet == 1) {
+    if ($confirm == 1) {
+        // TÖRLÉS MEGERŐSÍTÉS UTÁN
+        // 1. Kép törlése (ha van)
+        $sql = "SELECT foto FROM arucikk WHERE id=$id";
+        $eredmeny = mysqli_query($kapcsolat, $sql);
+        if ($sor = mysqli_fetch_array($eredmeny) && !empty($sor['foto'])) {
+            $kep_utvonal = "../../img/" . $sor['foto'];
+            if (file_exists($kep_utvonal)) {
+                unlink($kep_utvonal);
+            }
+        }
+        
+        // 2. Termék törlése
         $sql = "DELETE FROM arucikk WHERE id=$id";
         mysqli_query($kapcsolat, $sql);
+        
+        // 3. Kapcsolódó rekordok törlése
+        $sql = "DELETE FROM kosar WHERE arucikk_id=$id";
+        mysqli_query($kapcsolat, $sql);
+        
+        $sql = "DELETE FROM megtekintve WHERE arucikk_id=$id";
+        mysqli_query($kapcsolat, $sql);
         ?>
-        <div class="alert alert-success" role="alert">
-          <h4 class="alert-heading">A termék törölve lett.</h4>
-        </div>
+        <html>
+        <head>
+            <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <title>Termék Törölve</title>
+        </head>
+        <body style="font-family:tahoma">
+            <div class="container mt-4">
+                <div class="alert alert-success">
+                    <h4>A termék sikeresen törölve!</h4>
+                    <p><b><?= htmlspecialchars($termek_nev) ?></b> (ID: <?= $id ?>)</p>
+                    <a href="termek_modositas.php" class="btn btn-primary">Vissza a terméklistához</a>
+                </div>
+            </div>
+        </body>
+        </html>
         <?php
-      } else {
+    } else {
+        // TÖRLÉS MEGERŐSÍTÉSE
         ?>
-        <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading">A termék nem törölhető!</h4>
-          <p>A termék raktáron van, szerepel a kosárban, vagy megtekintették.</p>
-          <hr>
-          <a href="termek_modositas2.php?id=<?= $id ?>" class="btn btn-primary">A termék adatainak módosítása...</a>
-        </div>
+        <html>
+        <head>
+            <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <title>Termék Törlés - Megerősítés</title>
+        </head>
+        <body style="font-family:tahoma">
+            <div class="container mt-4">
+                <div class="alert alert-<?= empty($problémák) ? 'info' : 'warning' ?>">
+                    <h4>Termék törlés - megerősítés</h4>
+                    <p>Biztosan törölni szeretnéd ezt a terméket?</p>
+                    <p><b><?= htmlspecialchars($termek_nev) ?></b> (ID: <?= $id ?>)</p>
+                    
+                    <?php if (!empty($problémák)): ?>
+                    <div class="alert alert-danger mt-3">
+                        <h5>Figyelmeztetés!</h5>
+                        <ul>
+                            <?php foreach ($problémák as $probléma): ?>
+                                <li><?= $probléma ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <p>Ennek ellenére is törölheted a terméket.</p>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="termek_torles.php?id=<?= $id ?>&confirm=1" class="btn btn-danger">Igen, törlöm</a>
+                        <a href="termek_modositas2.php?id=<?= $id ?>" class="btn btn-secondary">Mégse</a>
+                        <a href="termek_modositas.php" class="btn btn-primary ms-auto">Vissza a listához</a>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
         <?php
-      }
-      ?>
-    </div>
-  </body>
-  </html>
-  <?php
+    }
 } else {
-  echo "<div class='alert alert-danger'><b>HIBA</b></div>";
+    echo "<div class='alert alert-danger'>Érvénytelen termék ID!</div>";
 }
 
 mysqli_close($kapcsolat);

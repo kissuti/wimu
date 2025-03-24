@@ -83,24 +83,33 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
   <div class="col-md-8">
     
     <form name="urlap" action="reg_ellenoriz.php" method="POST" class="bg-light p-4 rounded regform">
-      <p class="szovegreg fs-4">Regisztráció</p>
+      <p class="szovegreg fs-4 bi bi-person-plus"> Regisztráció</p>
       <div class="mb-3">
-        <input id="emailcim" name="emailcim" class="form-control beiras border-5" placeholder="E-mail cím">
+        <input id="emailcim" name="emailcim" class="form-control beiras border-5" placeholder="E-mail cím" required>
       </div>
       <div class="mb-3">
-        <input id="nev" name="nev" class="form-control beiras border-5" placeholder="Név">
+        <input id="nev" name="nev" class="form-control beiras border-5" placeholder="Név" required>
       </div>
       <div class="mb-3">
-        <input type="password" id="jelszo" name="jelszo" class="form-control beiras border-5" placeholder="Jelszó">
+        <input type="password" id="jelszo" name="jelszo" class="form-control beiras border-5" placeholder="Jelszó" required>
+        <small class="form-text text-muted">
+          Minimum követelmények: 8 karakter, 1 nagybetű, 1 szám
+        </small>
       </div>
       <div class="mb-3">
-        <input type="password" id="jelszo2" name="jelszo2" class="form-control beiras border-5" placeholder="Jelszó újra">
+        <input type="password" id="jelszo2" name="jelszo2" class="form-control beiras border-5" placeholder="Jelszó újra" required>
       </div>
 
       <button id="elkuldgomb" name="elkuldgomb" type="button" class="regbtn" onclick="this.disabled='disabled';this.value='Kis türelmet kérek, az ellenőrzés folyamatban van...';ellenoriz()">Kattints ide a regisztrációhoz!</button>
+      <div class="mt-4 text-center">Már van fiókja? <a href="belepes.php" class="text-primary">Jelentkezzen be!</a></div>
     </form>
   </div>
 </div>
+
+    <!-- Bootstrap JS bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 
 <?php include("alja.php"); ?>
 

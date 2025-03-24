@@ -8,6 +8,13 @@ header("Pragma: no-cache");
 header("Cache-control: private, no-store, no-cache, must-revalidate");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
+session_start();
+if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') {
+    header('HTTP/1.0 403 Forbidden');
+    exit('Hozzáférés megtagadva!');
+}
+
+
 // Változók beolvasása a $_REQUEST tömbből
 $kat1 = isset($_REQUEST['kat1']) ? intval($_REQUEST['kat1']) : 0;
 $kat2 = isset($_REQUEST['kat2']) ? intval($_REQUEST['kat2']) : 0;
@@ -48,7 +55,7 @@ if ($szint == 2) {
 
         <div class="mb-3">
           <label for="kat1" class="form-label"><b>1. szint:</b></label>
-          <select name="kat1" class="form-select" onChange="if (this.value != '0') { document.getElementById('urlap').szint.value=1; document.getElementById('urlap').submit(); }">
+          <select name="kat1" class="form-select border-5" onChange="if (this.value != '0') { document.getElementById('urlap').szint.value=1; document.getElementById('urlap').submit(); }">
             <option value="0" <?php if ($kat1==0) { echo "selected"; } ?>>Új 1. szintű kategória felvétele</option>
             <?php
             $sql = "SELECT * FROM kategoriak WHERE szulo1=0 ORDER BY id";
@@ -71,7 +78,7 @@ if ($szint == 2) {
           ?>
           <div class="mb-3">
             <label for="kat2" class="form-label"><b>2. szint:</b></label>
-            <select name="kat2" class="form-select" onChange="document.getElementById('urlap').szint.value=2; document.getElementById('urlap').submit()">
+            <select name="kat2" class="form-select border-5" onChange="document.getElementById('urlap').szint.value=2; document.getElementById('urlap').submit()">
               <option value="0" <?php if ($kat2==0) { echo "selected"; } ?>>Új 2. szintű kategória felvétele</option>
               <?php
               while ($sor = mysqli_fetch_array($eredmeny)) {
@@ -95,7 +102,7 @@ if ($szint == 2) {
           ?>
           <div class="mb-3">
             <label for="kat3" class="form-label"><b>3. szint:</b></label>
-            <select name="kat3" class="form-select" onChange="document.getElementById('urlap').submit()">
+            <select name="kat3" class="form-select border-5" onChange="document.getElementById('urlap').submit()">
               <option value="0" <?php if ($kat3==0) { echo "selected"; } ?>>Új 3. szintű kategória felvétele</option>
               <?php
               while ($sor = mysqli_fetch_array($eredmeny)) {
@@ -116,7 +123,7 @@ if ($szint == 2) {
 
         <div class="mb-3">
           <label for="neve" class="form-label">Kategória neve:</label>
-          <input name="neve" class="form-control" value="<?= $neve ?>">
+          <input name="neve" class="form-control border-5" value="<?= $neve ?>">
         </div>
 
         <div class="mb-3">

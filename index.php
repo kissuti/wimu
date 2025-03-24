@@ -90,15 +90,15 @@ if ($sorrend == "nepszeruseg") {
 
 $oldalak = ceil($osszes / $laponkent);
 ?>
-
+<!DOCTYPE html>
 <html>
 <head>
   <title>Wimu Webshop</title>
   <meta name="cache-control" content="private, no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="styles/index.css" />
   <link rel="stylesheet" href="styles/preloader.css">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
   <script>
     // Az add-to-cart űrlapokhoz használt jQuery kód
@@ -134,7 +134,7 @@ $oldalak = ceil($osszes / $laponkent);
     <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
-      <!-- Webshop tartalma -->
+      <!-- Webshop tartalma: kereső és kategória szűrők -->
       <form name="listazas" action="index.php" method="POST" class="bg-light p-3 rounded">
         <input type="hidden" name="szint" value="0">
         <input type="hidden" name="jogosultsag" value="<?= $jogosultsag ?>">
@@ -160,10 +160,7 @@ $oldalak = ceil($osszes / $laponkent);
             <!-- Keresés eleje -->
             <label for="mitkeres" class="form-label"><b>Keresés:</b></label>
             <div class="keresesmezo-container">
-              <input type="text" name="text" class="keresesmezo" placeholder="Keresés..." value="<?= $mitkeres ?>">
-              <span class="keresesicon"> 
-                <svg width="19px" height="19px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="1" d="M14 5H20" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="1" d="M14 8H17" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="1" d="M22 22L20 20" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-              </span>
+              <input placeholder="Keresés..." type="text" name="mitkeres" class="keresomezo" value="<?= $mitkeres ?>">
             </div>
             <!-- Keresés vége -->
             <div class="form-check mt-2">
@@ -214,74 +211,78 @@ $oldalak = ceil($osszes / $laponkent);
         <?php } ?>
       </form>
 
-      <table class="table table-bordered table-hover table-responsive rounded-0">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Kép</th>
-            <th scope="col">Termék</th>
-            <th scope="col">Ár</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            if ($mitkeres=="") {
-              $sql = "SELECT * FROM arucikk WHERE $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
+      <!-- Termékek megjelenítése kártya formában -->
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php
+          if ($mitkeres=="") {
+            $sql = "SELECT * FROM arucikk WHERE $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
+          } else {
+            if ($leirasban==1) {
+              $sql = "SELECT * FROM arucikk WHERE (nev LIKE '%$mitkeres%' OR nev2 LIKE '%$mitkeres%' OR rovidnev LIKE '%$mitkeres%' OR leiras LIKE '%$mitkeres%' OR hosszu_leiras LIKE '%$mitkeres%') AND $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
             } else {
-              if ($leirasban==1) {
-                $sql = "SELECT * FROM arucikk WHERE (nev LIKE '%$mitkeres%' OR nev2 LIKE '%$mitkeres%' OR rovidnev LIKE '%$mitkeres%' OR leiras LIKE '%$mitkeres%' OR hosszu_leiras LIKE '%$mitkeres%') AND $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
-              } else {
-                $sql = "SELECT * FROM arucikk WHERE (nev LIKE '%$mitkeres%' OR nev2 LIKE '%$mitkeres%' OR rovidnev LIKE '%$mitkeres%') AND $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
-              }
+              $sql = "SELECT * FROM arucikk WHERE (nev LIKE '%$mitkeres%' OR nev2 LIKE '%$mitkeres%' OR rovidnev LIKE '%$mitkeres%') AND $katszuro ORDER BY $rendezes $irany LIMIT $mettol, $laponkent";
             }
-            $eredmeny = mysqli_query($kapcsolat, $sql);
-            while ($sor = mysqli_fetch_array($eredmeny)) {
-              $id = $sor["id"];
-              $nev = $sor["nev"];
-              $nev2 = $sor["nev2"];
-              $foto = $sor["foto"];
-              $raktaron = $sor["raktaron"];
-              $leiras = $sor["leiras"];
-              $ar_huf = $sor["ar_huf"];
-              $egyseg = $sor["egyseg"];
-              ?>
-              <tr>
-                <td class="text-center">
-                  <?php if ($webshop_role=="admin") { ?>
-                    <a href="php/admin/termek_modositas2.php?id=<?= $id ?>"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a termék módosításához!"></a>
-                  <?php } else { ?>
-                    <a href="img/<?= $foto ?>" target="kepablak"><img src="img/<?= $foto ?>" class="img-fluid" alt="Kattints ide a nagy kép megtekintéséhez!"></a>
-                  <?php } ?>
-                </td>
-                <td>
-                  <a href="leiras.php?id=<?= $id ?>&oldal=<?= $oldal ?>&laponkent=<?= $laponkent ?>&kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=<?= $kat3 ?>&jogosultsag=<?= $jogosultsag ?>&mitkeres=<?= $mitkeres ?>&irany=<?= $irany ?>" class="text-dark font-weight-bold"><?= $nev ?></a><br>
-                  <small class="text-muted"><?= $nev2 ?></small>
-                  <div class="mt-2 mb-2"><?= $leiras ?></div>
-                  <a href="leiras.php?id=<?= $id ?>&oldal=<?= $oldal ?>&laponkent=<?= $laponkent ?>&kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=<?= $kat3 ?>&jogosultsag=<?= $jogosultsag ?>&mitkeres=<?= $mitkeres ?>&irany=<?= $irany ?>" class="btn btn-link p-0">részletesebb tájékoztató...</a>
-                </td>
-                <td class="text-center">
-                  <form class="add-to-cart" action="kosarba_tesz.php" method="POST">
-                    <input type="hidden" name="arucikk_id" value="<?= $id ?>">
-                    <div class="h5 font-weight-bold"><?= szampontos($ar_huf) ?> HUF</div>
-                    <input name="db" class="form-control text-center" style="width: 60px; display: inline-block;" value="1"> <?= $egyseg ?><br><br>
-                    <button type="submit" class="kosarbtn"><span>Kosárba</span></button>
-                    <br><br>
-                    <?php if ($raktaron>0) { ?>
-                      <span class="badge badge-success">Raktáron: <?= $raktaron ?> <?= $egyseg ?></span>
-                    <?php } else { ?>
-                      <span class="badge badge-danger">Elfogyott!</span>
-                    <?php } ?>
-                  </form>
-                </td>
-              </tr>
-              <?php
-            }
-          ?>
-        </tbody>
-      </table>
-    </div>
+          }
+          $eredmeny = mysqli_query($kapcsolat, $sql);
+          while ($sor = mysqli_fetch_array($eredmeny)) {
+            $id = $sor["id"];
+            $nev = $sor["nev"];
+            $nev2 = $sor["nev2"];
+            $foto = $sor["foto"];
+            $raktaron = $sor["raktaron"];
+            $leiras = $sor["leiras"];
+            $ar_huf = $sor["ar_huf"];
+            $egyseg = $sor["egyseg"];
+        ?>
+          <div class="col">
+        <div class="card h-100">
+          <?php if ($webshop_role=="admin") { ?>
+            <a href="php/admin/termek_modositas2.php?id=<?= $id ?>">
+              <img src="img/<?= $foto ?>" class="card-img-top" alt="Termékkép">
+            </a>
+          <?php } else { ?>
+            <a href="img/<?= $foto ?>" target="kepablak">
+              <img src="img/<?= $foto ?>" class="card-img-top" alt="Nagy kép">
+            </a>
+          <?php } ?>
+          
+          <div class="card-body">
+            <h5 class="card-title"><?= $nev ?></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><?= $nev2 ?></h6>
+            <div class="mt-2 mb-2"><?= $leiras ?></div>
+            
+            <div class="mb-2">
+              <div class="h5 font-weight-bold"><?= szampontos($ar_huf) ?> HUF</div>
+              <div>
+                <form class="add-to-cart d-inline" action="kosarba_tesz.php" method="POST">
+                  <input type="hidden" name="arucikk_id" value="<?= $id ?>">
+                  <input name="db" class="form-control text-center d-inline-block" style="width: 60px;" value="1" min="<?= $raktaron ?>"> <?= $egyseg ?>
+                  <button type="submit" class="kosarbtn" style="margin-top: 10px;"><span>Kosárba</span></button>
+                </form>
+              </div>
+              <div class="mt-2">
+                <?php if ($raktaron > 0) { ?>
+                  <span class="badge bg-success">Raktáron: <?= $raktaron ?> <?= $egyseg ?></span>
+                <?php } else { ?>
+                  <span class="badge bg-danger">Elfogyott!</span>
+                <?php } ?>
+              </div>
+            </div>
+            
+            <a href="leiras.php?id=<?= $id ?>&oldal=<?= $oldal ?>&laponkent=<?= $laponkent ?>&kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=<?= $kat3 ?>&jogosultsag=<?= $jogosultsag ?>&mitkeres=<?= $mitkeres ?>&irany=<?= $irany ?>" class="btn btn-link p-0">részletesebb tájékoztató...</a>
+          </div>
+        </div>
+      </div>
+    <?php } ?>
+  </div>
+</div>
 
     <?php include("alja.php"); ?>
   </div>
+    <!-- Bootstrap JS bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 </body>
 </html>
 

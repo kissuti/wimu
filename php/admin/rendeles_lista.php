@@ -8,6 +8,12 @@ header("Pragma: no-cache");
 Header("Cache-control: private, no-store, no-cache, must-revalidate");  
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
+session_start();
+if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') {
+    header('HTTP/1.0 403 Forbidden');
+    exit('Hozzáférés megtagadva!');
+}
+
 $vilagos = "#E9D1D1"; // Define the $vilagos variable
 
 if (!isset($lista)) {

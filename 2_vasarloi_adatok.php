@@ -40,7 +40,7 @@ if ($webshop_email != "" && $webshop_jelszo != "") {
       $orszag = "Magyarország";
     }
     if ($kulfoldi == 1 && $orszag == "") {
-      $orszag = "ország neve";
+      $orszag = "";
     }
     if ($irszam == "") {
       $irszam = "ir.szám";
@@ -75,6 +75,7 @@ if ($belepve == 1) {
     <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/btn_gombok.css">
     <link rel="stylesheet" href="styles/form.css">
     <meta http-equiv="Content-Type" content="text/html">
 
@@ -170,36 +171,37 @@ if ($belepve == 1) {
 
         <div class="mb-3">
           <label for="nev" class="form-label">Név/Cégnév:</label>
-          <input type="text" name="nev" class="form-control" value="<?= $webshop_nev ?>">
+          <input type="text" name="nev" class="form-control border-3" value="<?= $webshop_nev ?>">
         </div>
 
         <div class="mb-3">
           <label for="email" class="form-label">E-mail cím:</label>
-          <input type="email" name="email" class="form-control" value="<?= $webshop_email ?>" readonly>
+          <input type="email" name="email" class="form-control border-3" value="<?= $webshop_email ?>" readonly>
         </div>
 
         <div class="mb-3">
           <label for="telefon" class="form-label">Telefonszám:</label>
-          <input type="text" name="telefon" class="form-control" value="<?= $telefon ?>">
+          <input type="text" name="telefon" class="form-control border-3" value="<?= $telefon ?>">
         </div>
 
+        <!-- HTML rész az ország mezővel -->
         <div class="mb-3">
           <label for="orszag" class="form-label">Ország:</label>
           <div>
             <input type="radio" name="kulfoldi" value="0" onclick="document.getElementById('orszag').value='Magyarország'; document.getElementById('orszag').style.display='none'" <?php if ($kulfoldi == 0) { print "checked"; } ?>> Magyarország
             &nbsp;&nbsp;
-            <input type="radio" name="kulfoldi" value="1" onclick="document.getElementById('orszag').style.display=''" <?php if ($kulfoldi == 1) { print "checked"; } ?>> Külföld
+            <input type="radio" name="kulfoldi" value="1" onclick="document.getElementById('orszag').value=''; document.getElementById('orszag').style.display=''" <?php if ($kulfoldi == 1) { print "checked"; } ?>> Külföld
             &nbsp;&nbsp;
-            <input <?php if ($kulfoldi == 0) { print 'style="display:none"'; } ?> type="text" name="orszag" id="orszag" class="form-control d-inline-block" style="width: auto;" value="<?= $orszag ?>" onfocus="if (this.value=='ország neve') {this.value=''}">
+            <input <?php if ($kulfoldi == 0) { print 'style="display:none"'; } ?> type="text" name="orszag" id="orszag" class="form-control d-inline-block border-3" style="width: auto;" value="<?= htmlspecialchars($orszag) ?>" onfocus="if (this.value=='ország neve') {this.value=''}">
           </div>
         </div>
 
         <div class="mb-3">
           <label for="irszam" class="form-label">Postázási cím:</label>
           <div class="d-flex">
-            <input type="text" name="irszam" class="form-control me-2" style="width: 100px;" value="<?= $irszam ?>" onfocus="if (this.value=='ir.szám') {this.value=''}">
-            <input type="text" name="varos" class="form-control me-2" value="<?= $varos ?>" onfocus="if (this.value=='város v. helységnév') {this.value=''}">
-            <input type="text" name="utca" class="form-control" value="<?= $utca ?>" onfocus="if (this.value=='utca, házszám stb.') {this.value=''}">
+            <input type="text" name="irszam" class="form-control me-2 border-3" style="width: 100px;" value="<?= $irszam ?>" onfocus="if (this.value=='ir.szám') {this.value=''}">
+            <input type="text" name="varos" class="form-control me-2 border-3" value="<?= $varos ?>" onfocus="if (this.value=='város v. helységnév') {this.value=''}">
+            <input type="text" name="utca" class="form-control border-3" value="<?= $utca ?>" onfocus="if (this.value=='utca, házszám stb.') {this.value=''}">
           </div>
         </div>
 
@@ -217,20 +219,20 @@ if ($belepve == 1) {
 
         <div class="mb-3">
           <label for="sz_nev" class="form-label">Számlázási név:</label>
-          <input type="text" name="sz_nev" class="form-control" value="<?= $sz_nev ?>">
+          <input type="text" name="sz_nev" class="form-control border-3" value="<?= $sz_nev ?>">
         </div>
 
         <div class="mb-3">
           <label for="sz_irszam" class="form-label">Számlázási cím:</label>
           <div class="d-flex">
-            <input type="text" name="sz_irszam" class="form-control me-2" style="width: 100px;" value="<?= $sz_irszam ?>" onfocus="if (this.value=='ir.szám') {this.value=''}">
-            <input type="text" name="sz_varos" class="form-control me-2" value="<?= $sz_varos ?>" onfocus="if (this.value=='város v. helységnév') {this.value=''}">
-            <input type="text" name="sz_utca" class="form-control" value="<?= $sz_utca ?>" onfocus="if (this.value=='utca, házszám, emelet, ajtó') {this.value=''}">
+            <input type="text" name="sz_irszam" class="form-control me-2 border-3" style="width: 100px;" value="<?= $sz_irszam ?>" onfocus="if (this.value=='ir.szám') {this.value=''}">
+            <input type="text" name="sz_varos" class="form-control me-2 border-3" value="<?= $sz_varos ?>" onfocus="if (this.value=='város v. helységnév') {this.value=''}">
+            <input type="text" name="sz_utca" class="form-control border-3" value="<?= $sz_utca ?>" onfocus="if (this.value=='utca, házszám, emelet, ajtó') {this.value=''}">
           </div>
         </div>
 
         <div class="mb-3">
-          <button type="button" name="tovabb" id="tovabb" class="btn btn-success w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz()">A fizetési mód kiválasztása >></button>
+          <button type="button" name="tovabb" id="tovabb" class="btngombok w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz()">A fizetési mód kiválasztása >></button>
         </div>
       </form>
     </div>

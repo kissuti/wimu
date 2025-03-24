@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 18. 18:37
+-- Létrehozás ideje: 2025. Már 24. 17:20
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.0.30
 
@@ -48,10 +48,10 @@ CREATE TABLE `arucikk` (
 --
 
 INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hosszu_leiras`, `ar_huf`, `egyseg`, `kat1`, `kat2`, `kat3`, `raktaron`) VALUES
-(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 60000, 'darab', 1, 2, 3, 20),
-(2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13?14 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek ? például USB-C, HDMI és Wi?Fi ? megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 30),
-(3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'A gaming laptop egy nagy teljesítményű, speciális hardverekkel felszerelt hordozható számítógép, melyet kifejezetten a játékosok igényeihez terveztek.', 'A gaming laptopok a számítógépes játékokhoz szükséges maximális teljesítményt nyújtják egy hordozható formában. Ezek a készülékek általában többmagos, energiahatékony processzorral és dedikált, például NVIDIA GeForce vagy AMD Radeon videókártyával vannak felszerelve, hogy a modern, erőforrásigényes játékokat magas grafikai beállítások mellett is simán futtathassák. A rendszer stabilitását nagy mennyiségű RAM (8?16 GB vagy több) és gyors SSD-meghajtó biztosítja, ami rövid rendszerindítást és gyors adatátvitelt tesz lehetővé.\r\n\r\nA kijelzők gyakran Full HD vagy magasabb felbontásúak, és akár 120 Hz, 144 Hz vagy 240 Hz frissítési frekvenciával is rendelkeznek, így a dinamikus, gyors tempójú játékok simán és folyamatosan futnak. Az agresszív, gaming stílusú dizájn mellett a speciális hűtési megoldások ? például fejlett ventilátorok, hőcsövek és optimalizált légáramlás ? gondoskodnak arról, hogy a laptop intenzív játék közben is hűvösen és megbízhatóan működjön.\r\n\r\nTovábbá, a programozható, RGB háttérvilágítású billentyűzetek nemcsak stílusos megjelenést kölcsönöznek, hanem praktikus, testreszabható gyorsbillentyűket is kínálnak, melyek megkönnyítik a játék közbeni parancsok gyors végrehajtását. Összességében egy gaming laptop nem csupán a teljesítményről, hanem a felhasználói élményről is szól, lehetővé téve a legújabb játékok élvezetét bárhol, akár útközben is.', 139000, 'darab', 1, 2, 3, 10),
-(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép, melyet kifejezetten a komplex, számításigényes feladatok ? például CAD, 3D modellezés, videószerkesztés vagy tudományos kutatás ? ellátására terveztek. Magas szintű processzor, dedikált grafikus kártya és bőséges memória jellemzi, ami biztosítja a stabil, folyamatos munkavégzést.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 119000, 'darab', 1, 2, 4, 60);
+(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 36),
+(2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13?14 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek ? például USB-C, HDMI és Wi?Fi ? megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 28),
+(3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'qweqwe', 'qweqwewe', 132000, 'darab', 1, 2, 3, 30),
+(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 119000, 'darab', 1, 2, 4, 59);
 
 -- --------------------------------------------------------
 
@@ -160,13 +160,6 @@ CREATE TABLE `kosar` (
   `mikor` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `kosar`
---
-
-INSERT INTO `kosar` (`id`, `arucikk_id`, `ugyfel_id`, `rendeles_id`, `session_id`, `db`, `mikor`) VALUES
-(2, 1, 1, 0, 'o4jeaquscp9s2a9tngitkvidtp', 1, '2025-03-18 18:14:50');
-
 -- --------------------------------------------------------
 
 --
@@ -196,19 +189,6 @@ CREATE TABLE `naplo` (
   `kilepes` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `naplo`
---
-
-INSERT INTO `naplo` (`id`, `email`, `mikor`, `sikeres`, `sikertelen`, `kilepes`) VALUES
-(1, 'admin@admin.com', '2025-03-17 19:06:02', 1, 0, '2025-03-17 19:12:13'),
-(3, 'admin@admin.com', '2025-03-17 19:14:26', 1, 0, '2025-03-18 13:55:19'),
-(4, 'admin@admin.com', '2025-03-18 13:55:29', 1, 0, '2025-03-18 14:11:59'),
-(5, 'admin@admin.com', '2025-03-18 14:23:16', 1, 0, '2025-03-18 14:23:24'),
-(6, 'admin@admin.com', '2025-03-18 14:50:35', 1, 0, '2025-03-18 17:31:03'),
-(7, 'admin@admin.com', '2025-03-18 18:16:04', 1, 0, '2025-03-18 18:16:04'),
-(2, 'profile@profile.com', '2025-03-17 19:12:42', 1, 0, '2025-03-17 19:14:17');
-
 -- --------------------------------------------------------
 
 --
@@ -223,8 +203,8 @@ CREATE TABLE `rendelesek` (
   `idopont` datetime NOT NULL DEFAULT current_timestamp(),
   `fizetendo` bigint(6) UNSIGNED NOT NULL DEFAULT 0,
   `fizetesi_mod` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
-  `kifizetve` date NOT NULL DEFAULT curdate(),
-  `teljesitve` date NOT NULL DEFAULT curdate(),
+  `kifizetve` date NOT NULL DEFAULT current_timestamp(),
+  `teljesitve` date NOT NULL DEFAULT current_timestamp(),
   `nev` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `telefon` varchar(50) NOT NULL,
@@ -250,13 +230,13 @@ CREATE TABLE `ugyfel` (
   `email` varchar(100) NOT NULL,
   `nev` varchar(100) NOT NULL,
   `kod` varchar(20) NOT NULL,
-  `jelszo` varchar(100) NOT NULL,
+  `jelszo` varchar(255) NOT NULL,
   `reg_idopont` datetime NOT NULL DEFAULT current_timestamp(),
   `megerositve` datetime NOT NULL DEFAULT current_timestamp(),
   `uj_email` varchar(100) NOT NULL,
   `uj_kod` varchar(50) NOT NULL,
-  `session_id` varchar(100) NOT NULL,
-  `ervenyes` datetime NOT NULL DEFAULT current_timestamp(),
+  `session_id` varchar(255) DEFAULT NULL,
+  `ervenyes` datetime DEFAULT NULL,
   `telefon` varchar(50) NOT NULL,
   `kulfoldi` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `orszag` varchar(100) NOT NULL,
@@ -275,8 +255,8 @@ CREATE TABLE `ugyfel` (
 --
 
 INSERT INTO `ugyfel` (`id`, `email`, `nev`, `kod`, `jelszo`, `reg_idopont`, `megerositve`, `uj_email`, `uj_kod`, `session_id`, `ervenyes`, `telefon`, `kulfoldi`, `orszag`, `irszam`, `varos`, `utca`, `sz_nev`, `sz_irszam`, `sz_varos`, `sz_utca`, `role`) VALUES
-(1, 'admin@admin.com', 'admin', '', '$2y$10$i/gA6aCgr5fOmNWAP55v3ehEau.zGxFCKpM7apCXHDHcmxuHyNHNC', '2025-03-17 19:05:56', '2025-03-17 19:05:56', '', '', 'o4jeaquscp9s2a9tngitkvidtp', '2025-03-18 19:16:04', '', 0, '', '', '', '', '', '', '', '', 'admin'),
-(2, 'profile@profile.com', 'profile', '', '$2y$10$wIB49i9zC7ujG6xgkCg.FONxlCw6jMrUeL4RncvxBl4bZ.MuAoV8a', '2025-03-17 19:12:34', '2025-03-17 19:12:34', '', '', '', '0000-00-00 00:00:00', '', 0, '', '', '', '', '', '', '', '', 'user');
+(1, 'admin@admin.com', 'admin', '', '$2y$10$8kJxLkjqIV5AlKBbr7looesUwnnl8ZooXwk56nkOqx22VPNOI6atu', '2025-03-24 16:16:02', '2025-03-24 16:16:02', '', '', '9u3bvvlpj6n14od37lrvakm8l6', '2025-03-24 18:17:13', '', 0, '', '', '', '', '', '', '', '', 'admin'),
+(2, 'profile@profile.com', 'profile', '', '$2y$10$Yx3eL7awUZCUUYBgQN5yE.fWBCsHfb0KSb.BBVWjUAMdV0rR0OsDq', '2025-03-24 16:55:53', '2025-03-24 16:55:53', '', '', '', '0000-00-00 00:00:00', '', 0, '', '', '', '', '', '', '', '', 'user');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -350,7 +330,7 @@ ALTER TABLE `ugyfel`
 -- AUTO_INCREMENT a táblához `arucikk`
 --
 ALTER TABLE `arucikk`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `kategoriak`
@@ -362,7 +342,7 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT a táblához `kosar`
 --
 ALTER TABLE `kosar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `megtekintve`
@@ -374,7 +354,7 @@ ALTER TABLE `megtekintve`
 -- AUTO_INCREMENT a táblához `naplo`
 --
 ALTER TABLE `naplo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `rendelesek`

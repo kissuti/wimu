@@ -2,6 +2,12 @@
 include("../dbconn.php");
 include("../fuggvenyek.php");
 
+session_start();
+if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') {
+    header('HTTP/1.0 403 Forbidden');
+    exit('Hozzáférés megtagadva!');
+}
+
 // Összes árucikk lekérdezése
 $sql = "SELECT * FROM arucikk ORDER BY id ASC";
 $eredmeny = mysqli_query($kapcsolat, $sql);

@@ -8,30 +8,41 @@ Header("Cache-control: private, no-store, no-cache, must-revalidate");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 if (isset($_POST['emailcim']) && isset($_POST['nev']) && isset($_POST['jelszo']) && isset($_POST['jelszo2'])) {
-  $emailcim = $_POST['emailcim'];
-  $nev = $_POST['nev'];
+  $emailcim = mysqli_real_escape_string($kapcsolat, $_POST['emailcim']);
+  $nev = mysqli_real_escape_string($kapcsolat, $_POST['nev']);
   $jelszo = $_POST['jelszo'];
   $jelszo2 = $_POST['jelszo2'];
 
-  if ($jelszo !== $jelszo2) {
+  // Jelszókomplexitás ellenőrzése
+  if (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $jelszo)) {
+    $errorMessage = "A jelszónak minimum 8 karakter, 1 nagybetű és 1 szám kell tartalmaznia!";
+  }
+  elseif ($jelszo !== $jelszo2) {
     $errorMessage = "A két jelszó nem egyezik.";
   } else {
-    $parancs = "SELECT * from ugyfel WHERE email='$emailcim'";
-    $eredmeny = mysqli_query($kapcsolat, $parancs);
+    // SQL injection védelem prepared statementtal
+    $stmt = $kapcsolat->prepare("SELECT * FROM ugyfel WHERE email = ?");
+    $stmt->bind_param("s", $emailcim);
+    $stmt->execute();
+    $eredmeny = $stmt->get_result();
 
     if (mysqli_num_rows($eredmeny) == 0) {
       $titkos = password_hash($jelszo, PASSWORD_DEFAULT);
       $idopont = date("Y-m-d H:i:s");
 
-      $sql = "INSERT INTO ugyfel (email, nev, jelszo, reg_idopont) VALUES ('$emailcim', '$nev', '$titkos', '$idopont')";
-      if (mysqli_query($kapcsolat, $sql)) {
+      $insert = $kapcsolat->prepare("INSERT INTO ugyfel (email, nev, jelszo, reg_idopont) VALUES (?, ?, ?, ?)");
+      $insert->bind_param("ssss", $emailcim, $nev, $titkos, $idopont);
+      
+      if ($insert->execute()) {
         $successMessage = "A regisztráció sikeres volt. Most már bejelentkezhetsz.";
       } else {
         $errorMessage = "Hiba történt a regisztráció során. Próbáld újra.";
       }
+      $insert->close();
     } else {
       $errorMessage = "A megadott e-mail címmel már regisztráltak.";
     }
+    $stmt->close();
   }
   ?>
   <html>

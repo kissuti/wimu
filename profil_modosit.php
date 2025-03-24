@@ -6,16 +6,35 @@ include("php/dbconn.php");
 
 header("Pragma: no-cache"); 
 header("Cache-Control: private, no-store, no-cache, must-revalidate");
-?>
 
+// Ellenőrizzük, hogy be van-e jelentkezve a felhasználó
+if (!isset($_SESSION['belepve']) || $_SESSION['belepve'] != 1) {
+    header("Location: belepes.php");
+    exit();
+}
+
+// Adatbázisból a felhasználó adatainak lekérdezése
+$id = $_SESSION['webshop_id'];
+$stmt = $kapcsolat->prepare("SELECT * FROM ugyfel WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$eredmeny = $stmt->get_result();
+
+if ($eredmeny->num_rows == 0) {
+    $_SESSION['hiba'] = "Felhasználó nem található!";
+    header("Location: index.php");
+    exit();
+}
+
+$sor = $eredmeny->fetch_assoc();
+?>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Wimu Webshop</title>
-  <meta name="cache-control" content="private, no-store, no-cache, must-revalidate" />
+  <title>Profil szerkesztése</title>
   <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="styles/profilmodosit.css">
-  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">ű
+  <link rel="stylesheet" href="styles/profilmodosit.css">
   <script type="text/javascript">
     function helyescim(emcim) {
       return emcim.length >= 5 && emcim.indexOf("@") > 0 && emcim.length - emcim.indexOf("@") >= 6;
@@ -35,9 +54,9 @@ header("Cache-Control: private, no-store, no-cache, must-revalidate");
         mehet = false;
       }
 
-      if (mehet && !helyescim(form.emailcim.value)) {
+      if (mehet && !helyescim(form.email.value)) {
         alert('A megadott e-mail cím helytelen!');
-        form.emailcim.focus();
+        form.email.focus();
         mehet = false;
       }
 
@@ -49,79 +68,60 @@ header("Cache-Control: private, no-store, no-cache, must-revalidate");
 
       return mehet;
     }
-
-    function jelszoTeszt(passwd) {
-      // ... (marad a régi függvény, nincs változás)
-    }
   </script>
 </head>
 
-<body>
+<body style="margin-top: -39px;">
   <?php include("teteje.php"); ?>
 
-  <div class="container mt-4 d-flex justify-content-center">
-    <div class="col-md-8">
-      <?php
-      if (isset($_SESSION['hiba'])) {
-        echo '<div class="alert alert-danger">' . $_SESSION['hiba'] . '</div>';
-        unset($_SESSION['hiba']);
-      }
-      if (isset($_SESSION['siker'])) {
-        echo '<div class="alert alert-success">' . $_SESSION['siker'] . '</div>';
-        unset($_SESSION['siker']);
-      }
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <?php if (isset($_SESSION['hiba'])): ?>
+          <div class="alert alert-danger"><?= $_SESSION['hiba'] ?></div>
+          <?php unset($_SESSION['hiba']); ?>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['siker'])): ?>
+          <div class="alert alert-success"><?= $_SESSION['siker'] ?></div>
+          <?php unset($_SESSION['siker']); ?>
+        <?php endif; ?>
 
-      if ($_SESSION['belepve'] ?? 0 === 1) {
-        $id = $_SESSION['webshop_id'];
-        $stmt = $kapcsolat->prepare("SELECT * FROM ugyfel WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $eredmeny = $stmt->get_result();
+          <div class="card-body">
+            <form name="urlap" class="modositform bg-light p-4 rounded" action="profil_modosit_2.php" method="POST" onsubmit="return ellenoriz()">
+              <input type="hidden" name="id" value="<?= $id ?>">
+              <p class="modositszoveg fs-4 bi bi-gear-fill"> Profil módosítás</p>
+              <div class="mb-3">
+                <label class="form-label">Teljes név:</label>
+                <input type="text" name="nev" class="form-control modositinput border-5" value="<?= htmlspecialchars($sor['nev']) ?>" required>
+              </div>
 
-        if ($eredmeny->num_rows > 0) {
-          $sor = $eredmeny->fetch_assoc();
-          ?>
-          <form name="urlap" action="profil_modosit_2.php" method="POST" onsubmit="return ellenoriz()" class="bg-light p-4 rounded">
-            <input type="hidden" name="id" value="<?= $id ?>">
-            <input type="hidden" name="kod" value="<?= $sor['kod'] ?>">
+              <div class="mb-3">
+                <label class="form-label">E-mail cím:</label>
+                <input type="email" name="email" class="form-control modositinput border-5" value="<?= htmlspecialchars($sor['email']) ?>" required>
+              </div>
 
-            <div class="mb-3">
-              <label>Név:</label>
-              <input type="text" name="nev" class="form-control" value="<?= htmlspecialchars($sor['nev']) ?>" required>
-            </div>
+              <div class="mb-3">
+                <label class="form-label">Új jelszó (hagyja üresen, ha nem szeretne változtatni):</label>
+                <input type="password" name="uj_jelszo" class="form-control modositinput border-5">
+              </div>
 
-            <div class="mb-3">
-              <label>E-mail:</label>
-              <input type="email" name="emailcim" class="form-control" value="<?= htmlspecialchars($sor['email']) ?>" required>
-            </div>
-
-            <?php if (md5($sor['kod']) === $sor['jelszo']) { ?>
-              <div class="alert alert-warning">Kérlek változtasd meg a jelszavad!</div>
-            <?php } ?>
-
-            <div class="mb-3">
-              <label>Új jelszó:</label>
-              <input type="password" name="uj_jelszo" class="form-control" oninput="jelszoTeszt(this.value)">
-              <div id="erosseg" class="mt-2"></div>
-            </div>
-
-            <div class="mb-3">
-              <label>Jelszó megerősítése:</label>
-              <input type="password" name="uj_jelszo_2" class="form-control">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Módosítások mentése</button>
-          </form>
-          <?php
-        }
-      } else {
-        header("Location: index.php");
-        exit();
-      }
-      ?>
+              <div class="mb-3">
+                <label class="form-label">Jelszó megerősítése:</label>
+                <input type="password" name="uj_jelszo_2" class="form-control modositinput border-5">
+              </div>
+                <button type="submit" class="modositbtn" style="width: 305px;">Mentés</button>
+                <a href="index.php" class="modositbtn link-offset-2 link-underline link-underline-opacity-0">Mégse</a>
+            </form>
+          </div>
+      </div>
     </div>
   </div>
 
+      <!-- Bootstrap JS bundle (Popper included) -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+            crossorigin="anonymous"></script>
   <?php include("alja.php"); ?>
 </body>
 </html>

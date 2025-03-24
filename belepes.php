@@ -6,7 +6,7 @@ include("php/dbconn.php");
 include("php/fuggvenyek.php");
 
 header("Pragma: no-cache"); 
-Header("Cache-control: private, no-store, no-cache, must-revalidate");  
+header("Cache-control: private, no-store, no-cache, must-revalidate");  
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 $mit = isset($_POST['mit']) ? $_POST['mit'] : "";
@@ -14,7 +14,6 @@ $mit = isset($_POST['mit']) ? $_POST['mit'] : "";
 if ($mit == "") {
   $email = isset($_POST['email']) ? $_POST['email'] : "";
   ?>
-
   <html>
   <head>
     <title>Wimu Webshop</title>
@@ -46,7 +45,7 @@ if ($mit == "") {
       }
 
       function ellenoriz() {
-        mehet = 1;
+        var mehet = 1;
         
         if (mehet == 1 && !helyescim(document.urlap.email.value)) {
           mehet = 0;
@@ -70,28 +69,23 @@ if ($mit == "") {
     </script>
     <script src="js/preloader.js"></script>
   </head>
-
   <?php include("teteje.php"); ?>
     <!-- Preloader -->
     <div id="preloader">
-    <div class="spinner"></div>
-  </div>
-
+      <div class="spinner"></div>
+    </div>
   <div class="container mt-4 d-flex justify-content-center" id="main-content">
     <div class="col-md-8">
-      
       <form name="urlap" action="belepes.php" method="POST" class="bg-light p-4 rounded belepesform">
-        <p class="szovegbel fs-4">Belépés</p>
+        <p class="szovegbel fs-4 bi bi-box-arrow-in-right"> Belépés</p>
         <input type="hidden" name="mit" value="ellenoriz">
         <input type="hidden" name="elkuld" value="">
-
         <div class="mb-3">
           <input name="email" class="form-control beiras border-5" value="<?= $email ?>" placeholder="E-mail cím">
         </div>
         <div class="mb-3">
           <input type="password" name="jelszo" class="form-control beiras border-5" placeholder="Jelszó">
         </div>
-
         <?php
         if (isset($_GET['hiba'])) {
           ?>
@@ -115,29 +109,30 @@ if ($mit == "") {
           <?php
         }
         ?>
-
         <button id="elkuldgomb" name="elkuldgomb" type="button" class="belepesbtn" onclick="this.disabled='disabled';this.value='Kis türelmet kérek, az ellenőrzés folyamatban van...';ellenoriz()">Belépés</button>
+        <div class="mt-4 text-center">Még nincs fiókja? <a href="reg.php" class="text-primary">Regisztrálj!</a></div>
       </form>
     </div>
   </div>
-
+    <!-- Bootstrap JS bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+            crossorigin="anonymous"></script>
   <?php include("alja.php"); ?>
-
   <?php
 } elseif ($mit == "ellenoriz") {
   $email = isset($_POST['email']) ? $_POST['email'] : "";
   $jelszo = isset($_POST['jelszo']) ? $_POST['jelszo'] : "";
-
   $most = date("Y-m-d H:i:s");
 
-  $parancs = "SELECT * from ugyfel WHERE email='$email'";
+  $parancs = "SELECT * FROM ugyfel WHERE email='$email'";
   $eredmeny = mysqli_query($kapcsolat, $parancs);
  
   if (mysqli_num_rows($eredmeny) > 0) {
     $sor = mysqli_fetch_array($eredmeny);
     if (password_verify($jelszo, $sor['jelszo'])) {
+      // Ellenőrizzük a sikertelen bejelentkezéseket az elmúlt 30 percben
       $feloraja = date("Y-m-d H:i:s", time() - 1800);
-
       $sql = "SELECT count(*) as darab FROM naplo WHERE email='$email' AND mikor>='$feloraja' AND sikertelen=1";
       $rs_naplo = mysqli_query($kapcsolat, $sql);
       $naplo_sor = mysqli_fetch_array($rs_naplo);
@@ -145,35 +140,42 @@ if ($mit == "") {
 
       if ($darab >= 3) {
         header("Location: belepes.php?tilos=1&email=$email");
+        exit();
       } else {
-        setcookie("webshop_email", $email, time() + 86400 * 7);
-        setcookie("webshop_jelszo", $sor['jelszo'], time() + 86400 * 7);
+        // Sikeres bejelentkezés esetén állítsuk be a session változókat
+        $_SESSION['webshop_id']   = $sor["id"];
+        $_SESSION['webshop_nev']  = $sor["nev"];
+        $_SESSION['webshop_role'] = $sor["role"];
+        $_SESSION['belepve']      = 1;
         
-        $id = $sor["id"];
-        $kod = $sor["kod"];
-        $jelszo = $sor["jelszo"];
-
+        // Opcionálisan továbbra is beállíthatod a sütiket
+        setcookie("webshop_email", $email, time() + 86400 * 7);
+        
+        // Frissítjük a session_id-t és a lejárati időt az adatbázisban
         $ervenyes = date("Y-m-d H:i:s", time() + 3600);
-
-        $sql = "UPDATE ugyfel SET session_id='" . session_id() . "', ervenyes='$ervenyes' WHERE id=$id";
+        $sql = "UPDATE ugyfel SET session_id='" . session_id() . "', ervenyes='$ervenyes' WHERE id={$sor["id"]}";
         mysqli_query($kapcsolat, $sql);
 
-        $sql = "insert into naplo (email, mikor, sikeres) values ('$email', '$most', 1)";
+        // Naplózzuk a sikeres bejelentkezést
+        $sql = "INSERT INTO naplo (email, mikor, sikeres) VALUES ('$email', '$most', 1)";
         mysqli_query($kapcsolat, $sql);
 
-        $sql = "UPDATE kosar SET ugyfel_id=$id WHERE session_id='" . session_id() . "' AND rendeles_id=0";
+        // Frissítjük a kosárhoz tartozó rekordokat
+        $sql = "UPDATE kosar SET ugyfel_id={$sor["id"]} WHERE session_id='" . session_id() . "' AND rendeles_id=0";
         mysqli_query($kapcsolat, $sql);
 
         header("Location: index.php");
+        exit();
       }
     } else {
-      $sql = "insert into naplo (email, mikor, sikertelen) values ('$email', '$most', 1)";
+      $sql = "INSERT INTO naplo (email, mikor, sikertelen) VALUES ('$email', '$most', 1)";
       mysqli_query($kapcsolat, $sql);
-
       header("Location: belepes.php?hiba=1&email=$email");
+      exit();
     }
   } else {
     header("Location: belepes.php?hiba=1&email=$email");
+    exit();
   }
 }
 

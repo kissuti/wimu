@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') {
+    header('HTTP/1.0 403 Forbidden');
+    exit('Hozzáférés megtagadva!');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -11,10 +19,10 @@
     <div class="container mt-5">
         <h1 class="text-center">Admin Felület</h1>
         <div class="list-group mt-4">
-            <a href="admin/kategoriak.php" class="list-group-item list-group-item-action">Kategóriák</a>
-            <a href="admin/rendeles_lista.php" class="list-group-item list-group-item-action">Rendelési lista</a>
-            <a href="admin/termek_felvetel.php" class="list-group-item list-group-item-action">Termék felvétel</a>
-            <a href="admin/termek_modositas.php" class="list-group-item list-group-item-action">Termék módosítás</a>
+            <a href="admin/kategoriak.php" class="list-group-item list-group-item-action border-5">Kategóriák</a>
+            <a href="admin/rendeles_lista.php" class="list-group-item list-group-item-action border-5">Rendelési lista</a>
+            <a href="admin/termek_felvetel.php" class="list-group-item list-group-item-action border-5">Termék felvétel</a>
+            <a href="admin/termek_modositas.php" class="list-group-item list-group-item-action border-5">Termék módosítás</a>
         </div>
         <div class="list-group mt-4">
         <a href="../index.php" class="btn btn-primary btn-danger">Vissza a főoldalra</a>

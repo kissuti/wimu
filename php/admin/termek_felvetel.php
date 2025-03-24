@@ -4,6 +4,12 @@ ob_start();
 include("../dbconn.php");
 include("../fuggvenyek.php");
 
+session_start();
+if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') {
+    header('HTTP/1.0 403 Forbidden');
+    exit('Hozzáférés megtagadva!');
+}
+
 // A beérkező adatok kiolvasása (POST és GET is lehetséges)
 $kat1 = isset($_REQUEST['kat1']) ? $_REQUEST['kat1'] : 0;
 $kat2 = isset($_REQUEST['kat2']) ? $_REQUEST['kat2'] : 0;
@@ -40,7 +46,7 @@ if ($mit == "kategoria") {
         
         <div class="mb-3">
           <label for="kat1" class="form-label"><b>1. szint:</b></label>
-          <select name="kat1" class="form-select" onChange="if(this.value != '0'){document.urlap.szint.value=1; document.urlap.submit();}">
+          <select name="kat1" class="form-select border-5" onChange="if(this.value != '0'){document.urlap.szint.value=1; document.urlap.submit();}">
             <option value="0" <?php if($kat1==0){ echo "selected"; } ?>>válaszd ki a fő kategóriát</option>
             <?php
             $kategoria = "";
@@ -69,7 +75,7 @@ if ($mit == "kategoria") {
             ?>
               <div class="mb-3">
                 <label for="kat2" class="form-label"><b>2. szint:</b></label>
-                <select name="kat2" class="form-select" onChange="if(this.value != '0'){document.urlap.szint.value=2; document.urlap.submit();}">
+                <select name="kat2" class="form-select border-5" onChange="if(this.value != '0'){document.urlap.szint.value=2; document.urlap.submit();}">
                   <option value="0" <?php if ($kat2==0){ echo "selected"; } ?>>válassz kategóriát</option>
                   <?php
                   while ($sor = $eredmeny->fetch_array()) {
@@ -99,7 +105,7 @@ if ($mit == "kategoria") {
             ?>
               <div class="mb-3">
                 <label for="kat3" class="form-label"><b>3. szint:</b></label>
-                <select name="kat3" class="form-select" onChange="document.urlap.submit();">
+                <select name="kat3" class="form-select border-5" onChange="document.urlap.submit();">
                   <option value="0" <?php if ($kat3==0){ echo "selected"; } ?>>válassz kategóriát</option>
                   <?php
                   while ($sor = $eredmeny->fetch_array()) {
@@ -161,39 +167,39 @@ elseif ($mit == "adatok") {
         </div>
         <div class="mb-3">
           <label for="nev" class="form-label"><b>Név:</b></label>
-          <input name="nev" class="form-control" value="<?= $nev ?>">
+          <input name="nev" class="form-control border-5" value="<?= $nev ?>">
         </div>
         <div class="mb-3">
           <label for="nev2" class="form-label">(kiegészítő infó):</label>
-          <input name="nev2" class="form-control" value="<?= $nev2 ?>">
+          <input name="nev2" class="form-control border-5" value="<?= $nev2 ?>">
         </div>
         <div class="mb-3">
           <label for="rovidnev" class="form-label"><b>Rövid név:</b></label>
-          <input name="rovidnev" class="form-control" value="<?= $rovidnev ?>">
+          <input name="rovidnev" class="form-control border-5" value="<?= $rovidnev ?>">
         </div>
         <div class="mb-3">
           <label for="imgfile" class="form-label"><b>Fotó:</b></label>
-          <input type="file" name="imgfile" class="form-control">
+          <input type="file" name="imgfile" class="form-control border-5">
         </div>
         <div class="mb-3">
           <label for="ar_huf" class="form-label"><b>Ár (HUF):</b></label>
-          <input name="ar_huf" class="form-control" value="<?= $ar_huf ?>">
+          <input name="ar_huf" class="form-control border-5" value="<?= $ar_huf ?>">
         </div>
         <div class="mb-3">
           <label for="egyseg" class="form-label"><b>Egység:</b></label>
-          <input name="egyseg" class="form-control" value="<?= $egyseg ?>">
+          <input name="egyseg" class="form-control border-5" value="<?= $egyseg ?>">
         </div>
         <div class="mb-3">
           <label for="leiras" class="form-label"><b>Rövid leírás:</b></label>
-          <textarea name="leiras" class="form-control" rows="3"><?= $leiras ?></textarea>
+          <textarea name="leiras" class="form-control border-5" rows="3"><?= $leiras ?></textarea>
         </div>
         <div class="mb-3">
           <label for="hosszu_leiras" class="form-label"><b>Hosszú leírás:</b></label>
-          <textarea name="hosszu_leiras" class="form-control" rows="6"><?= $hosszu_leiras ?></textarea>
+          <textarea name="hosszu_leiras" class="form-control border-5" rows="6"><?= $hosszu_leiras ?></textarea>
         </div>
         <div class="mb-3">
           <label for="raktaron" class="form-label"><b>Raktáron:</b></label>
-          <input name="raktaron" class="form-control" value="<?= $raktaron ?>">
+          <input name="raktaron" class="form-control border-5" value="<?= $raktaron ?>">
         </div>
         <button type="button" class="btn btn-primary" onClick="document.urlap.submit()">az új termék feltöltése --></button>
       </form>
@@ -213,7 +219,7 @@ elseif ($mit == "feltoltes") {
         $imgfile_type = $_FILES['imgfile']['type'];
         // Ellenőrizze, hogy a fájl jpg/jpeg típusú-e
         if (strpos($imgfile_type, "jpeg") !== false || strpos($imgfile_type, "jpg") !== false) {
-            $newfile = "../img/" . $imgfile_name;
+            $newfile = "../../img/" . $imgfile_name;
             if (move_uploaded_file($imgfile_tmp, $newfile)) {
                 $sql = "INSERT INTO arucikk (nev, nev2, rovidnev, foto, ar_huf, egyseg, leiras, hosszu_leiras, kat1, kat2, kat3, raktaron) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $kapcsolat->prepare($sql);

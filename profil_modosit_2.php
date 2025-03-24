@@ -1,60 +1,77 @@
 <?php
 session_start();
 ob_start();
+
 include("php/dbconn.php");
 
-// Ellenőrizzük a bejelentkezést
-if (!isset($_SESSION['belepve']) || $_SESSION['belepve'] !== 1) {
-  header("Location: index.php");
-  exit();
+header("Pragma: no-cache"); 
+header("Cache-Control: private, no-store, no-cache, must-revalidate");
+
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    header("Location: profil_modosit.php");
+    exit();
 }
 
-// Adatok fogadása és szűrése
-$id = (int)$_POST['id'];
-$kod = mysqli_real_escape_string($kapcsolat, $_POST['kod']);
-$emailcim = filter_var($_POST['emailcim'], FILTER_SANITIZE_EMAIL);
-$nev = mysqli_real_escape_string($kapcsolat, $_POST['nev']);
-$uj_jelszo = $_POST['uj_jelszo'] ?? '';
-
-// Ellenőrzés
-if (empty($id) || empty($kod) || !filter_var($emailcim, FILTER_VALIDATE_EMAIL)) {
-  $_SESSION['hiba'] = "Érvénytelen adatok!";
-  header("Location: profil_modosit.php");
-  exit();
+if (!isset($_SESSION['belepve']) || $_SESSION['belepve'] != 1) {
+    $_SESSION['hiba'] = "Ehhez be kell jelentkeznie!";
+    header("Location: belepes.php");
+    exit();
 }
 
-// Adatbázis frissítés
-try {
-  // Ellenőrizzük, hogy a felhasználó létezik
-  $stmt = $kapcsolat->prepare("SELECT * FROM ugyfel WHERE id = ? AND kod = ?");
-  $stmt->bind_param("is", $id, $kod);
-  $stmt->execute();
-  $eredmeny = $stmt->get_result();
+$id = $_POST['id'];
+$nev = trim($_POST['nev']);
+$email = trim($_POST['email']);
+$uj_jelszo = trim($_POST['uj_jelszo'] ?? '');
+$uj_jelszo_2 = trim($_POST['uj_jelszo_2'] ?? '');
 
-  if ($eredmeny->num_rows === 0) {
-    throw new Exception("Érvénytelen azonosító vagy kód!");
-  }
+// Validáció
+if (empty($nev)) {
+    $_SESSION['hiba'] = "A név megadása kötelező!";
+    header("Location: profil_modosit.php");
+    exit();
+}
 
-  $sor = $eredmeny->fetch_assoc();
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['hiba'] = "Érvénytelen e-mail cím formátum!";
+    header("Location: profil_modosit.php");
+    exit();
+}
 
-  // Frissítjük az emailt és nevet
-  $updateSql = "UPDATE ugyfel SET email = ?, nev = ? WHERE id = ?";
-  $stmt = $kapcsolat->prepare($updateSql);
-  $stmt->bind_param("ssi", $emailcim, $nev, $id);
-  $stmt->execute();
+if (!empty($uj_jelszo) && $uj_jelszo !== $uj_jelszo_2) {
+    $_SESSION['hiba'] = "A jelszavak nem egyeznek!";
+    header("Location: profil_modosit.php");
+    exit();
+}
 
-  // Jelszó frissítés (ha meg van adva)
-  if (!empty($uj_jelszo)) {
-    $uj_jelszo_hash = md5($uj_jelszo);
-    $updateJelszo = "UPDATE ugyfel SET jelszo = ? WHERE id = ?";
-    $stmt = $kapcsolat->prepare($updateJelszo);
-    $stmt->bind_param("si", $uj_jelszo_hash, $id);
-    $stmt->execute();
-  }
+// Ellenőrizzük, hogy az email már foglalt-e másik felhasználónál
+$stmt = $kapcsolat->prepare("SELECT id FROM ugyfel WHERE email = ? AND id != ?");
+$stmt->bind_param("si", $email, $id);
+$stmt->execute();
+$eredmeny = $stmt->get_result();
 
-  $_SESSION['siker'] = "Sikeres módosítás!";
-} catch (Exception $e) {
-  $_SESSION['hiba'] = $e->getMessage();
+if ($eredmeny->num_rows > 0) {
+    $_SESSION['hiba'] = "Ez az e-mail cím már foglalt!";
+    header("Location: profil_modosit.php");
+    exit();
+}
+
+// Jelszó frissítése, ha meg van adva
+if (!empty($uj_jelszo)) {
+  // password_hash függvény használata a jelszó titkosításához
+  $jelszo_hash = password_hash($uj_jelszo, PASSWORD_DEFAULT);
+  $stmt = $kapcsolat->prepare("UPDATE ugyfel SET nev = ?, email = ?, jelszo = ? WHERE id = ?");
+  $stmt->bind_param("sssi", $nev, $email, $jelszo_hash, $id);
+} else {
+  $stmt = $kapcsolat->prepare("UPDATE ugyfel SET nev = ?, email = ? WHERE id = ?");
+  $stmt->bind_param("ssi", $nev, $email, $id);
+}
+
+
+if ($stmt->execute()) {
+    $_SESSION['siker'] = "A profil adatai sikeresen frissítve!";
+    $_SESSION['webshop_nev'] = $nev; // Frissítjük a session-ben tárolt nevet
+} else {
+    $_SESSION['hiba'] = "Hiba történt a frissítés során: " . $stmt->error;
 }
 
 header("Location: profil_modosit.php");

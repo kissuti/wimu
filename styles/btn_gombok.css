@@ -1,0 +1,24 @@
+.btngombok {
+    margin-top: 2em;
+    align-self: center;
+    padding: 0.7em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 10px;
+    border: none;
+    color: black;
+    transition: .4s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.4) 1px 1px 1px;
+  }
+  
+.btngombok:hover {
+    box-shadow: 6px 6px 0px #969696,
+               -3px -3px 10px #ffffff;
+    transform: translateX(-0.5em) translateY(-0.5em);
+  }
+  
+.btngombok:active {
+    transition: .2s;
+    transform: translateX(0em) translateY(0em);
+    box-shadow: none;
+  }
