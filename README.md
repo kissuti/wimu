@@ -40,39 +40,32 @@
 
 ```plaintext
 wimu/
-├── admin/
-│   ├── kategoriak.php       # Kategóriák felvétel, módosítás, törlés
-│   ├── rendeles_lista.php   # Rendelt termékek
-│   ├── termek_fevetel.php   # Termék felvétel
-│   ├── termek_modositas.php # Termék módosítás
-│   ├── termek_torles.php    # Termék törlés
-├── img/                     # Képek tárolása
-├── svgicons/                # SVG ikonok tárolása
-├── 1_kosar_tartalma.php     # (fejlesztés)
-├── 2_vasarloi_adatok.php    # (fejlesztés)
-├── 3_fizetesi_modok.php     # (fejlesztés)
-├── 4_rendeles_osszegzes.php # (fejlesztés)
-├── 5_rendeles_elkuld.php    # (fejlesztés)
-├── alja.php                 # -
-├── alja_2.php               # -
-├── belepes.php              # Belépés az oldalra
-├── dbconn.php               # Adatbázis kapcsolódás
-├── fuggvenyek.php           # Összeg a termékre
-├── index.php                # Termékek listája, keresés
-├── info.php                 # ÁSZF és ÁSZ
-├── kilepes.php              # Kilépés
-├── korabbi_rendelesek.php   # Rendelések
-├── kosar.php                # Kosár tartalma
-├── kosarba_tesz.php         # Termék helyezése a kosárba
-├── leiras.php               # Termék leírása
+├── img/                     # Képek a webshophoz
+├── js/                      # JavaScript fájlok
+├── php/                     # PHP fájlok
+│   ├── admin/               # Admin panel
+├── styles/                  # CSS tárolása
+├── 1_kosar_tartalma.php     # Kosár megtekintés
+├── 2_kosar_modositas.php    # Kosár módosítás
+├── 3_fizetesi_modok.php     # Fizetés kiválasztása
+├── 4_rendeles_osszegzes.php # Rendelés összegzése
+├── 5_rendeles_kuldes.php    # Rendelés kiküldés
+├── alja.php                 # Oldal alja
+├── belepes.php              # Bejelentkezés
+├── index.php                # Kezdőlap
+├── info.php                 # Információk
+├── kilepes.php              # Kijelentkezés
+├── korabbi_rendelesek.php   # Korábbi rendelések
+├── kosar_megtekintes.php    # Kosár megtekintés
+├── kosar.php                # Kosár
+├── kosarba_tesz.php         # Termék kosárba tétel
+├── leiras.php               # Termék leírás
+├── profil_modosit_2.php     # Profil módosítás
 ├── profil_modosit.php       # Profil módosítás
-├── profil_modosit2.php      # Profil módosítás (fejlesztés)
+├── reg_ellenoriz.php        # Regisztráció ellenőrzés
 ├── reg.php                  # Regisztráció
-├── reg_aktival.php          # (fejlesztés)
-├── reg_ellenoriz.php        # Ellenőrzni a regisztrációt
-├── teteje.php               # -||-
-├── teteje_2.php             # Bejelentkező és regisztráció
-├── wimu.sql                 # Teljes SQL fájl
+├── teteje.php               # Oldal teteje
+├── wimu.sql                 # Adatbázis
 ```
 
 ## **Weboldal használata**
