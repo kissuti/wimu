@@ -1,25 +1,53 @@
 <?php
-// teteje.php elején
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-include("php/dbconn.php");
+include("php/dbconn.php"); // Új elérési út
 
 if (!$kapcsolat) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+if (isset($_COOKIE['webshop_email'])) {
+  $webshop_email = $_COOKIE['webshop_email'];
+}
+else {
+  $webshop_email = "";
+}
+
+if (isset($_COOKIE['webshop_jelszo'])) {
+  $webshop_jelszo = $_COOKIE['webshop_jelszo'];
+}
+else {
+  $webshop_jelszo = "";
+}
+
 $belepve = 0;
 
-// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve és a szükséges session kulcsok léteznek
-if (isset($_SESSION['belepve']) && $_SESSION['belepve'] == 1 &&
-    isset($_SESSION['webshop_id'], $_SESSION['webshop_nev'], $_SESSION['webshop_role'])) {
-  $webshop_id   = $_SESSION['webshop_id'];
-  $webshop_nev  = $_SESSION['webshop_nev'];
-  $webshop_role = $_SESSION['webshop_role'];
-  $belepve      = 1;
+if ($webshop_email != "" && $webshop_jelszo != "") {
+  // Prepared Statement használata SQL Injection ellen
+  $parancs = $kapcsolat->prepare("SELECT id, nev, role FROM ugyfel WHERE email=? AND jelszo=?");
+  $parancs->bind_param("ss", $webshop_email, $webshop_jelszo);
+  $parancs->execute();
+  $eredmeny = $parancs->get_result();
+
+  if ($eredmeny->num_rows > 0) {
+    $sor = $eredmeny->fetch_assoc();
+    $webshop_id = $sor["id"];
+    $webshop_nev = $sor["nev"];
+    $webshop_role = $sor["role"]; // Új változó a role tárolására
+    $belepve = 1;
+  }
 }
+
+
+// A $belepes változó kezelése
+$belepes = 0; 
+if(isset($_POST['mit']) && $_POST['mit'] == 'ellenoriz') {
+  $belepes = 1;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="hu">

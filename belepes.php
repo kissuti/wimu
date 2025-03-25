@@ -118,65 +118,60 @@ if ($mit == "") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
             crossorigin="anonymous"></script>
-  <?php include("alja.php"); ?>
-  <?php
+            <?php include("alja.php"); ?>
+
+<?php
 } elseif ($mit == "ellenoriz") {
-  $email = isset($_POST['email']) ? $_POST['email'] : "";
-  $jelszo = isset($_POST['jelszo']) ? $_POST['jelszo'] : "";
-  $most = date("Y-m-d H:i:s");
+$email = isset($_POST['email']) ? $_POST['email'] : "";
+$jelszo = isset($_POST['jelszo']) ? $_POST['jelszo'] : "";
 
-  $parancs = "SELECT * FROM ugyfel WHERE email='$email'";
-  $eredmeny = mysqli_query($kapcsolat, $parancs);
- 
-  if (mysqli_num_rows($eredmeny) > 0) {
-    $sor = mysqli_fetch_array($eredmeny);
-    if (password_verify($jelszo, $sor['jelszo'])) {
-      // Ellenőrizzük a sikertelen bejelentkezéseket az elmúlt 30 percben
-      $feloraja = date("Y-m-d H:i:s", time() - 1800);
-      $sql = "SELECT count(*) as darab FROM naplo WHERE email='$email' AND mikor>='$feloraja' AND sikertelen=1";
-      $rs_naplo = mysqli_query($kapcsolat, $sql);
-      $naplo_sor = mysqli_fetch_array($rs_naplo);
-      $darab = $naplo_sor["darab"];
+$most = date("Y-m-d H:i:s");
 
-      if ($darab >= 3) {
-        header("Location: belepes.php?tilos=1&email=$email");
-        exit();
-      } else {
-        // Sikeres bejelentkezés esetén állítsuk be a session változókat
-        $_SESSION['webshop_id']   = $sor["id"];
-        $_SESSION['webshop_nev']  = $sor["nev"];
-        $_SESSION['webshop_role'] = $sor["role"];
-        $_SESSION['belepve']      = 1;
-        
-        // Opcionálisan továbbra is beállíthatod a sütiket
-        setcookie("webshop_email", $email, time() + 86400 * 7);
-        
-        // Frissítjük a session_id-t és a lejárati időt az adatbázisban
-        $ervenyes = date("Y-m-d H:i:s", time() + 3600);
-        $sql = "UPDATE ugyfel SET session_id='" . session_id() . "', ervenyes='$ervenyes' WHERE id={$sor["id"]}";
-        mysqli_query($kapcsolat, $sql);
+$parancs = "SELECT * from ugyfel WHERE email='$email'";
+$eredmeny = mysqli_query($kapcsolat, $parancs);
 
-        // Naplózzuk a sikeres bejelentkezést
-        $sql = "INSERT INTO naplo (email, mikor, sikeres) VALUES ('$email', '$most', 1)";
-        mysqli_query($kapcsolat, $sql);
+if (mysqli_num_rows($eredmeny) > 0) {
+  $sor = mysqli_fetch_array($eredmeny);
+  if (password_verify($jelszo, $sor['jelszo'])) {
+    $feloraja = date("Y-m-d H:i:s", time() - 1800);
 
-        // Frissítjük a kosárhoz tartozó rekordokat
-        $sql = "UPDATE kosar SET ugyfel_id={$sor["id"]} WHERE session_id='" . session_id() . "' AND rendeles_id=0";
-        mysqli_query($kapcsolat, $sql);
+    $sql = "SELECT count(*) as darab FROM naplo WHERE email='$email' AND mikor>='$feloraja' AND sikertelen=1";
+    $rs_naplo = mysqli_query($kapcsolat, $sql);
+    $naplo_sor = mysqli_fetch_array($rs_naplo);
+    $darab = $naplo_sor["darab"];
 
-        header("Location: index.php");
-        exit();
-      }
+    if ($darab >= 3) {
+      header("Location: belepes.php?tilos=1&email=$email");
     } else {
-      $sql = "INSERT INTO naplo (email, mikor, sikertelen) VALUES ('$email', '$most', 1)";
+      setcookie("webshop_email", $email, time() + 86400 * 7);
+      setcookie("webshop_jelszo", $sor['jelszo'], time() + 86400 * 7);
+      
+      $id = $sor["id"];
+      $kod = $sor["kod"];
+      $jelszo = $sor["jelszo"];
+
+      $ervenyes = date("Y-m-d H:i:s", time() + 3600);
+
+      $sql = "UPDATE ugyfel SET session_id='" . session_id() . "', ervenyes='$ervenyes' WHERE id=$id";
       mysqli_query($kapcsolat, $sql);
-      header("Location: belepes.php?hiba=1&email=$email");
-      exit();
+
+      $sql = "insert into naplo (email, mikor, sikeres) values ('$email', '$most', 1)";
+      mysqli_query($kapcsolat, $sql);
+
+      $sql = "UPDATE kosar SET ugyfel_id=$id WHERE session_id='" . session_id() . "' AND rendeles_id=0";
+      mysqli_query($kapcsolat, $sql);
+
+      header("Location: index.php");
     }
   } else {
+    $sql = "insert into naplo (email, mikor, sikertelen) values ('$email', '$most', 1)";
+    mysqli_query($kapcsolat, $sql);
+
     header("Location: belepes.php?hiba=1&email=$email");
-    exit();
   }
+} else {
+  header("Location: belepes.php?hiba=1&email=$email");
+}
 }
 
 mysqli_close($kapcsolat);

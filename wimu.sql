@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 24. 17:20
+-- Létrehozás ideje: 2025. Már 26. 00:37
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.0.30
 
@@ -48,10 +48,10 @@ CREATE TABLE `arucikk` (
 --
 
 INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hosszu_leiras`, `ar_huf`, `egyseg`, `kat1`, `kat2`, `kat3`, `raktaron`) VALUES
-(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 36),
+(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 15),
 (2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13?14 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek ? például USB-C, HDMI és Wi?Fi ? megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 28),
-(3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'qweqwe', 'qweqwewe', 132000, 'darab', 1, 2, 3, 30),
-(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 119000, 'darab', 1, 2, 4, 59);
+(3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'qweqweqweqwe', 'qweqwewerrrr', 132000, 'darab', 1, 2, 3, 30),
+(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 119000, 'darab', 1, 2, 4, 58);
 
 -- --------------------------------------------------------
 
@@ -153,12 +153,19 @@ INSERT INTO `kategoriak` (`id`, `nev`, `szulo1`, `szulo2`) VALUES
 CREATE TABLE `kosar` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `arucikk_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `ugyfel_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `ugyfel_id` bigint(20) UNSIGNED DEFAULT 0,
   `rendeles_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `session_id` varchar(100) NOT NULL,
+  `session_id` varchar(100) DEFAULT '',
   `db` int(4) UNSIGNED NOT NULL DEFAULT 0,
   `mikor` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `kosar`
+--
+
+INSERT INTO `kosar` (`id`, `arucikk_id`, `ugyfel_id`, `rendeles_id`, `session_id`, `db`, `mikor`) VALUES
+(5, 1, 1, 0, '', 15, '2025-03-26 00:32:03');
 
 -- --------------------------------------------------------
 
@@ -188,6 +195,20 @@ CREATE TABLE `naplo` (
   `sikertelen` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `kilepes` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `naplo`
+--
+
+INSERT INTO `naplo` (`id`, `email`, `mikor`, `sikeres`, `sikertelen`, `kilepes`) VALUES
+(1, 'admin@admin.com', '2025-03-25 23:21:21', 1, 0, '2025-03-25 23:21:21'),
+(2, 'admin@admin.com', '2025-03-25 23:56:01', 1, 0, '2025-03-25 23:56:01'),
+(3, 'admin@admin.com', '2025-03-25 23:57:38', 1, 0, '2025-03-25 23:57:38'),
+(4, 'admin@admin.com', '2025-03-25 23:59:35', 1, 0, '2025-03-25 23:59:35'),
+(5, 'admin@admin.com', '2025-03-26 00:22:41', 1, 0, '2025-03-26 00:22:41'),
+(6, 'admin@admin.com', '2025-03-26 00:24:15', 1, 0, '2025-03-26 00:24:15'),
+(7, 'admin@admin.com', '2025-03-26 00:28:38', 1, 0, '2025-03-26 00:28:38'),
+(8, 'admin@admin.com', '2025-03-26 00:29:31', 1, 0, '2025-03-26 00:29:31');
 
 -- --------------------------------------------------------
 
@@ -255,8 +276,7 @@ CREATE TABLE `ugyfel` (
 --
 
 INSERT INTO `ugyfel` (`id`, `email`, `nev`, `kod`, `jelszo`, `reg_idopont`, `megerositve`, `uj_email`, `uj_kod`, `session_id`, `ervenyes`, `telefon`, `kulfoldi`, `orszag`, `irszam`, `varos`, `utca`, `sz_nev`, `sz_irszam`, `sz_varos`, `sz_utca`, `role`) VALUES
-(1, 'admin@admin.com', 'admin', '', '$2y$10$8kJxLkjqIV5AlKBbr7looesUwnnl8ZooXwk56nkOqx22VPNOI6atu', '2025-03-24 16:16:02', '2025-03-24 16:16:02', '', '', '9u3bvvlpj6n14od37lrvakm8l6', '2025-03-24 18:17:13', '', 0, '', '', '', '', '', '', '', '', 'admin'),
-(2, 'profile@profile.com', 'profile', '', '$2y$10$Yx3eL7awUZCUUYBgQN5yE.fWBCsHfb0KSb.BBVWjUAMdV0rR0OsDq', '2025-03-24 16:55:53', '2025-03-24 16:55:53', '', '', '', '0000-00-00 00:00:00', '', 0, '', '', '', '', '', '', '', '', 'user');
+(1, 'admin@admin.com', 'admin', '', '$2y$10$xql9sFrWGZAeQSmklYMwUeEizH6uqkimVKqghh6o0d7lBCcy8Rud2', '2025-03-25 23:21:17', '2025-03-25 23:21:17', '', '', 'bfa6pqhel2mchch48eqnmjq8rk', '2025-03-26 01:29:31', '06-30303030', 0, 'Magyarország', '7632', 'Pécs', 'Utca utca 2.', 'admin', '7632', 'Pécs', 'Utca utca 2.', 'admin');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -342,7 +362,7 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT a táblához `kosar`
 --
 ALTER TABLE `kosar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `megtekintve`
@@ -354,7 +374,7 @@ ALTER TABLE `megtekintve`
 -- AUTO_INCREMENT a táblához `naplo`
 --
 ALTER TABLE `naplo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `rendelesek`
@@ -366,7 +386,7 @@ ALTER TABLE `rendelesek`
 -- AUTO_INCREMENT a táblához `ugyfel`
 --
 ALTER TABLE `ugyfel`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

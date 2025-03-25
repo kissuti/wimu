@@ -36,33 +36,31 @@ if ($db > $current_stock) {
 }
 
 // Felhasználó ellenőrzése
+$webshop_id = 0;
 if ($webshop_email != "" && $webshop_jelszo != "") {
     $parancs = "SELECT * FROM ugyfel WHERE email='$webshop_email' AND jelszo='$webshop_jelszo'";
     $eredmeny = mysqli_query($kapcsolat, $parancs);
     if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
         $sor = mysqli_fetch_array($eredmeny);
         $webshop_id = $sor["id"];
-        $webshop_nev = $sor["nev"];
         $belepve = 1;
     }
 }
 
 // Ellenőrizzük a kosárban lévő mennyiséget
 $current_cart_quantity = 0;
-if ($belepve == 0) {
-    $parancs = "SELECT * FROM kosar WHERE session_id='" . session_id() . "' AND arucikk_id=$arucikk_id AND rendeles_id=0";
-    $eredmeny = mysqli_query($kapcsolat, $parancs);
-    if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
-        $sor = mysqli_fetch_array($eredmeny);
-        $current_cart_quantity = intval($sor["db"]);
-    }
+if ($belepve == 1) {
+    // Bejelentkezett felhasználó: keresés ugyfel_id alapján
+    $parancs = "SELECT * FROM kosar WHERE ugyfel_id = $webshop_id AND arucikk_id = $arucikk_id AND rendeles_id = 0";
 } else {
-    $parancs = "SELECT * FROM kosar WHERE ugyfel_id=$webshop_id AND arucikk_id=$arucikk_id AND rendeles_id=0";
-    $eredmeny = mysqli_query($kapcsolat, $parancs);
-    if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
-        $sor = mysqli_fetch_array($eredmeny);
-        $current_cart_quantity = intval($sor["db"]);
-    }
+    // Nem bejelentkezett felhasználó: keresés session_id alapján
+    $parancs = "SELECT * FROM kosar WHERE session_id = '" . session_id() . "' AND arucikk_id = $arucikk_id AND rendeles_id = 0";
+}
+
+$eredmeny = mysqli_query($kapcsolat, $parancs);
+if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
+    $sor = mysqli_fetch_array($eredmeny);
+    $current_cart_quantity = intval($sor["db"]);
 }
 
 // Ellenőrizzük, hogy a kosárban lévő mennyiség plusz a most hozzáadandó ne lépje túl a készletet
@@ -73,31 +71,25 @@ if (($current_cart_quantity + $db) > $current_stock) {
 }
 
 // Ha minden ellenőrzés sikeres, akkor végrehajtjuk a kosárba helyezést
-if ($belepve == 0) {
-    $parancs = "SELECT * FROM kosar WHERE session_id='" . session_id() . "' AND arucikk_id=$arucikk_id AND rendeles_id=0";
-    $eredmeny = mysqli_query($kapcsolat, $parancs);
-    if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
-        $sor = mysqli_fetch_array($eredmeny);
+if ($belepve == 1) {
+    // Bejelentkezett felhasználó: ugyfel_id használata
+    if (mysqli_num_rows($eredmeny) > 0) {
         $kosar_id = $sor["id"];
         $sql = "UPDATE kosar SET db = db + $db WHERE id = $kosar_id";
-        mysqli_query($kapcsolat, $sql);
     } else {
-        $sql = "INSERT INTO kosar (arucikk_id, session_id, db, mikor) VALUES ($arucikk_id, '" . session_id() . "', $db, '$most')";
-        mysqli_query($kapcsolat, $sql);
+        $sql = "INSERT INTO kosar (arucikk_id, ugyfel_id, db, mikor) VALUES ($arucikk_id, $webshop_id, $db, '$most')";
     }
 } else {
-    $parancs = "SELECT * FROM kosar WHERE ugyfel_id=$webshop_id AND arucikk_id=$arucikk_id AND rendeles_id=0";
-    $eredmeny = mysqli_query($kapcsolat, $parancs);
-    if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
-        $sor = mysqli_fetch_array($eredmeny);
+    // Nem bejelentkezett felhasználó: session_id használata
+    if (mysqli_num_rows($eredmeny) > 0) {
         $kosar_id = $sor["id"];
         $sql = "UPDATE kosar SET db = db + $db WHERE id = $kosar_id";
-        mysqli_query($kapcsolat, $sql);
     } else {
-        $sql = "INSERT INTO kosar (arucikk_id, ugyfel_id, session_id, db, mikor) VALUES ($arucikk_id, $webshop_id, '" . session_id() . "', $db, '$most')";
-        mysqli_query($kapcsolat, $sql);
+        $sql = "INSERT INTO kosar (arucikk_id, session_id, db, mikor) VALUES ($arucikk_id, '" . session_id() . "', $db, '$most')";
     }
 }
+
+mysqli_query($kapcsolat, $sql);
 
 // Frissítjük a termék készletét az arucikk táblában (kivonjuk a kosárba tett mennyiséget)
 $sql = "UPDATE arucikk SET raktaron = raktaron - $db WHERE id = $arucikk_id";
