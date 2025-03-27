@@ -6,140 +6,182 @@ include("php/dbconn.php");
 include("php/fuggvenyek.php");
 
 header("Pragma: no-cache"); 
-Header("Cache-control: private, no-store, no-cache, must-revalidate");  
+header("Cache-control: private, no-store, no-cache, must-revalidate");  
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
+// Felhasználói adatok ellenőrzése
 $webshop_email = $_COOKIE['webshop_email'] ?? "";
 $webshop_jelszo = $_COOKIE['webshop_jelszo'] ?? "";
-
 $belepve = 0;
-$most = date("Y-m-d H:i:s");
 
 if ($webshop_email != "" && $webshop_jelszo != "") {
-  $parancs = "SELECT * FROM ugyfel WHERE email='$webshop_email' AND jelszo='$webshop_jelszo'";
-  $eredmeny = mysqli_query($kapcsolat, $parancs);
-  if (mysqli_num_rows($eredmeny) > 0) {
-    $sor = mysqli_fetch_array($eredmeny);
-    $webshop_id = $sor["id"];
-    $webshop_nev = $sor["nev"];
-    $telefon = $sor["telefon"];
-    $kulfoldi = $sor["kulfoldi"];
-    $orszag = $sor["orszag"];
-    $irszam = $sor["irszam"];
-    $varos = $sor["varos"];
-    $utca = $sor["utca"];
-    $sz_nev = $sor["sz_nev"];
-    $sz_irszam = $sor["sz_irszam"];
-    $sz_varos = $sor["sz_varos"];
-    $sz_utca = $sor["sz_utca"];
-    $belepve = 1;
-  }
+    $parancs = "SELECT * FROM ugyfel WHERE email='".mysqli_real_escape_string($kapcsolat, $webshop_email)."' AND jelszo='".mysqli_real_escape_string($kapcsolat, $webshop_jelszo)."'";
+    $eredmeny = mysqli_query($kapcsolat, $parancs);
+    
+    if ($eredmeny && mysqli_num_rows($eredmeny) > 0) {
+        $sor = mysqli_fetch_array($eredmeny);
+        $webshop_id = $sor["id"];
+        $webshop_nev = $sor["nev"];
+        $telefon = $sor["telefon"];
+        $kulfoldi = $sor["kulfoldi"];
+        $orszag = $sor["orszag"];
+        $irszam = $sor["irszam"];
+        $varos = $sor["varos"];
+        $utca = $sor["utca"];
+        $sz_nev = $sor["sz_nev"];
+        $sz_irszam = $sor["sz_irszam"];
+        $sz_varos = $sor["sz_varos"];
+        $sz_utca = $sor["sz_utca"];
+        $belepve = 1;
+    }
 }
 
-$osszeg = $_POST['osszeg'] ?? 0;
-$fizet = $_POST['fizet'] ?? 0;
+// Adatok ellenőrzése
+$osszeg = intval($_POST['osszeg'] ?? 0);
+$fizet = intval($_POST['fizet'] ?? 0);
 
-if ($osszeg == 0 || $belepve == 0) {
-  header("Location: index.php");
-  exit();
+if ($osszeg <= 0 || $belepve != 1) {
+    header("Location: index.php");
+    exit();
 }
 
-$idopont = date("Y-m-d H:i:s");
+// 1. Rendelés rögzítése
 $kod = uniqid();
+$idopont = date("Y-m-d H:i:s");
 
-$sql = "INSERT INTO rendelesek (ugyfel_id, kod, idopont, fizetendo, fizetesi_mod, nev, email, telefon, kulfoldi, orszag, irszam, varos, utca, sz_nev, sz_irszam, sz_varos, sz_utca) VALUES ($webshop_id, '$kod', '$idopont', $osszeg, $fizet, '$webshop_nev', '$webshop_email', '$telefon', $kulfoldi, '$orszag', '$irszam', '$varos', '$utca', '$sz_nev', '$sz_irszam', '$sz_varos', '$sz_utca')";
-mysqli_query($kapcsolat, $sql);
+$sql = "INSERT INTO rendelesek (
+    ugyfel_id, 
+    kod, 
+    idopont, 
+    fizetendo, 
+    fizetesi_mod, 
+    nev, 
+    email, 
+    telefon, 
+    kulfoldi, 
+    orszag, 
+    irszam, 
+    varos, 
+    utca, 
+    sz_nev, 
+    sz_irszam, 
+    sz_varos, 
+    sz_utca
+) VALUES (
+    ".intval($webshop_id).",
+    '".mysqli_real_escape_string($kapcsolat, $kod)."',
+    '".mysqli_real_escape_string($kapcsolat, $idopont)."',
+    ".intval($osszeg).",
+    ".intval($fizet).",
+    '".mysqli_real_escape_string($kapcsolat, $webshop_nev)."',
+    '".mysqli_real_escape_string($kapcsolat, $webshop_email)."',
+    '".mysqli_real_escape_string($kapcsolat, $telefon)."',
+    ".intval($kulfoldi).",
+    '".mysqli_real_escape_string($kapcsolat, $orszag)."',
+    '".mysqli_real_escape_string($kapcsolat, $irszam)."',
+    '".mysqli_real_escape_string($kapcsolat, $varos)."',
+    '".mysqli_real_escape_string($kapcsolat, $utca)."',
+    '".mysqli_real_escape_string($kapcsolat, $sz_nev)."',
+    '".mysqli_real_escape_string($kapcsolat, $sz_irszam)."',
+    '".mysqli_real_escape_string($kapcsolat, $sz_varos)."',
+    '".mysqli_real_escape_string($kapcsolat, $sz_utca)."'
+)";
 
-$sql = "SELECT id FROM rendelesek WHERE ugyfel_id=$webshop_id ORDER BY id DESC LIMIT 1";
+if (!mysqli_query($kapcsolat, $sql)) {
+    die("Hiba a rendelés rögzítésénél: " . mysqli_error($kapcsolat));
+}
+
+// Rendelés ID lekérése
+$rendeles_id = mysqli_insert_id($kapcsolat);
+
+// 2. Termékek mentése a rendeles_tetelek táblába
+$sql_kosar = "SELECT arucikk_id, db FROM kosar WHERE ugyfel_id = ? AND rendeles_id = 0";
+$parancs = $kapcsolat->prepare($sql_kosar);
+$parancs->bind_param("i", $webshop_id);
+$parancs->execute();
+$kosar_tetelek = $parancs->get_result();
+
+while ($tetel = $kosar_tetelek->fetch_assoc()) {
+    $arucikk_id = $tetel['arucikk_id'];
+    $db = $tetel['db'];
+    
+    // Egységár lekérése
+    $sql_ar = "SELECT ar_huf FROM arucikk WHERE id = ?";
+    $parancs_ar = $kapcsolat->prepare($sql_ar);
+    $parancs_ar->bind_param("i", $arucikk_id);
+    $parancs_ar->execute();
+    $ar = $parancs_ar->get_result()->fetch_assoc()['ar_huf'];
+    
+    // Beszúrás a rendeles_tetelek táblába
+    $sql_insert = "INSERT INTO rendeles_tetelek (rendeles_id, arucikk_id, db, ar_huf) 
+                   VALUES (?, ?, ?, ?)";
+    $parancs_insert = $kapcsolat->prepare($sql_insert);
+    $parancs_insert->bind_param("iiii", $rendeles_id, $arucikk_id, $db, $ar);
+    $parancs_insert->execute();
+}
+
+// 3. Kosár tételek frissítése
+$sql = "UPDATE kosar SET rendeles_id = ".intval($rendeles_id)." WHERE ugyfel_id = ".intval($webshop_id)." AND rendeles_id = 0";
+if (!mysqli_query($kapcsolat, $sql)) {
+    die("Hiba a kosár frissítésénél: " . mysqli_error($kapcsolat));
+}
+
+// 4. Termékek raktárkészletének csökkentése
+$sql = "SELECT * FROM kosar WHERE ugyfel_id = ".intval($webshop_id)." AND rendeles_id = ".intval($rendeles_id);
 $eredmeny = mysqli_query($kapcsolat, $sql);
-$sor = mysqli_fetch_array($eredmeny);
-$rendeles_id = $sor["id"];
 
-$sql = "SELECT * FROM kosar WHERE ugyfel_id=$webshop_id AND rendeles_id=0";
-$eredmeny = mysqli_query($kapcsolat, $sql);
 while ($sor = mysqli_fetch_array($eredmeny)) {
-  $arucikk_id = $sor["arucikk_id"];
-  $db = $sor["db"];
-  $sql = "UPDATE arucikk SET raktaron=raktaron-$db WHERE id=$arucikk_id";
-  mysqli_query($kapcsolat, $sql);
+    $arucikk_id = intval($sor['arucikk_id']);
+    $db = intval($sor['db']);
+    
+    $update_sql = "UPDATE arucikk SET raktaron = raktaron - ".$db." WHERE id = ".$arucikk_id;
+    if (!mysqli_query($kapcsolat, $update_sql)) {
+        die("Hiba a raktárkészlet frissítésénél: " . mysqli_error($kapcsolat));
+    }
 }
 
-$sql = "UPDATE kosar SET rendeles_id=$rendeles_id WHERE ugyfel_id=$webshop_id AND rendeles_id=0";
-mysqli_query($kapcsolat, $sql);
-
-$ujsor = "\r\n";
-$uzenet = "Kedves $webshop_nev!" . $ujsor . $ujsor;
-$uzenet .= "Köszönjük szépen a rendelést!" . $ujsor;
-$uzenet .= "Az alábbi termékeket fogjuk elküldeni neked:" . $ujsor . $ujsor;
-$uzenet .= $mitrendelt . $ujsor;
-$uzenet .= "Fizetendő végösszeg: $osszeg HUF" . $ujsor . $ujsor;
-
-if ($fizet == 1) {
-  $uzenet .= "A fizetendő összeget az alábbi bankszámlaszámra kérjük átutalni 8 napon belül:" . $ujsor;
-  $uzenet .= "Számlaszám (OTP): 11702525-45789632-00000000" . $ujsor;
-  $uzenet .= "Számlatulajdonos: Gyakorló WEBshop Kft." . $ujsor;
-  $uzenet .= "Közleménybe: rendelés $rendeles_id" . $ujsor . $ujsor;
-  $uzenet .= "A megrendelt termékeket a sikeres fizetés után postázzuk." . $ujsor . $ujsor;
-} else if ($fizet == 2) {
-  $uzenet .= "A megrendelt termékeket azonnal postázzuk. A fizetendő végösszeget a postásnak kell kifizetni az áru átvételekor." . $ujsor . $ujsor;
-} else if ($fizet == 3) {
-  $uzenet .= "A megrendelt termékeket a sikeres fizetés után azonnal postázzuk." . $ujsor . $ujsor;
-}
-
-$uzenet .= "Ha bármilyen kérdésed van a rendeléssel kapcsolatban, írj e-mailt a webshop@oktato2.info címre!" . $ujsor . $ujsor . $ujsor;
-$uzenet .= "Üdvözlettel:" . $ujsor . $ujsor;
-$uzenet .= "Gyakorló WEBshop" . $ujsor;
-
-// Remove email sending
-// mail($webshop_email, "Rendelésed azonosítója: $rendeles_id", $uzenet, "From: Gyakorló WEBshop<webshop@oktato2.info>");
-
-$uzenet = "megrendelő neve: $webshop_nev" . $ujsor;
-$uzenet .= "e-mail címe: $webshop_email" . $ujsor;
-$uzenet .= "telefonszáma: $telefon" . $ujsor;
-$uzenet .= "postacíme: $irszam $varos, $utca" . $ujsor;
-$uzenet .= "számlázási neve és címe: $sz_nev, $sz_irszam $sz_varos, $sz_utca" . $ujsor . $ujsor;
-$uzenet .= "Megrendelt termékek:" . $ujsor . $ujsor;
-$uzenet .= $mitrendelt . $ujsor;
-$uzenet .= "Fizetendő végösszeg: $osszeg HUF" . $ujsor . $ujsor;
-
-if ($fizet == 1) {
-  $uzenet .= "Fizetési mód: banki átutalás" . $ujsor;
-} else if ($fizet == 2) {
-  $uzenet .= "Fizetési mód: postai utánvét" . $ujsor;
-} else if ($fizet == 3) {
-  $uzenet .= "Fizetési mód: bankkártyás fizetés" . $ujsor;
-}
-
-mail("webshop@oktato2.info", "Új rendelés: $rendeles_id ($osszeg HUF)", $uzenet, "From: $webshop_nev<$webshop_email>");
-
+// Sikeres oldal megjelenítése
 ?>
-
+<!DOCTYPE html>
 <html>
-
 <head>
-  <title>Wimu Webshop</title>
-  <meta name="cache-control" content="private, no-store, no-cache, must-revalidate" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+    <title>Wimu Webshop - Rendelés sikeres</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<body>
+    <?php include("teteje.php"); ?>
 
-<?php include("php/teteje_2.php"); ?>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">🥳 Rendelés sikeres!</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead">Köszönjük a rendelést, <strong><?= htmlspecialchars($webshop_nev) ?></strong>!</p>
+                <div class="alert alert-info">
+                    <h5>Rendelés azonosító: <span class="badge bg-primary"><?= $rendeles_id ?></span></h5>
+                    <p>A rendelés részleteit elküldtük a <strong><?= htmlspecialchars($webshop_email) ?></strong> e-mail címre.</p>
+                </div>
+                <hr>
+                <a href="index.php" class="btn btn-lg btn-success">Vissza a főoldalra</a>
+            </div>
+        </div>
+        
+        <div class="mt-4 alert alert-warning">
+            <h5>Fontos tudnivalók:</h5>
+            <ul>
+                <li>A rendelésed állapotát a profilodban követheted</li>
+                <li>Számlád elektronikus formában érkezik meg</li>
+                <li>Kérdés esetén írj a webshop@oktato2.info címre</li>
+            </ul>
+        </div>
+    </div>
 
-<div class="container mt-4">
-  <div class="d-flex justify-content-end mb-3">
-    <a href="index.php" class="text-decoration-none text-dark">Visszatérés a webshop-hoz</a>
-  </div>
-  <h2 class="text-dark">Sikeres rendelés!</h2>
-  <p>A rendelésed azonosítója: <b><?= $rendeles_id ?></b></p>
-  <p><?= nl2br($uzenet) ?></p>
-  <p>Ha bármilyen kérdésed van a rendeléssel kapcsolatban, írj e-mailt a <a href="mailto:webshop@oktato2.info">webshop@oktato2.info</a> címre!</p>
-  <p><b>Köszönjük szépen a rendelést! :-)</b></p>
-  <hr>
-  <p class="text-danger"><b>FIGYELEM!!!</b> Ez a weblap kizárólag oktatási céllal készült, tehát nem valódi webshop! Az oldalon található termékek csak mintaként szerepelnek, és nem rendelhetők meg! A weblapon található adatok (cég neve, számlaszám) csak fiktív adatok! Bővebb információ: <a href="mailto:info@oktatovideok.hu">info@oktatovideok.hu</a></p>
-</div>
-
-<?php include("alja_2.php"); ?>
-
+    <?php include("alja.php"); ?>
+</body>
+</html>
 <?php
 mysqli_close($kapcsolat);
 ob_end_flush();

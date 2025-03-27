@@ -97,30 +97,11 @@ $oldalak = ceil($osszes / $laponkent);
   <meta name="cache-control" content="private, no-store, no-cache, must-revalidate" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="styles/index.css" />
   <link rel="stylesheet" href="styles/preloader.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
-  <script>
-    // Az add-to-cart űrlapokhoz használt jQuery kód
-    $(document).ready(function() {
-      $("form.add-to-cart").submit(function(event) {
-        event.preventDefault();
-        var form = $(this);
-        $.ajax({
-          type: form.attr('method'),
-          url: form.attr('action'),
-          data: form.serialize(),
-          success: function(response) {
-            alert("A termék sikeresen hozzáadva a kosárhoz!");
-            $("#kosar").attr("src", "kosar.php"); // Kosár iframe frissítése
-          },
-          error: function() {
-            alert("Hiba történt a termék kosárba helyezése során.");
-          }
-        });
-      });
-    });
-  </script>
+  <script src="js/index.js"></script>
   <script src="js/preloader.js"></script>
 </head>
 <body style="background-color: #F0EFE7;">
@@ -251,23 +232,31 @@ $oldalak = ceil($osszes / $laponkent);
             <h6 class="card-subtitle mb-2 text-muted"><?= $nev2 ?></h6>
             <div class="mt-2 mb-2"><?= $leiras ?></div>
             
-            <div class="mb-2">
-              <div class="h5 font-weight-bold"><?= szampontos($ar_huf) ?> HUF</div>
-              <div>
-                <form class="add-to-cart d-inline" action="kosarba_tesz.php" method="POST">
-                  <input type="hidden" name="arucikk_id" value="<?= $id ?>">
-                  <input name="db" class="form-control text-center d-inline-block" style="width: 60px;" value="1" min="<?= $raktaron ?>"> <?= $egyseg ?>
-                  <button type="submit" class="kosarbtn" style="margin-top: 10px;"><span>Kosárba</span></button>
-                </form>
-              </div>
-              <div class="mt-2">
-                <?php if ($raktaron > 0) { ?>
-                  <span class="badge bg-success">Raktáron: <?= $raktaron ?> <?= $egyseg ?></span>
-                <?php } else { ?>
-                  <span class="badge bg-danger">Elfogyott!</span>
-                <?php } ?>
-              </div>
-            </div>
+            <div class="mt-2">
+            <?php if ($raktaron > 0) { ?>
+              <form class="add-to-cart d-inline" action="kosarba_tesz.php" method="POST">
+                <input type="hidden" name="arucikk_id" value="<?= $id ?>">
+                <div class="input-group mb-3" style="max-width: 150px;">
+                  <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
+                  <input type="number" name="db" 
+                        class="form-control text-center"
+                        value="1" 
+                        min="1" 
+                        max="<?= $raktaron ?>"
+                        readonly>
+                  <button type="button" class="btn rounded-3 btn-outline-secondary plus-btn">+</button>
+                </div>
+                <div class="mt-2">
+                  <button type="submit" class="w-100 kosarbtn p-2 mb-1">
+                    <span>Kosárba <i class="bi bi-cart"></i></span>
+                  </button>
+                  <span class="badge bg-success mt-1 d-block">Raktáron: <?= $raktaron ?> <?= $egyseg ?></span>
+                </div>
+              </form>
+            <?php } else { ?>
+              <div class="alert alert-warning">Jelenleg nem elérhető</div>
+            <?php } ?>
+          </div>
             
             <a href="leiras.php?id=<?= $id ?>&oldal=<?= $oldal ?>&laponkent=<?= $laponkent ?>&kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=<?= $kat3 ?>&jogosultsag=<?= $jogosultsag ?>&mitkeres=<?= $mitkeres ?>&irany=<?= $irany ?>" class="btn btn-link p-0">részletesebb tájékoztató...</a>
           </div>

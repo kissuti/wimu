@@ -6,7 +6,7 @@ include("php/dbconn.php");
 include("php/fuggvenyek.php");
 
 header("Pragma: no-cache"); 
-Header("Cache-control: private, no-store, no-cache, must-revalidate");  
+header("Cache-control: private, no-store, no-cache, must-revalidate");  
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 $webshop_email = $_COOKIE['webshop_email'] ?? "";
@@ -15,135 +15,112 @@ $webshop_jelszo = $_COOKIE['webshop_jelszo'] ?? "";
 $belepve = 0;
 $most = date("Y-m-d H:i:s");
 
+// Felhasználó azonosítás
 if ($webshop_email != "" && $webshop_jelszo != "") {
-  $parancs = "SELECT * FROM ugyfel WHERE email='$webshop_email' AND jelszo='$webshop_jelszo'";
-  $eredmeny = mysqli_query($kapcsolat, $parancs);
-  if (mysqli_num_rows($eredmeny) > 0) {
-    $sor = mysqli_fetch_array($eredmeny);
-    $webshop_id = $sor["id"];
-    $webshop_nev = $sor["nev"];
-    $telefon = $sor["telefon"];
-    $kulfoldi = $sor["kulfoldi"];
-    $orszag = $sor["orszag"];
-    $irszam = $sor["irszam"];
-    $varos = $sor["varos"];
-    $utca = $sor["utca"];
-    $sz_nev = $sor["sz_nev"];
-    $sz_irszam = $sor["sz_irszam"];
-    $sz_varos = $sor["sz_varos"];
-    $sz_utca = $sor["sz_utca"];
-    $belepve = 1;
-  }
+    $parancs = $kapcsolat->prepare("SELECT id, nev, role FROM ugyfel WHERE email=? AND jelszo=?");
+    $parancs->bind_param("ss", $webshop_email, $webshop_jelszo);
+    $parancs->execute();
+    $eredmeny = $parancs->get_result();
+
+    if ($eredmeny->num_rows > 0) {
+        $sor = $eredmeny->fetch_assoc();
+        $webshop_id = $sor["id"];
+        $webshop_nev = $sor["nev"];
+        $belepve = 1;
+    }
 }
 
-if ($belepve == 1) {
-  ?>
+if ($belepve != 1) {
+    header("Location: index.php");
+    exit();
+}
 
-  <html>
+// FONTOS: Itt kell átvenni a fizetési módot
+$fizet = intval($_POST['fizet'] ?? 0);
+$osszeg = intval($_POST['osszeg'] ?? 0);
+?>
 
-  <head>
-    <title>Wimu Webshop - Rendelés összegzése</title>
-    <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/order_summary.css">
-    <meta http-equiv="Content-Type" content="text/html">
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
-  </head>
-
-  <body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rendelés összegzése</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .summary-card { border: 2px solid #28a745; border-radius: 15px; }
+        .total-row { background-color: #f8f9fa; font-weight: bold; }
+    </style>
+</head>
+<body>
     <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
-      <h2 class="text-dark">Rendelés összegzése</h2>
-      
-      <div class="bg-light p-4 rounded border">
-        <h4>Rendelés részletei:</h4>
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <th>Termék</th>
-                <th class="text-center">Darabszám</th>
-                <th class="text-end">Egységár</th>
-                <th class="text-end">Összeg</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              $osszeg = 0;
-              $sql = "SELECT * FROM kosar WHERE ugyfel_id=$webshop_id AND rendeles_id=0";
-              $eredmeny = mysqli_query($kapcsolat, $sql);
-              while ($sor = mysqli_fetch_array($eredmeny)) {
-                $arucikk_id = $sor["arucikk_id"];
-                $db = $sor["db"];
-                
-                $parancs = "SELECT * FROM arucikk WHERE id=$arucikk_id";
-                $rs = mysqli_query($kapcsolat, $parancs);
+        <div class="card summary-card shadow-lg">
+            <div class="card-header bg-success text-white">
+                <h3><i class="bi bi-cart-check"></i> Rendelés összegzése</h3>
+            </div>
+            
+            <div class="card-body">
+                <!-- Terméklista -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Termék</th>
+                                <th class="text-center">Darab</th>
+                                <th class="text-end">Ár</th>
+                                <th class="text-end">Összeg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $osszeg = 0;
+                            $sql = "SELECT k.*, a.nev, a.ar_huf 
+                                    FROM kosar k
+                                    JOIN arucikk a ON k.arucikk_id = a.id
+                                    WHERE k.ugyfel_id = ? AND k.rendeles_id = 0";
+                            $parancs = $kapcsolat->prepare($sql);
+                            $parancs->bind_param("i", $webshop_id);
+                            $parancs->execute();
+                            $eredmeny = $parancs->get_result();
 
-                if (mysqli_num_rows($rs) > 0) {
-                  $egysor = mysqli_fetch_array($rs);
-                  $nev = $egysor["nev"];
-                  $ar_huf = $egysor["ar_huf"];
-                  $osszeg += $db * $ar_huf;
-                  ?>
-                  <tr>
-                    <td><b><?= $nev ?></b></td>
-                    <td class="text-center"><?= $db ?></td>
-                    <td class="text-end"><?= szampontos($ar_huf) ?> HUF</td>
-                    <td class="text-end"><?= szampontos($db * $ar_huf) ?> HUF</td>
-                  </tr>
-                  <?php
-                }
-              }
-              ?>
-              <tr>
-                <td colspan="3" class="text-end"><b>Összesen:</b></td>
-                <td class="text-end"><b><?= szampontos($osszeg) ?> HUF</b></td>
-              </tr>
-            </tbody>
-          </table>
+                            while ($sor = $eredmeny->fetch_assoc()):
+                                $osszeg += $sor['db'] * $sor['ar_huf'];
+                            ?>
+                            <tr>
+                                <td><?= htmlspecialchars($sor['nev']) ?></td>
+                                <td class="text-center"><?= $sor['db'] ?></td>
+                                <td class="text-end"><?= szampontos($sor['ar_huf']) ?> HUF</td>
+                                <td class="text-end"><?= szampontos($sor['db'] * $sor['ar_huf']) ?> HUF</td>
+                            </tr>
+                            <?php endwhile; ?>
+                            
+                            <tr class="total-row">
+                                <td colspan="3" class="text-end">Összesen:</td>
+                                <td class="text-end"><?= szampontos($osszeg) ?> HUF</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- FONTOS MÓDOSÍTÁS: Egyszerű form submit -->
+                <form action="5_rendeles_elkuld.php" method="POST">
+                    <input type="hidden" name="osszeg" value="<?= $osszeg ?>">
+                    <input type="hidden" name="fizet" value="<?= $fizet ?>">
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-check-circle"></i> Rendelés véglegesítése
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <form name="urlap" action="5_rendeles_elkuld.php" method="POST">
-          <input type="hidden" name="osszeg" value="<?= $_POST['osszeg'] ?>">
-          <div class="mt-4">
-            <div id="paypal-button-container"></div>
-          </div>
-        </form>
-      </div>
     </div>
 
     <?php include("alja.php"); ?>
-
-    <script>
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: '<?= $_POST['osszeg'] / 350 ?>' // Convert HUF to USD (example conversion rate)
-              }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert('Transaction completed by ' + details.payer.name.given_name);
-            // Redirect to the order confirmation page
-            window.location.href = '5_rendeles_elkuld.php';
-          });
-        }
-      }).render('#paypal-button-container');
-    </script>
-  </body>
-  </html>
-
-  <?php
-} else {
-  header("Location: index.php");
-}
-
+</body>
+</html>
+<?php
 mysqli_close($kapcsolat);
 ob_end_flush();
 ?>

@@ -89,12 +89,22 @@ if ($belepve == 1) {
     }
 }
 
-mysqli_query($kapcsolat, $sql);
-
-// Frissítjük a termék készletét az arucikk táblában (kivonjuk a kosárba tett mennyiséget)
-$sql = "UPDATE arucikk SET raktaron = raktaron - $db WHERE id = $arucikk_id";
-mysqli_query($kapcsolat, $sql);
-
-mysqli_close($kapcsolat);
+if (!mysqli_query($kapcsolat, $sql)) {
+    header('HTTP/1.1 500 Internal Server Error');
+    die("Hiba a kosár frissítésekor: " . mysqli_error($kapcsolat));
+  }
+  
+  // Frissítjük a termék készletét
+  $sql = "UPDATE arucikk SET raktaron = raktaron - $db WHERE id = $arucikk_id";
+  if (!mysqli_query($kapcsolat, $sql)) {
+    header('HTTP/1.1 500 Internal Server Error');
+    die("Hiba a készlet frissítésekor: " . mysqli_error($kapcsolat));
+  }
+  
+  // Sikeres válasz küldése
+  header('Content-Type: application/json');
+  echo json_encode(array('success' => true));
+  
+  mysqli_close($kapcsolat);
 ob_end_flush();
 ?>

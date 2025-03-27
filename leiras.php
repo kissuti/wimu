@@ -1,5 +1,10 @@
 <?php
-session_start(); // Session kezeléshez kötelező
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_lifetime', 86400); // 24 óra
+
+// Session indítása
+session_start();
 ob_start();
 
 include("php/dbconn.php");
@@ -32,6 +37,41 @@ if(mysqli_num_rows($eredmeny) == 0) {
 }
 
 $sor = mysqli_fetch_array($eredmeny);
+
+// Termék megtekintésének rögzítése
+if ($id > 0) {
+    $ugyfel_id = isset($_SESSION['webshop_id']) ? intval($_SESSION['webshop_id']) : 0;
+    $session_id = session_id();
+    
+    // Hibakereséshez: naplózzuk a session_id-t
+    error_log("Session ID: " . $session_id);
+    
+    $sql_check = "SELECT id FROM megtekintve 
+                  WHERE arucikk_id = $id 
+                  AND (
+                      (ugyfel_id = $ugyfel_id AND ugyfel_id > 0) 
+                      OR 
+                      (session_id = '$session_id' AND ugyfel_id = 0)
+                  ) 
+                  AND mikor > NOW() - INTERVAL 1 DAY
+                  LIMIT 1";
+                  
+    $check_result = mysqli_query($kapcsolat, $sql_check);
+    
+    if (!$check_result) {
+        error_log("Hiba a lekérdezésben: " . mysqli_error($kapcsolat));
+    }
+    
+    if (mysqli_num_rows($check_result) == 0) {
+        $sql_insert = "INSERT INTO megtekintve (ugyfel_id, session_id, arucikk_id) 
+                       VALUES ($ugyfel_id, '$session_id', $id)";
+        if (!mysqli_query($kapcsolat, $sql_insert)) {
+            error_log("Hiba a beszúrásnál: " . mysqli_error($kapcsolat));
+        } else {
+            error_log("Sikeres beszúrás: " . $sql_insert);
+        }
+    }
+}
 
 // Adatok kinyerése
 $nev = htmlspecialchars($sor['nev']);
@@ -147,6 +187,11 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 </div>
 
 <?php include("alja.php"); ?>
+
+    <!-- Bootstrap JS bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 
 </body>
 </html>

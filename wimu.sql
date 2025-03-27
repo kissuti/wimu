@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 26. 00:37
+-- Létrehozás ideje: 2025. Már 27. 23:54
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.0.30
 
@@ -48,8 +48,8 @@ CREATE TABLE `arucikk` (
 --
 
 INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hosszu_leiras`, `ar_huf`, `egyseg`, `kat1`, `kat2`, `kat3`, `raktaron`) VALUES
-(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 15),
-(2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13?14 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek ? például USB-C, HDMI és Wi?Fi ? megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 28),
+(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 0),
+(2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13?14 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek ? például USB-C, HDMI és Wi?Fi ? megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 20),
 (3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'qweqweqweqwe', 'qweqwewerrrr', 132000, 'darab', 1, 2, 3, 30),
 (4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 119000, 'darab', 1, 2, 4, 58);
 
@@ -62,8 +62,8 @@ INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hossz
 CREATE TABLE `kategoriak` (
   `id` bigint(6) UNSIGNED NOT NULL,
   `nev` varchar(150) NOT NULL,
-  `szulo1` bigint(6) UNSIGNED NOT NULL DEFAULT 0,
-  `szulo2` bigint(6) UNSIGNED NOT NULL DEFAULT 0
+  `szulo1` bigint(6) UNSIGNED DEFAULT NULL,
+  `szulo2` bigint(6) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
 --
@@ -74,23 +74,23 @@ INSERT INTO `kategoriak` (`id`, `nev`, `szulo1`, `szulo2`) VALUES
 (5, '2-in-1 eszközök (átváltó táblagépek/laptopok)', 1, 2),
 (48, 'Arckrémek (hidratáló, anti-aging)', 46, 47),
 (4, 'Asztali számítógépek (workstation, otthoni PC-k)', 1, 2),
-(69, 'Barkács Eszközök', 64, 0),
-(47, 'Bőrápolás', 46, 0),
-(20, 'Bútorok', 19, 0),
+(69, 'Barkács Eszközök', 64, NULL),
+(47, 'Bőrápolás', 46, NULL),
+(20, 'Bútorok', 19, NULL),
 (71, 'Csiszológépek', 64, 69),
-(24, 'Dekoráció', 19, 0),
-(1, 'Elektronika', 0, 0),
+(24, 'Dekoráció', 19, NULL),
+(1, 'Elektronika', NULL, NULL),
 (23, 'Étkező bútorok', 19, 20),
 (25, 'Faliképek és poszterek', 19, 24),
 (13, 'Felsők és blúzok', 10, 11),
-(15, 'Férfi ruházat', 10, 0),
-(29, 'Fitness Eszközök', 28, 0),
-(38, 'Főzőedények', 37, 0),
+(15, 'Férfi ruházat', 10, NULL),
+(29, 'Fitness Eszközök', 28, NULL),
+(38, 'Főzőedények', 37, NULL),
 (70, 'Fúrógépek és csavarozók', 64, 69),
 (30, 'Futópadok, elliptikus trénerek', 28, 29),
 (66, 'Fűnyírók (elektromos, benzines)', 64, 65),
-(55, 'Gyermekjátékok', 0, 0),
-(51, 'Hajápolás', 46, 0),
+(55, 'Gyermekjátékok', NULL, NULL),
+(51, 'Hajápolás', 46, NULL),
 (53, 'Hajformázó termékek (zselé, hab)', 46, 51),
 (54, 'Hajszárítók és hajvasalók', 46, 51),
 (22, 'Hálószoba bútorok (ágyak, komódok)', 19, 20),
@@ -102,10 +102,10 @@ INSERT INTO `kategoriak` (`id`, `nev`, `szulo1`, `szulo2`) VALUES
 (45, 'Kenyérpirítók', 37, 42),
 (35, 'Kerékpárok és kiegészítők', 28, 33),
 (63, 'Kerékpárok és rollerek', 55, 60),
-(64, 'Kert és Barkács', 0, 0),
-(65, 'Kerti Szerszámok', 64, 0),
-(37, 'Konyhai Eszközök', 0, 0),
-(42, 'Konyhai Kisgépek', 37, 0),
+(64, 'Kert és Barkács', NULL, NULL),
+(65, 'Kerti Szerszámok', 64, NULL),
+(37, 'Konyhai Eszközök', NULL, NULL),
+(42, 'Konyhai Kisgépek', 37, NULL),
 (41, 'Kuktafazekak', 37, 38),
 (40, 'Lábasok és fazekak (rozsdamentes acél, zománcozott)', 37, 38),
 (26, 'Lámpák és világítástechnika', 19, 24),
@@ -117,26 +117,26 @@ INSERT INTO `kategoriak` (`id`, `nev`, `szulo1`, `szulo2`) VALUES
 (17, 'Nadrágok (farmerek)', 10, 15),
 (21, 'Nappali bútorok (kanapék, fotelok)', 19, 20),
 (12, 'Női ruhák (koktélruha, hétköznapi viselet)', 10, 11),
-(11, 'Női ruházat', 10, 0),
+(11, 'Női ruházat', 10, NULL),
 (59, 'Nyelvtanuló játékok', 55, 56),
-(56, 'Oktató Játékok', 55, 0),
+(56, 'Oktató Játékok', 55, NULL),
 (8, 'OLED televíziók', 1, 6),
-(19, 'Otthoni Kiegészítők', 0, 0),
-(33, 'Outdoor és Kaland', 28, 0),
+(19, 'Otthoni Kiegészítők', NULL, NULL),
+(33, 'Outdoor és Kaland', 28, NULL),
 (57, 'Puzzle-k és kirakók', 55, 56),
-(10, 'Ruházat', 0, 0),
+(10, 'Ruházat', NULL, NULL),
 (52, 'Samponok és balzsamok (normál, száraz hajra)', 46, 51),
 (39, 'Serpenyők (tapadásmentes, öntöttvas)', 37, 38),
 (9, 'Smart TV-k', 1, 6),
-(28, 'Sport és Szabadidő', 0, 0),
+(28, 'Sport és Szabadidő', NULL, NULL),
 (36, 'Sportcipők és sportruházat', 28, 33),
 (31, 'Súlyzók, edzőszalagok', 28, 29),
-(60, 'Szabadtéri Játékok', 55, 0),
-(2, 'Számítógépek és Laptopok', 1, 0),
-(46, 'Szépségápolás', 0, 0),
+(60, 'Szabadtéri Játékok', 55, NULL),
+(2, 'Számítógépek és Laptopok', 1, NULL),
+(46, 'Szépségápolás', NULL, NULL),
 (14, 'Szoknyák és nadrágok', 10, 11),
 (27, 'Szőnyegek és dísztárgyak', 19, 24),
-(6, 'Televíziók', 1, 0),
+(6, 'Televíziók', 1, NULL),
 (49, 'Testápolók', 46, 47),
 (50, 'Tisztítók és tonikok', 46, 47),
 (58, 'Tudományos készletek', 55, 56),
@@ -160,13 +160,6 @@ CREATE TABLE `kosar` (
   `mikor` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `kosar`
---
-
-INSERT INTO `kosar` (`id`, `arucikk_id`, `ugyfel_id`, `rendeles_id`, `session_id`, `db`, `mikor`) VALUES
-(5, 1, 1, 0, '', 15, '2025-03-26 00:32:03');
-
 -- --------------------------------------------------------
 
 --
@@ -176,7 +169,7 @@ INSERT INTO `kosar` (`id`, `arucikk_id`, `ugyfel_id`, `rendeles_id`, `session_id
 CREATE TABLE `megtekintve` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `ugyfel_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `session_id` varchar(100) NOT NULL,
+  `session_id` varchar(100) NOT NULL DEFAULT '',
   `arucikk_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `mikor` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
@@ -195,20 +188,6 @@ CREATE TABLE `naplo` (
   `sikertelen` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `kilepes` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `naplo`
---
-
-INSERT INTO `naplo` (`id`, `email`, `mikor`, `sikeres`, `sikertelen`, `kilepes`) VALUES
-(1, 'admin@admin.com', '2025-03-25 23:21:21', 1, 0, '2025-03-25 23:21:21'),
-(2, 'admin@admin.com', '2025-03-25 23:56:01', 1, 0, '2025-03-25 23:56:01'),
-(3, 'admin@admin.com', '2025-03-25 23:57:38', 1, 0, '2025-03-25 23:57:38'),
-(4, 'admin@admin.com', '2025-03-25 23:59:35', 1, 0, '2025-03-25 23:59:35'),
-(5, 'admin@admin.com', '2025-03-26 00:22:41', 1, 0, '2025-03-26 00:22:41'),
-(6, 'admin@admin.com', '2025-03-26 00:24:15', 1, 0, '2025-03-26 00:24:15'),
-(7, 'admin@admin.com', '2025-03-26 00:28:38', 1, 0, '2025-03-26 00:28:38'),
-(8, 'admin@admin.com', '2025-03-26 00:29:31', 1, 0, '2025-03-26 00:29:31');
 
 -- --------------------------------------------------------
 
@@ -238,6 +217,20 @@ CREATE TABLE `rendelesek` (
   `sz_irszam` varchar(20) NOT NULL,
   `sz_varos` varchar(100) NOT NULL,
   `sz_utca` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `rendeles_tetelek`
+--
+
+CREATE TABLE `rendeles_tetelek` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rendeles_id` bigint(20) UNSIGNED NOT NULL,
+  `arucikk_id` bigint(20) UNSIGNED NOT NULL,
+  `db` int(4) UNSIGNED NOT NULL,
+  `ar_huf` bigint(6) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -276,7 +269,8 @@ CREATE TABLE `ugyfel` (
 --
 
 INSERT INTO `ugyfel` (`id`, `email`, `nev`, `kod`, `jelszo`, `reg_idopont`, `megerositve`, `uj_email`, `uj_kod`, `session_id`, `ervenyes`, `telefon`, `kulfoldi`, `orszag`, `irszam`, `varos`, `utca`, `sz_nev`, `sz_irszam`, `sz_varos`, `sz_utca`, `role`) VALUES
-(1, 'admin@admin.com', 'admin', '', '$2y$10$xql9sFrWGZAeQSmklYMwUeEizH6uqkimVKqghh6o0d7lBCcy8Rud2', '2025-03-25 23:21:17', '2025-03-25 23:21:17', '', '', 'bfa6pqhel2mchch48eqnmjq8rk', '2025-03-26 01:29:31', '06-30303030', 0, 'Magyarország', '7632', 'Pécs', 'Utca utca 2.', 'admin', '7632', 'Pécs', 'Utca utca 2.', 'admin');
+(1, 'admin@admin.com', 'admin', '', '$2y$10$GiUy1DvP4FH5t8eiAf1RM.dnFaei01ZDzsYxDalurWwb.ZihllV6a', '2025-03-27 22:33:51', '2025-03-27 22:33:51', '', '', 'nls73dpgcac5do945hdto84bov', '2025-03-28 00:06:53', '+36 50 111 1111', 0, 'Magyarország', '7623', 'Pécs', 'Utca utca 2.', 'admin', '7623', 'Pécs', 'Utca utca 2.', 'admin'),
+(2, 'profile@profile.com', 'Profile', '', '$2y$10$ZJby9yhaetd7kqUTtTmRu.59fHU8CsxjJAt/756lbbhqw3naWAahO', '2025-03-27 22:34:32', '2025-03-27 22:34:32', '', '', '', '0000-00-00 00:00:00', '', 0, '', '', '', '', '', '', '', '', 'user');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -295,7 +289,9 @@ ALTER TABLE `arucikk`
 --
 ALTER TABLE `kategoriak`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `nev` (`nev`,`szulo1`,`szulo2`);
+  ADD KEY `nev` (`nev`,`szulo1`,`szulo2`),
+  ADD KEY `szulo1` (`szulo1`),
+  ADD KEY `szulo2` (`szulo2`);
 
 --
 -- A tábla indexei `kosar`
@@ -303,14 +299,16 @@ ALTER TABLE `kategoriak`
 ALTER TABLE `kosar`
   ADD PRIMARY KEY (`id`),
   ADD KEY `arucikk_id` (`arucikk_id`,`ugyfel_id`,`session_id`,`mikor`),
-  ADD KEY `rendeles_id` (`rendeles_id`);
+  ADD KEY `rendeles_id` (`rendeles_id`),
+  ADD KEY `ugyfel_id` (`ugyfel_id`);
 
 --
 -- A tábla indexei `megtekintve`
 --
 ALTER TABLE `megtekintve`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ugyfel_id` (`ugyfel_id`,`session_id`,`arucikk_id`,`mikor`);
+  ADD KEY `ugyfel_id` (`ugyfel_id`,`session_id`,`arucikk_id`,`mikor`),
+  ADD KEY `arucikk_id` (`arucikk_id`);
 
 --
 -- A tábla indexei `naplo`
@@ -331,6 +329,14 @@ ALTER TABLE `rendelesek`
   ADD KEY `teljesitve` (`teljesitve`),
   ADD KEY `torolve` (`torolve`),
   ADD KEY `nev` (`nev`);
+
+--
+-- A tábla indexei `rendeles_tetelek`
+--
+ALTER TABLE `rendeles_tetelek`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rendeles_id` (`rendeles_id`),
+  ADD KEY `arucikk_id` (`arucikk_id`);
 
 --
 -- A tábla indexei `ugyfel`
@@ -362,7 +368,7 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT a táblához `kosar`
 --
 ALTER TABLE `kosar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `megtekintve`
@@ -374,19 +380,65 @@ ALTER TABLE `megtekintve`
 -- AUTO_INCREMENT a táblához `naplo`
 --
 ALTER TABLE `naplo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `rendelesek`
 --
 ALTER TABLE `rendelesek`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT a táblához `rendeles_tetelek`
+--
+ALTER TABLE `rendeles_tetelek`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `ugyfel`
 --
 ALTER TABLE `ugyfel`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Megkötések a kiírt táblákhoz
+--
+
+--
+-- Megkötések a táblához `kategoriak`
+--
+ALTER TABLE `kategoriak`
+  ADD CONSTRAINT `kategoriak_ibfk_1` FOREIGN KEY (`szulo1`) REFERENCES `kategoriak` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `kategoriak_ibfk_2` FOREIGN KEY (`szulo2`) REFERENCES `kategoriak` (`id`) ON DELETE SET NULL;
+
+--
+-- Megkötések a táblához `kosar`
+--
+ALTER TABLE `kosar`
+  ADD CONSTRAINT `kosar_ibfk_1` FOREIGN KEY (`arucikk_id`) REFERENCES `arucikk` (`id`),
+  ADD CONSTRAINT `kosar_ibfk_2` FOREIGN KEY (`ugyfel_id`) REFERENCES `ugyfel` (`id`);
+
+--
+-- Megkötések a táblához `megtekintve`
+--
+ALTER TABLE `megtekintve`
+  ADD CONSTRAINT `megtekintve_ibfk_1` FOREIGN KEY (`ugyfel_id`) REFERENCES `ugyfel` (`id`),
+  ADD CONSTRAINT `megtekintve_ibfk_2` FOREIGN KEY (`arucikk_id`) REFERENCES `arucikk` (`id`);
+
+--
+-- Megkötések a táblához `rendelesek`
+--
+ALTER TABLE `rendelesek`
+  ADD CONSTRAINT `rendelesek_ibfk_1` FOREIGN KEY (`ugyfel_id`) REFERENCES `ugyfel` (`id`);
+
+--
+-- Megkötések a táblához `rendeles_tetelek`
+--
+ALTER TABLE `rendeles_tetelek`
+  ADD CONSTRAINT `rendeles_tetelek_ibfk_1` FOREIGN KEY (`rendeles_id`) REFERENCES `rendelesek` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `rendeles_tetelek_ibfk_2` FOREIGN KEY (`arucikk_id`) REFERENCES `arucikk` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `rendeles_tetelek_ibfk_3` FOREIGN KEY (`rendeles_id`) REFERENCES `rendelesek` (`id`),
+  ADD CONSTRAINT `rendeles_tetelek_ibfk_4` FOREIGN KEY (`arucikk_id`) REFERENCES `arucikk` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

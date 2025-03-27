@@ -20,10 +20,13 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $eredmeny = $stmt->get_result();
 
-if ($eredmeny->num_rows == 0) {
-    $_SESSION['hiba'] = "Felhasználó nem található!";
-    header("Location: index.php");
-    exit();
+if (!isset($_SESSION['belepve']) || $_SESSION['belepve'] != 1) {
+  header("Location: belepes.php");
+  exit();
+}
+
+if ($eredmeny->num_rows === 0) {
+  die("Hiba: A felhasználó nem található.");
 }
 
 $sor = $eredmeny->fetch_assoc();
@@ -33,7 +36,7 @@ $sor = $eredmeny->fetch_assoc();
 <head>
   <title>Profil szerkesztése</title>
   <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">ű
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/profilmodosit.css">
   <script type="text/javascript">
     function helyescim(emcim) {
@@ -93,12 +96,12 @@ $sor = $eredmeny->fetch_assoc();
               <p class="modositszoveg fs-4 bi bi-gear-fill"> Profil módosítás</p>
               <div class="mb-3">
                 <label class="form-label">Teljes név:</label>
-                <input type="text" name="nev" class="form-control modositinput border-5" value="<?= htmlspecialchars($sor['nev']) ?>" required>
+                <input type="text" name="nev" class="form-control modositinput border-5" value="<?= isset($sor['nev']) ? htmlspecialchars($sor['nev']) : ''  ?>" required>
               </div>
-
               <div class="mb-3">
                 <label class="form-label">E-mail cím:</label>
-                <input type="email" name="email" class="form-control modositinput border-5" value="<?= htmlspecialchars($sor['email']) ?>" required>
+                <input type="email" name="email" class="form-control modositinput border-5" 
+                      value="<?= htmlspecialchars($sor['email'] ?? '') ?>" required> 
               </div>
 
               <div class="mb-3">

@@ -38,6 +38,11 @@ if ($webshop_email != "" && $webshop_jelszo != "") {
     $webshop_nev = $sor["nev"];
     $webshop_role = $sor["role"]; // Új változó a role tárolására
     $belepve = 1;
+
+    $_SESSION['belepve'] = 1;
+    $_SESSION['webshop_id'] = $webshop_id;
+    $_SESSION['webshop_nev'] = $webshop_nev;
+    $_SESSION['webshop_role'] = $webshop_role;
   }
 }
 
