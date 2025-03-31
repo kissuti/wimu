@@ -156,7 +156,7 @@ while ($sor = mysqli_fetch_array($eredmeny)) {
     <div class="container mt-4">
         <div class="card shadow">
             <div class="card-header bg-success text-white">
-                <h3 class="mb-0">🥳 Rendelés sikeres!</h3>
+                <h3 class="mb-0">Rendelés sikeres!</h3>
             </div>
             <div class="card-body">
                 <p class="lead">Köszönjük a rendelést, <strong><?= htmlspecialchars($webshop_nev) ?></strong>!</p>
@@ -180,6 +180,10 @@ while ($sor = mysqli_fetch_array($eredmeny)) {
     </div>
 
     <?php include("alja.php"); ?>
+        <!-- Bootstrap JS bundle (Popper included) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 </body>
 </html>
 <?php

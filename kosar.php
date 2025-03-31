@@ -96,10 +96,6 @@ if (isset($_GET['torolni'])) {
       </div>
     </div>
   </div>
-
-  <!-- Bootstrap JS bundle (Popper included) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-          integrity="sha384-ENjdO4Dr2bkBIFxQpeoRZr8Ely2JztgS0rWErX5JqNQu/8kmwDKdIm2w2O8yK6gT" crossorigin="anonymous"></script>
   
   <!-- Iframe méret beállítása (ha szükséges) -->
   <script>
@@ -109,6 +105,10 @@ if (isset($_GET['torolni'])) {
       parent.document.getElementById('kosar').style.height = `${frameHeight}px`;
     }
   </script>
+      <!-- Bootstrap JS bundle (Popper included) -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 </body>
 </html>
 <?php

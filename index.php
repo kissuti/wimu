@@ -237,7 +237,7 @@ $oldalak = ceil($osszes / $laponkent);
               <form class="add-to-cart d-inline" action="kosarba_tesz.php" method="POST">
                 <input type="hidden" name="arucikk_id" value="<?= $id ?>">
                 <div class="input-group mb-3" style="max-width: 150px;">
-                  <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
+                  <button type="button" class="btn rounded-3 btn-outline-secondary minus-btn">-</button>
                   <input type="number" name="db" 
                         class="form-control text-center"
                         value="1" 
