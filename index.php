@@ -236,17 +236,11 @@ $oldalak = ceil($osszes / $laponkent);
             <?php if ($raktaron > 0) { ?>
               <form class="add-to-cart d-inline" action="kosarba_tesz.php" method="POST">
                 <input type="hidden" name="arucikk_id" value="<?= $id ?>">
-                <div class="input-group mb-3" style="max-width: 150px;">
-                  <button type="button" class="btn rounded-3 btn-outline-secondary minus-btn">-</button>
-                  <input type="number" name="db" 
-                        class="form-control text-center"
-                        value="1" 
-                        min="1" 
-                        max="<?= $raktaron ?>"
-                        readonly>
-                  <button type="button" class="btn rounded-3 btn-outline-secondary plus-btn">+</button>
+                <div class="input-group mb-3" style="max-width: 100px;">
+                  <input type="number" name="db" class="form-control" value="1" min="1" max="<?= $raktaron ?>">
                 </div>
                 <div class="mt-2">
+                <div class="h5 font-weight-bold"><?= szampontos($ar_huf) ?> HUF</div>
                   <button type="submit" class="w-100 kosarbtn p-2 mb-1">
                     <span>Kosárba <i class="bi bi-cart"></i></span>
                   </button>

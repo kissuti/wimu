@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 27. 23:54
+-- Létrehozás ideje: 2025. Ápr 02. 20:40
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.0.30
 
@@ -48,10 +48,10 @@ CREATE TABLE `arucikk` (
 --
 
 INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hosszu_leiras`, `ar_huf`, `egyseg`, `kat1`, `kat2`, `kat3`, `raktaron`) VALUES
-(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz ? például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 0),
-(2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13?14 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek ? például USB-C, HDMI és Wi?Fi ? megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 20),
-(3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'qweqweqweqwe', 'qweqwewerrrr', 132000, 'darab', 1, 2, 3, 30),
-(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 119000, 'darab', 1, 2, 4, 58);
+(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz, például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 15),
+(2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek, például USB-C, HDMI és WiFi, megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 10),
+(3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'Nagy akkumulátor élettartam. Erős hardver. Kiváló hűtés.', 'A gaming laptopok egyik legfontosabb jellemzője az erős processzor, amely lehetővé teszi a gyors adatfeldolgozást és a gördülékeny játékélményt. Emellett a nagy teljesítményű dedikált videokártya elengedhetetlen, hogy a játékok grafikája részletgazdag és élethű legyen. A legtöbb gaming laptop legalább 16 GB RAM-mal rendelkezik, de a csúcskategóriás modellek akár 32 vagy 64 GB memóriával is felszerelhetők a maximális teljesítmény érdekében.', 124990, 'darab', 1, 2, 3, 20),
+(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 99990, 'darab', 1, 2, 4, 30);
 
 -- --------------------------------------------------------
 
@@ -72,76 +72,22 @@ CREATE TABLE `kategoriak` (
 
 INSERT INTO `kategoriak` (`id`, `nev`, `szulo1`, `szulo2`) VALUES
 (5, '2-in-1 eszközök (átváltó táblagépek/laptopok)', 1, 2),
-(48, 'Arckrémek (hidratáló, anti-aging)', 46, 47),
 (4, 'Asztali számítógépek (workstation, otthoni PC-k)', 1, 2),
-(69, 'Barkács Eszközök', 64, NULL),
-(47, 'Bőrápolás', 46, NULL),
-(20, 'Bútorok', 19, NULL),
-(71, 'Csiszológépek', 64, 69),
-(24, 'Dekoráció', 19, NULL),
 (1, 'Elektronika', NULL, NULL),
-(23, 'Étkező bútorok', 19, 20),
-(25, 'Faliképek és poszterek', 19, 24),
 (13, 'Felsők és blúzok', 10, 11),
 (15, 'Férfi ruházat', 10, NULL),
-(29, 'Fitness Eszközök', 28, NULL),
-(38, 'Főzőedények', 37, NULL),
-(70, 'Fúrógépek és csavarozók', 64, 69),
-(30, 'Futópadok, elliptikus trénerek', 28, 29),
-(66, 'Fűnyírók (elektromos, benzines)', 64, 65),
-(55, 'Gyermekjátékok', NULL, NULL),
-(51, 'Hajápolás', 46, NULL),
-(53, 'Hajformázó termékek (zselé, hab)', 46, 51),
-(54, 'Hajszárítók és hajvasalók', 46, 51),
-(22, 'Hálószoba bútorok (ágyak, komódok)', 19, 20),
-(61, 'Hinták és csúszdák', 55, 60),
-(62, 'Homokozók és kiegészítők', 55, 60),
 (16, 'Ingek és pólók', 10, 15),
-(32, 'Jóga- és pilates kellékek', 28, 29),
-(44, 'Kávéfőzők (eszpresszó, filteres)', 37, 42),
-(45, 'Kenyérpirítók', 37, 42),
-(35, 'Kerékpárok és kiegészítők', 28, 33),
-(63, 'Kerékpárok és rollerek', 55, 60),
-(64, 'Kert és Barkács', NULL, NULL),
-(65, 'Kerti Szerszámok', 64, NULL),
-(37, 'Konyhai Eszközök', NULL, NULL),
-(42, 'Konyhai Kisgépek', 37, NULL),
-(41, 'Kuktafazekak', 37, 38),
-(40, 'Lábasok és fazekak (rozsdamentes acél, zománcozott)', 37, 38),
-(26, 'Lámpák és világítástechnika', 19, 24),
 (3, 'Laptopok (általános, gaming, ultrabook)', 1, 2),
 (7, 'LED televíziók', 1, 6),
-(68, 'Locsolórendszerek', 64, 65),
-(72, 'Mérőeszközök (vízmérték, mérőszalag)', 64, 69),
-(67, 'Metszőollók és fűrészek', 64, 65),
-(17, 'Nadrágok (farmerek)', 10, 15),
-(21, 'Nappali bútorok (kanapék, fotelok)', 19, 20),
+(17, 'Nadrágok (farmerek, chino)', 10, 15),
 (12, 'Női ruhák (koktélruha, hétköznapi viselet)', 10, 11),
 (11, 'Női ruházat', 10, NULL),
-(59, 'Nyelvtanuló játékok', 55, 56),
-(56, 'Oktató Játékok', 55, NULL),
 (8, 'OLED televíziók', 1, 6),
-(19, 'Otthoni Kiegészítők', NULL, NULL),
-(33, 'Outdoor és Kaland', 28, NULL),
-(57, 'Puzzle-k és kirakók', 55, 56),
 (10, 'Ruházat', NULL, NULL),
-(52, 'Samponok és balzsamok (normál, száraz hajra)', 46, 51),
-(39, 'Serpenyők (tapadásmentes, öntöttvas)', 37, 38),
 (9, 'Smart TV-k', 1, 6),
-(28, 'Sport és Szabadidő', NULL, NULL),
-(36, 'Sportcipők és sportruházat', 28, 33),
-(31, 'Súlyzók, edzőszalagok', 28, 29),
-(60, 'Szabadtéri Játékok', 55, NULL),
 (2, 'Számítógépek és Laptopok', 1, NULL),
-(46, 'Szépségápolás', NULL, NULL),
 (14, 'Szoknyák és nadrágok', 10, 11),
-(27, 'Szőnyegek és dísztárgyak', 19, 24),
 (6, 'Televíziók', 1, NULL),
-(49, 'Testápolók', 46, 47),
-(50, 'Tisztítók és tonikok', 46, 47),
-(58, 'Tudományos készletek', 55, 56),
-(34, 'Túrafelszerelések (táskák, sátrak, hálózsákok)', 28, 33),
-(43, 'Turmixgépek és mixerek', 37, 42),
 (18, 'Zakók és öltönyök', 10, 15);
 
 -- --------------------------------------------------------
@@ -173,6 +119,13 @@ CREATE TABLE `megtekintve` (
   `arucikk_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `mikor` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `megtekintve`
+--
+
+INSERT INTO `megtekintve` (`id`, `ugyfel_id`, `session_id`, `arucikk_id`, `mikor`) VALUES
+(1, 1, 'm52nt989k6t89m6l38n9b66du7', 3, '2025-04-02 20:20:55');
 
 -- --------------------------------------------------------
 
@@ -356,25 +309,25 @@ ALTER TABLE `ugyfel`
 -- AUTO_INCREMENT a táblához `arucikk`
 --
 ALTER TABLE `arucikk`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `kategoriak`
 --
 ALTER TABLE `kategoriak`
-  MODIFY `id` bigint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` bigint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `kosar`
 --
 ALTER TABLE `kosar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `megtekintve`
 --
 ALTER TABLE `megtekintve`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `naplo`
@@ -386,7 +339,7 @@ ALTER TABLE `naplo`
 -- AUTO_INCREMENT a táblához `rendelesek`
 --
 ALTER TABLE `rendelesek`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `rendeles_tetelek`

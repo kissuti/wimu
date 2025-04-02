@@ -50,7 +50,7 @@ if ($mit == "kategoria") {
             <option value="0" <?php if($kat1==0){ echo "selected"; } ?>>válaszd ki a fő kategóriát</option>
             <?php
             $kategoria = "";
-            $sql = "SELECT * FROM kategoriak WHERE szulo1=0 ORDER BY id";
+            $sql = "SELECT * FROM kategoriak WHERE szulo1 IS NULL ORDER BY id";
             $eredmeny = mysqli_query($kapcsolat, $sql);
             while ($sor = mysqli_fetch_array($eredmeny)) {
                 $id = $sor["id"];
@@ -66,7 +66,7 @@ if ($mit == "kategoria") {
         <?php
         // 2.szint (ha van alatta kategória)
         if ($kat1 > 0) {
-            $sql = "SELECT * FROM kategoriak WHERE szulo1=? AND szulo2=0 ORDER BY id";
+            $sql = "SELECT * FROM kategoriak WHERE szulo1=? AND szulo2 IS NULL ORDER BY id";
             $stmt = $kapcsolat->prepare($sql);
             $stmt->bind_param("i", $kat1);
             $stmt->execute();

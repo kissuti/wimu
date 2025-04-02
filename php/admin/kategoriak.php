@@ -58,7 +58,7 @@ if ($szint == 2) {
           <select name="kat1" class="form-select border-5" onChange="if (this.value != '0') { document.getElementById('urlap').szint.value=1; document.getElementById('urlap').submit(); }">
             <option value="0" <?php if ($kat1==0) { echo "selected"; } ?>>Új 1. szintű kategória felvétele</option>
             <?php
-            $sql = "SELECT * FROM kategoriak WHERE szulo1=0 ORDER BY id";
+            $sql = "SELECT * FROM kategoriak WHERE szulo1 IS NULL ORDER BY id"; 
             $eredmeny = mysqli_query($kapcsolat, $sql);
             while ($sor = mysqli_fetch_array($eredmeny)) {
               $id = $sor["id"];
@@ -73,7 +73,7 @@ if ($szint == 2) {
 
         <?php
         if ($kat1 > 0) {
-          $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2=0 ORDER BY id";
+          $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2 IS NULL ORDER BY id";
           $eredmeny = mysqli_query($kapcsolat, $sql);
           ?>
           <div class="mb-3">
@@ -135,14 +135,18 @@ if ($szint == 2) {
       <?php
     } // vége a "lista" ágának
 
-    // FELVÉTEL
-    elseif ($mit=="felvesz") {
-      // A $_REQUEST-ből már elérhető a "neve" is
-      $neve = isset($_REQUEST['neve']) ? $_REQUEST['neve'] : "";
-      if (!empty($neve)) {
-        $sql = "INSERT INTO kategoriak (nev, szulo1, szulo2) VALUES ('$neve', $kat1, $kat2)";
-        mysqli_query($kapcsolat, $sql);
-        $new_id = mysqli_insert_id($kapcsolat);
+      // FELVÉTEL
+      elseif ($mit=="felvesz") {
+        // A $_REQUEST-ből már elérhető a "neve" is
+        $neve = isset($_REQUEST['neve']) ? mysqli_real_escape_string($kapcsolat, $_REQUEST['neve']) : "";
+        if (!empty($neve)) {
+          // Szülő ID-k kezelése NULL értékre, ha 0
+          $szulo1 = ($kat1 > 0) ? $kat1 : 'NULL';
+          $szulo2 = ($kat2 > 0) ? $kat2 : 'NULL';
+          
+          $sql = "INSERT INTO kategoriak (nev, szulo1, szulo2) VALUES ('$neve', $szulo1, $szulo2)";
+          mysqli_query($kapcsolat, $sql) or die(mysqli_error($kapcsolat)); // Hiba debug-hoz
+          $new_id = mysqli_insert_id($kapcsolat);
 
         if ($szint == 0) {
           $kat1 = $new_id;

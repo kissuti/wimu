@@ -150,11 +150,11 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
             <img src="img/<?= $foto ?>" class="img-fluid product-image img-thumbnail shadow-lg " alt="<?= $nev ?>">
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 p-5">
             <h1><?= $nev ?></h1>
             <h3 class="text-muted"><?= $nev2 ?></h3>
             
-            <div class="price">Ár: <?= $ar_huf ?> HUF</div>
+            <div class="price fw-bold p-2">Ár: <?= $ar_huf ?> HUF</div>
             
             <form class="add-to-cart" action="kosarba_tesz.php" method="POST" class="mb-4">
                 <input type="hidden" name="arucikk_id" value="<?= $id ?>">
