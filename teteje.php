@@ -94,6 +94,7 @@ if(isset($_POST['mit']) && $_POST['mit'] == 'ellenoriz') {
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                 <?php if($belepve): ?>
                   <li><a class="dropdown-item" href="profil_modosit.php"><i class="bi bi-person"></i> Profil</a></li>
+                  <li><a href="korabbi_rendelesek.php" class="dropdown-item"><i class="bi bi-bag-check"></i> Korábbi rendelések</a></li>
                   <!-- Ellenőrizzük, hogy a szerepkör, kisbetűsítve, megegyezik-e az "admin" sztringgel -->
                   <?php if(isset($webshop_role) && strtolower(trim($webshop_role)) === 'admin'): ?>
                     <li><a class="dropdown-item text-danger" href="php/admin-index.php"><i class="bi bi-shield-lock"></i> Admin felület</a></li>
@@ -114,7 +115,7 @@ if(isset($_POST['mit']) && $_POST['mit'] == 'ellenoriz') {
 
 
 
-    <div class="row">
+    <div class="row" style="height: 614px;">
       <div class="col-md-3" style="background-color: white;">
         <div class="bg-white p-0 text-center border">
           <iframe id="kosar" name="kosar" src="kosar.php" class="w-100" height="100" scrolling="no" frameborder="0"></iframe>

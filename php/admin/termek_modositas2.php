@@ -91,7 +91,7 @@ if ($mit == "urlap") {
                         <select name="kat1" class="form-select border-5" onchange="this.form.submit()">
                             <option value="0">Válassz fő kategóriát</option>
                             <?php
-                            $sql = "SELECT * FROM kategoriak WHERE szulo1 = 0 ORDER BY nev";
+                            $sql = "SELECT * FROM kategoriak WHERE szulo1 IS NULL ORDER BY nev";
                             $eredmeny = mysqli_query($kapcsolat, $sql);
                             while ($sor = mysqli_fetch_array($eredmeny)) {
                                 echo '<option value="'.$sor['id'].'" '.($kat1==$sor['id']?'selected':'').'>'.$sor['nev'].'</option>';
@@ -106,7 +106,7 @@ if ($mit == "urlap") {
                         <select name="kat2" class="form-select border-5" onchange="this.form.submit()">
                             <option value="0">Válassz alkategóriát</option>
                             <?php
-                            $sql = "SELECT * FROM kategoriak WHERE szulo1 = ? AND szulo2 = 0 ORDER BY nev";
+                            $sql = "SELECT * FROM kategoriak WHERE szulo1 = ? AND szulo2 IS NULL ORDER BY nev";
                             $stmt = $kapcsolat->prepare($sql);
                             $stmt->bind_param("i", $kat1);
                             $stmt->execute();

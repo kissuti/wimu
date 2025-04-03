@@ -101,7 +101,38 @@ $oldalak = ceil($osszes / $laponkent);
   <link rel="stylesheet" href="styles/index.css" />
   <link rel="stylesheet" href="styles/preloader.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
-  <script src="js/index.js"></script>
+  <script>
+    $(document).ready(function() {
+  $("form.add-to-cart").off("submit").on("submit", function(event) {
+    event.preventDefault();
+    var form = $(this);
+    var button = form.find('button');
+    button.prop('disabled', true);
+    
+    console.log("Submit event triggered");
+    
+    $.ajax({
+      type: form.attr('method'),
+      url: form.attr('action'),
+      data: form.serialize(),
+      success: function(response) {
+        alert("A termék sikeresen hozzáadva a kosárhoz!");
+        $("#kosar").attr("src", "kosar.php?t=" + new Date().getTime());
+        button.prop('disabled', false);
+      },
+      error: function(xhr) {
+        var errorMsg = xhr.status + ': ' + xhr.statusText;
+        if (xhr.responseText) {
+          errorMsg += ' - ' + xhr.responseText;
+        }
+        alert("Hiba történt: " + errorMsg);
+        button.prop('disabled', false);
+      }
+    });
+  });
+});
+
+  </script>
   <script src="js/preloader.js"></script>
 </head>
 <body style="background-color: #F0EFE7;">
@@ -125,7 +156,7 @@ $oldalak = ceil($osszes / $laponkent);
             <select name="kat1" class="form-select" style="width: 100%;" onChange="document.listazas.szint.value=1; document.listazas.submit()">
               <option value="0" <?php if ($kat1==0) { print "selected"; } ?>>Összes termék</option>
               <?php
-              $sql = "SELECT * FROM kategoriak WHERE szulo1=0 ORDER BY id";
+              $sql = "SELECT * FROM kategoriak WHERE szulo1 IS NULL ORDER BY id"; 
               $eredmeny = mysqli_query($kapcsolat, $sql);
               while ($sor = mysqli_fetch_array($eredmeny)) {
                 $id = $sor["id"];
@@ -157,7 +188,7 @@ $oldalak = ceil($osszes / $laponkent);
             <select name="kat2" class="form-select" onChange="document.listazas.szint.value=1; document.listazas.submit()">
               <option value="0" <?php if ($kat2==0) { print "selected"; } ?>>Összes</option>
               <?php
-              $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2=0 ORDER BY id";
+              $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2 IS NULL ORDER BY id";
               $eredmeny = mysqli_query($kapcsolat, $sql);
               while ($sor = mysqli_fetch_array($eredmeny)) {
                 $id = $sor["id"];

@@ -44,18 +44,17 @@ $osszeg = intval($_POST['osszeg'] ?? 0);
 <html>
 <head>
     <title>Rendelés összegzése</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .summary-card { border: 2px solid #28a745; border-radius: 15px; }
-        .total-row { background-color: #f8f9fa; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="styles/btn_gombok.css">
 </head>
 <body>
     <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
-        <div class="card summary-card shadow-lg">
-            <div class="card-header bg-success text-white">
+        <div class="card shadow-lg">
+            <div class="card-header" style="background-color: #bbbbbb;">
                 <h3><i class="bi bi-cart-check"></i> Rendelés összegzése</h3>
             </div>
             
@@ -94,9 +93,9 @@ $osszeg = intval($_POST['osszeg'] ?? 0);
                             </tr>
                             <?php endwhile; ?>
                             
-                            <tr class="total-row">
-                                <td colspan="3" class="text-end">Összesen:</td>
-                                <td class="text-end"><?= szampontos($osszeg) ?> HUF</td>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Összesen:</td>
+                                <td class="text-end fw-bold"><?= szampontos($osszeg) ?> HUF</td>
                             </tr>
                         </tbody>
                     </table>
@@ -108,7 +107,7 @@ $osszeg = intval($_POST['osszeg'] ?? 0);
                     <input type="hidden" name="fizet" value="<?= $fizet ?>">
                     
                     <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-success btn-lg">
+                        <button type="submit" class="btn btngombok">
                             <i class="bi bi-check-circle"></i> Rendelés véglegesítése
                         </button>
                     </div>
@@ -118,6 +117,10 @@ $osszeg = intval($_POST['osszeg'] ?? 0);
     </div>
 
     <?php include("alja.php"); ?>
+            <!-- Bootstrap JS bundle (Popper included) -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 </body>
 </html>
 <?php

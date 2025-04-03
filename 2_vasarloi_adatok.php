@@ -33,9 +33,6 @@ if ($webshop_email != "" && $webshop_jelszo != "") {
     $sz_varos = $sor["sz_varos"];
     $sz_utca = $sor["sz_utca"];
 
-    if ($telefon == "") {
-      $telefon = "06-";
-    }
     if ($kulfoldi == 0 && $orszag == "") {
       $orszag = "Magyarország";
     }
@@ -43,10 +40,10 @@ if ($webshop_email != "" && $webshop_jelszo != "") {
       $orszag = "";
     }
     if ($irszam == "") {
-      $irszam = "ir.szám";
+      $irszam = "Ir.szám";
     }
     if ($varos == "") {
-      $varos = "város v. helységnév";
+      $varos = "Város v. Helységnév";
     }
     if ($utca == "") {
       $utca = "utca, házszám stb.";
@@ -55,7 +52,7 @@ if ($webshop_email != "" && $webshop_jelszo != "") {
       $sz_irszam = "ir.szám";
     }
     if ($sz_varos == "") {
-      $sz_varos = "város v. helységnév";
+      $sz_varos = "Város v. Helységnév";
     }
     if ($sz_utca == "") {
       $sz_utca = "utca, házszám stb.";
@@ -166,7 +163,7 @@ if ($belepve == 1) {
       <h2 class="text-dark">Vásárlói adatok megadása</h2>
       
       <form name="urlap" action="3_fizetesi_modok.php" method="POST" class="bg-light p-4 rounded border">
-        <input type="hidden" name="osszeg" value="<?= $_POST['osszeg'] ?>">
+        <input type="hidden" name="osszeg" value="<?= $_POST['osszeg'] ?? '' ?>">
         <h4>Rendeléshez szükséges adatok:</h4>
 
         <div class="mb-3">
@@ -181,7 +178,7 @@ if ($belepve == 1) {
 
         <div class="mb-3">
           <label for="telefon" class="form-label">Telefonszám:</label>
-          <input type="text" name="telefon" class="form-control border-3" value="<?= $telefon ?>">
+          <input type="text" name="telefon" class="form-control border-3" value="<?= $telefon ?>" placeholder="+36 / 06">
         </div>
 
         <!-- HTML rész az ország mezővel -->
@@ -238,6 +235,10 @@ if ($belepve == 1) {
     </div>
 
     <?php include("alja.php"); ?>
+            <!-- Bootstrap JS bundle (Popper included) -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
   </body>
   </html>
 

@@ -20,11 +20,6 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $eredmeny = $stmt->get_result();
 
-if (!isset($_SESSION['belepve']) || $_SESSION['belepve'] != 1) {
-  header("Location: belepes.php");
-  exit();
-}
-
 if ($eredmeny->num_rows === 0) {
   die("Hiba: A felhasználó nem található.");
 }
@@ -101,7 +96,7 @@ $sor = $eredmeny->fetch_assoc();
               <div class="mb-3">
                 <label class="form-label">E-mail cím:</label>
                 <input type="email" name="email" class="form-control modositinput border-5" 
-                      value="<?= htmlspecialchars($sor['email'] ?? '') ?>" required> 
+                      value="<?= isset($sor['email']) ? htmlspecialchars($sor['email']) : ''  ?>" required> 
               </div>
 
               <div class="mb-3">

@@ -140,6 +140,12 @@ while ($sor = mysqli_fetch_array($eredmeny)) {
     }
 }
 
+// 5. Kosár tételek törlése
+$sql = "DELETE FROM kosar WHERE ugyfel_id = ".intval($webshop_id)." AND rendeles_id = ".intval($rendeles_id);
+if (!mysqli_query($kapcsolat, $sql)) {
+    die("Hiba a kosár tételek törlésénél: " . mysqli_error($kapcsolat));
+}
+
 // Sikeres oldal megjelenítése
 ?>
 <!DOCTYPE html>
@@ -174,7 +180,7 @@ while ($sor = mysqli_fetch_array($eredmeny)) {
             <ul>
                 <li>A rendelésed állapotát a profilodban követheted</li>
                 <li>Számlád elektronikus formában érkezik meg</li>
-                <li>Kérdés esetén írj a webshop@oktato2.info címre</li>
+                <li>Kérdés esetén írj a info@wimu.com címre</li>
             </ul>
         </div>
     </div>

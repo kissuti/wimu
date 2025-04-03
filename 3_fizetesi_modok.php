@@ -50,9 +50,12 @@ if ($belepve == 1) {
 
   <head>
     <title>Wimu Webshop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/payment.css">
+    <link rel="stylesheet" href="styles/btn_gombok.css">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
     <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
     <script type="text/javascript">
@@ -104,12 +107,16 @@ if ($belepve == 1) {
         </div>
 
         <div class="mt-4">
-          <button type="button" name="tovabb" id="tovabb" class="btn btn-success w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz(this)">A rendelés összegzése >></button>
+          <button type="button" name="tovabb" id="tovabb" class="btn btngombok w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz(this)">A rendelés összegzése >></button>
         </div>
       </form>
     </div>
 
     <?php include("alja.php"); ?>
+            <!-- Bootstrap JS bundle (Popper included) -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
 
     <script>
       paypal.Buttons({

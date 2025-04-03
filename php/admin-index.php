@@ -23,6 +23,7 @@ if (!isset($_SESSION['webshop_role']) || $_SESSION['webshop_role'] !== 'admin') 
             <a href="admin/rendeles_lista.php" class="list-group-item list-group-item-action border-5">Rendelési lista</a>
             <a href="admin/termek_felvetel.php" class="list-group-item list-group-item-action border-5">Termék felvétel</a>
             <a href="admin/termek_modositas.php" class="list-group-item list-group-item-action border-5">Termék módosítás</a>
+            <a href="admin/felhasznalok.php" class="list-group-item list-group-item-action border-5">Regisztrált fiókok</a>
         </div>
         <div class="list-group mt-4">
         <a href="../index.php" class="btn btn-primary btn-danger">Vissza a főoldalra</a>

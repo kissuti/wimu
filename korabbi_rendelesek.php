@@ -8,6 +8,21 @@ header("Pragma: no-cache");
 Header("Cache-control: private, no-store, no-cache, must-revalidate");  
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
+session_start();
+
+// GET paraméterek kezelése
+$id = isset($_GET['id']) ? intval($_GET['id']) : null;
+$uid = isset($_GET['uid']) ? intval($_GET['uid']) : null;
+
+// Felhasználó azonosítás ellenőrzése
+if(isset($uid) && (!isset($_SESSION['webshop_id']) || $_SESSION['webshop_id'] != $uid)) {
+    header("Location: bejelentkezes.php");
+    exit();
+}
+
+// A bejelentkezett felhasználó ID-ja
+$webshop_id = $_SESSION['webshop_id'] ?? 0;
+
 if (!isset($id)) {
   ?>
 
@@ -23,7 +38,7 @@ if (!isset($id)) {
   </head>
 
   <body>
-    <?php include("teteje_2.php"); ?>
+    <?php include("teteje.php"); ?>
 
 
       <h2 class="text-dark">Korábbi rendeléseid</h2>
@@ -42,8 +57,11 @@ if (!isset($id)) {
             </thead>
             <tbody>
               <?php
-              $sql = "SELECT * FROM rendelesek WHERE ugyfel_id=$webshop_id ORDER BY idopont";
-              $eredmeny = mysqli_query($kapcsolat, $sql);
+              // Új (paraméterezett):
+              $sql = $kapcsolat->prepare("SELECT * FROM rendelesek WHERE ugyfel_id = ? ORDER BY idopont DESC");
+              $sql->bind_param("i", $webshop_id);
+              $sql->execute();
+              $eredmeny = $sql->get_result();
 
               $volt = 0;
               
@@ -105,7 +123,7 @@ if (!isset($id)) {
         
       </form>
 
-    <?php include("alja_2.php"); ?>
+    <?php include("alja.php"); ?>
   </body>
   </html>
 
@@ -123,7 +141,7 @@ if (!isset($id)) {
   </head>
 
   <body>
-    <?php include("teteje_2.php"); ?>
+    <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
       <h2 class="text-dark">A rendelés részletes adatai</h2>
@@ -142,9 +160,17 @@ if (!isset($id)) {
             </thead>
             <tbody>
               <?php
-              $parancs = "SELECT * from rendelesek WHERE id=$id AND ugyfel_id=$uid";
-              $eredmeny = mysqli_query($kapcsolat, $parancs);
-              $sor = mysqli_fetch_array($eredmeny);
+              // Paraméterezett lekérdezéssel:
+              $parancs = $kapcsolat->prepare("SELECT * FROM rendelesek WHERE id = ? AND ugyfel_id = ?");
+              $parancs->bind_param("ii", $id, $uid);
+              if (!$parancs->execute()) {
+                  die("Hiba történt a lekérdezés végrehajtása során: " . $kapcsolat->error);
+              }
+              $eredmeny = $parancs->get_result();
+              $sor = $eredmeny->fetch_assoc();
+              if (!$sor) {
+                  die("Nem található ilyen rendelés!");
+              }
               $fizetendo = $sor["fizetendo"];
               $fizetesi_mod = $sor["fizetesi_mod"];
               $nev = $sor["nev"];
@@ -183,18 +209,22 @@ if (!isset($id)) {
                 }
               }
 
-              $sql = "SELECT * FROM kosar WHERE ugyfel_id=$uid AND rendeles_id=$id";
-              $eredmeny = mysqli_query($kapcsolat, $sql);
+              $sql = $kapcsolat->prepare("SELECT * FROM kosar WHERE ugyfel_id = ? AND rendeles_id = ?");
+              $sql->bind_param("ii", $uid, $id);
+              $sql->execute();
+              $eredmeny = $sql->get_result();
 
               while ($sor = mysqli_fetch_array($eredmeny)) {
                 $arucikk_id = $sor["arucikk_id"];
                 $db = $sor["db"];
                 
-                $parancs = "SELECT * FROM arucikk WHERE id=$arucikk_id";
-                $rs = mysqli_query($kapcsolat, $parancs);
+                $parancs = $kapcsolat->prepare("SELECT * FROM arucikk WHERE id = ?");
+                $parancs->bind_param("i", $arucikk_id);
+                $parancs->execute();
+                $rs = $parancs->get_result();
 
-                if (mysqli_num_rows($rs) > 0) {
-                  $egysor = mysqli_fetch_array($rs);
+                if ($rs->num_rows > 0) {
+                  $egysor = $rs->fetch_array();
                   $nev = $egysor["nev"];
                   $nev2 = $egysor["nev2"];
                   $ar_huf = $egysor["ar_huf"];
@@ -275,7 +305,11 @@ if (!isset($id)) {
       </form>
     </div>
 
-    <?php include("alja_2.php"); ?>
+    <?php include("alja.php"); ?>
+        <!-- Bootstrap JS bundle (Popper included) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+          crossorigin="anonymous"></script>
   </body>
   </html>
 
