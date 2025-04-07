@@ -178,7 +178,7 @@ if ($belepve == 1) {
 
         <div class="mb-3">
           <label for="telefon" class="form-label">Telefonszám:</label>
-          <input type="text" name="telefon" class="form-control border-3" value="<?= $telefon ?>" placeholder="+36 / 06">
+          <input type="text" name="telefon" class="form-control border-3" value="<?= $telefon ?>" placeholder="+36">
         </div>
 
         <!-- HTML rész az ország mezővel -->
