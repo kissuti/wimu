@@ -72,7 +72,7 @@ wimu/
 
 ### Feltétel
 
-- **XAMPP**: Letöltés és *Apache*, *MySQL* elínditás. [Letöltés](https://www.apachefriends.org/hu/index.html).
+- **XAMPP**: Letöltés és *Apache*, *MySQL* elinditás. [Letöltés](https://www.apachefriends.org/hu/index.html).
 - **Mappa másolása**: Másold be a `wimu` mappát a `htdocs` könyvtárba (pl. `C:/xampp/htdocs/wimu/`).
 - **Adatbázis**: Nyissad meg a(z) `http://localhost/phpmyadmin` oldalt.
    - **Adatbázis létrehozás**: Hozzál létre egy (`wimu`) nevezetű adatbázist.
