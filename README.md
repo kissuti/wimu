@@ -40,11 +40,15 @@
 
 ```plaintext
 wimu/
+├── Dokumentáció/            # Dokumentáció a webshophoz
 ├── img/                     # Képek a webshophoz
 ├── js/                      # JavaScript fájlok
+├── node_modules/            # Jest Keretrendszer
 ├── php/                     # PHP fájlok
 │   ├── admin/               # Admin panel
 ├── styles/                  # CSS tárolása
+├── tests/                   # Unit Teszt
+├── Utils/                   # Unit Teszt
 ├── 1_kosar_tartalma.php     # Kosár megtekintés
 ├── 2_kosar_modositas.php    # Kosár módosítás
 ├── 3_fizetesi_modok.php     # Fizetés kiválasztása
@@ -66,6 +70,7 @@ wimu/
 ├── reg.php                  # Regisztráció
 ├── teteje.php               # Oldal teteje
 ├── wimu.sql                 # Adatbázis
+├── wimu_test.sql            # Teszt adatbázis
 ```
 
 ## **Weboldal használata**
