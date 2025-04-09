@@ -295,6 +295,7 @@ elseif ($mit == "modositas") {
                 <hr>
                 <div class="d-flex justify-content-between">
                     <a href="termek_modositas2.php?id=<?= $id ?>" class="btn btn-primary">Vissza a szerkesztéshez</a>
+                    <a href="../../index.php" class="btn btn-danger">Főoldal</a>
                     <a href="termek_modositas.php" class="btn btn-secondary">Vissza a listához</a>
                 </div>
             </div>

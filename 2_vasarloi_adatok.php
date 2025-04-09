@@ -159,8 +159,10 @@ if ($belepve == 1) {
     <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
-
-      <h2 class="text-dark">Vásárlói adatok megadása</h2>
+      <div class="card">
+      <div class="card-header" style="background-color: #bbbbbb;">
+        <h3 class="mb-0">Vásárlói adatok megadása</h3>
+      </div>
       
       <form name="urlap" action="3_fizetesi_modok.php" method="POST" class="bg-light p-4 rounded border">
         <input type="hidden" name="osszeg" value="<?= $_POST['osszeg'] ?? '' ?>">
@@ -232,6 +234,7 @@ if ($belepve == 1) {
           <button type="button" name="tovabb" id="tovabb" class="btngombok w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz()">A fizetési mód kiválasztása >></button>
         </div>
       </form>
+    </div>
     </div>
 
     <?php include("alja.php"); ?>

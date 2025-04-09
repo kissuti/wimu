@@ -72,7 +72,7 @@ if (!isset($mit)) {
                     <input name="<?= $kosar_id ?>" 
                            value="<?= $db ?>" 
                            class="form-control text-center" 
-                           style="width: 80px;">
+                           style="width: 80px; margin-left: 135px">
                   </td>
                   <td class="text-end"><?= szampontos($db * $termek['ar_huf']) ?> HUF</td>
                 </tr>
