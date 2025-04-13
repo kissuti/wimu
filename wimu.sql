@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 08. 21:39
+-- Létrehozás ideje: 2025. Ápr 13. 18:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.4.5
 
@@ -51,7 +51,19 @@ INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hossz
 (1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz, például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 20),
 (2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek, például USB-C, HDMI és WiFi, megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 10),
 (3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'Nagy akkumulátor élettartam. Erős hardver. Kiváló hűtés.', 'A gaming laptopok egyik legfontosabb jellemzője az erős processzor, amely lehetővé teszi a gyors adatfeldolgozást és a gördülékeny játékélményt. Emellett a nagy teljesítményű dedikált videokártya elengedhetetlen, hogy a játékok grafikája részletgazdag és élethű legyen. A legtöbb gaming laptop legalább 16 GB RAM-mal rendelkezik, de a csúcskategóriás modellek akár 32 vagy 64 GB memóriával is felszerelhetők a maximális teljesítmény érdekében.', 124990, 'darab', 1, 2, 3, 10),
-(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 99990, 'darab', 1, 2, 4, 30);
+(4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 99990, 'darab', 1, 2, 4, 30),
+(5, 'Számítógép.', '', 'Számítógép', 'pc1.jpg', 'Modern számítógép gépház, amely minimalista dizájn.', 'Elegáns, minimalista kialakítással rendelkezik, amely tökéletesen illeszkedik bármilyen otthoni vagy irodai környezetbe. A fekete színű, sima és letisztult felület modern megjelenést kölcsönöz neki. A gépház kialakítása nemcsak esztétikus, hanem funkcionális is, optimális hűtést biztosítva a benne lévő hardver számára. Az oldalfal lehetővé teszi a belső alkatrészek könnyű hozzáférését, és átlátszó ablakon keresztül nyújt betekintést a komponensek látványos elrendezésébe. Megfelel azoknak, akik elegáns és erős PC-t építenek.', 189000, 'darab', 1, 2, 4, 20),
+(6, 'LED Tv', '', 'Tv', 'ledtv1.jpg', 'LED TV elegáns kialakítással, tökéletes választás az otthoni szórakozáshoz.', 'Modern és letisztult dizájnnal rendelkezik, amely kiemeli az éles és élénk képeket. A vékony keret minimalista megjelenést kölcsönöz, és tökéletesen illik bármilyen helyiség stílusához. A készülék fejlett technológiával biztosítja a lenyűgöző képminőséget, magas színpontossággal és kontraszttal, hogy minden jelenet életre keljen. Ideális választás filmekhez, játékokhoz, vagy akár napi hírek követésére, kényelmesen az otthonodban.', 89000, 'darab', 1, 6, 7, 20),
+(7, 'OLED Tv', '', 'Tv', 'oledtv.jpg', 'OLED TV kristálytiszta képminőséggel és modern dizájnnal, tökéletes élményhez.', 'Kiemelkedő képminőséget nyújt, a mély feketékkel és az élénk színárnyalatokkal lenyűgözve. A vékony és elegáns keret minimalista stílust biztosít, amely minden térben prémium megjelenést kölcsönöz. Az OLED technológia garantálja a kiváló látványt, legyen szó filmnézésről, játékokról vagy akár prezentációkról. Ideális választás azok számára, akik kompromisszumok nélküli vizuális élményt keresnek az otthoni szórakozáshoz.', 129000, 'darab', 1, 6, 8, 20),
+(8, 'Okos Tv', '', 'Tv', 'smarttv.jpg', 'Elegáns okos TV kiváló képminőséggel és modern funkcionalitással.', 'Tökéletes kombinációja a lenyűgöző képminőségnek és a legmodernebb funkcióknak. A vékony és letisztult dizájn otthona bármely szobáját stílusosan kiegészíti. Az intuitív operációs rendszer lehetővé teszi a streaming szolgáltatásokhoz való gyors hozzáférést, alkalmazások telepítését, valamint a kedvenc tartalmak egyszerű elérését. A beépített hangvezérlés még kényelmesebbé teszi a használatot, és a TV kompatibilis más okos eszközökkel, amelyekkel együtt egy zökkenőmentes ökoszisztémát alkot. Ideális választás, ha technológiai kiválóságot keresel.', 129000, 'darab', 1, 6, 9, 20),
+(9, 'Laza női ruha', '', 'Női ruha', 'noiruha1.jpg', 'Elegáns női ruha, amely tökéletes választás koktélpartikra és hétköznapi viseletként is.', 'Egyszerre modern és elegáns, minden alkalomhoz illik. A lágy, sima anyag maximális kényelmet biztosít, míg a ruha vonalvezetése kiemeli az alakot. A dizájn finoman ötvözi a klasszikus stílust és a kortárs divatot, így tökéletes választás lehet egy koktélpartira, egy esti vacsorára, vagy akár hétköznapi viseletként is. Az egyszerű, mégis kifinomult megjelenés miatt sokoldalúan kombinálható különböző kiegészítőkkel.', 12900, 'darab', 10, 11, 12, 10),
+(10, 'Body szett', '', 'Női body', 'noiruha2.jpg', 'Elegáns női ruha, stílusos kivitelben, ideális különleges alkalmakra.', 'Kifinomult elegancia jegyében készült, letisztult vonalvezetésével és figyelemreméltó részleteivel. A szövet prémium minőségű, amely biztosítja a kényelmet és tartósságot egyaránt. A ruha kialakítása kiemeli a viselő alakját, miközben elegáns megjelenést kölcsönöz. Tökéletes választás lehet bármilyen különleges eseményre vagy esti összejövetelre, ugyanakkor sokoldalúan viselhető hétköznapi kiegészítőkkel is. Egy igazi alapdarab, amely stílust visz a mindennapokba!', 11900, 'darab', 10, 11, 12, 15),
+(11, 'Női Felső', '', 'Női felső ruha', 'noifelso.jpg', 'Stílusos női felső, kényelmes viselet mindennapi használatra és különleges alkalmakra.', 'Tökéletes kombinációja a kényelemnek és a divatos megjelenésnek. Finom anyaga és letisztult szabása kiváló illeszkedést biztosít, míg az elegáns részletek modern stílust kölcsönöznek. Sokoldalúan viselhető, legyen szó hétköznapi öltözködésről vagy alkalmibb eseményekről. Kiegészítőkkel könnyen variálható, hogy minden szituációhoz igazodjon. Egy alapdarab, ami sosem megy ki a divatból!', 15900, 'darab', 10, 11, 13, 20),
+(12, 'Női szoknya', '', 'Női szoknya', 'noiszoknya.jpg', 'Divatos női szoknya, tökéletes választás mindennapokra és különleges alkalmakra.', 'Stílusos és sokoldalú, így bármilyen alkalomra ideális. Minőségi anyagból készült, hogy kényelmes legyen a mindennapi viselet során, miközben megjelenése elegáns és kifinomult. A modern szabás és a letisztult dizájn lehetővé teszi, hogy könnyen kombinálható legyen különböző felsőkkel és kiegészítőkkel. Legyen szó munkahelyi megjelenésről, baráti találkozóról vagy hétvégi programokról, ez a darab minden helyzetben tökéletes választás!', 14900, 'darab', 10, 11, 14, 20),
+(13, 'Férfi ing', '', 'Férfi ing', 'ferfiing.jpg', 'Elegáns férfi ing, kiváló minőségű anyagból, tökéletes választás az üzleti vagy alkalmi viselethez.', 'Letisztult dizájnnal és prémium anyaghasználattal készült, hogy minden helyzetben tökéletes megjelenést biztosítson. A szövet kényelmes és légáteresztő, ami kiváló viselhetőséget garantál akár hosszú órákon keresztül is. Az ing szabása modern és stílusos, amely kiemeli a viselő férfias vonásait. Ideális választás munkahelyi megjelenéshez, családi eseményekhez, vagy akár különleges alkalmakra is. Ez az ing egy igazi alapdarab, amely sosem megy ki a divatból!', 12900, 'darab', 10, 15, 16, 20),
+(14, 'Férfi poló', '', 'Férfi poló', 'ferfipolo.jpg', 'Letisztult férfi póló, kényelmes viselet a mindennapokra.', 'Tökéletes választás mindennapi viseletre, hiszen egyszerre kényelmes és stílusos. Minőségi anyagból készült, amely légáteresztő és tartós, így ideális hosszabb viselésre is. Letisztult dizájnja sokoldalúan kombinálható különféle nadrágokkal és kiegészítőkkel. Legyen szó baráti összejövetelről vagy laza hétvégi programokról, ez a póló garantáltan megállja a helyét.', 11900, 'darab', 10, 15, 16, 20),
+(15, 'Férfi nadrág', '', 'Férfi nadrág', 'ferfinadrag.jpg', 'Klasszikus férfi nadrág, amely stílusos és kényelmes választás a mindennapokra.', 'Ez a férfi nadrág elegáns és praktikus kialakítású, amely tökéletesen megfelel mindennapi viseletre vagy akár formálisabb eseményekre. A minőségi anyag biztosítja a tartósságot és a kényelmet, míg a szabás kiemeli a modern stílust. Letisztult dizájnjával könnyen kombinálható különböző felsőkkel és cipőkkel, hogy bármilyen alkalomhoz igazodjon. Ez a nadrág egy alapdarab, ami minden férfi ruhatárában elengedhetetlen.', 11900, 'darab', 10, 15, 17, 20),
+(16, 'Férfi zakó', '', 'Férfi zakó', 'ferfizako.jpg', 'Elegáns férfi zakó, amely stílust és magabiztosságot sugároz formális vagy alkalmi viselethez.', 'Modern elegancia megtestesítője, letisztult szabása és prémium anyaghasználata révén. Ideális választás üzleti találkozókra, eseményekre vagy akár egy hétköznapi megjelenés stílusos kiegészítőjeként. A kényelmes és légáteresztő anyag biztosítja a komfortérzetet, míg a klasszikus kialakítás lehetővé teszi, hogy bármilyen ruhatárba könnyedén beilleszthető legyen. Egy alapdarab, amely sosem megy ki a divatból!', 24900, 'darab', 10, 15, 18, 20);
 
 -- --------------------------------------------------------
 
@@ -135,13 +147,6 @@ CREATE TABLE `naplo` (
   `kilepes` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `naplo`
---
-
-INSERT INTO `naplo` (`id`, `email`, `mikor`, `sikeres`, `sikertelen`, `kilepes`) VALUES
-(1, 'admin@admin.com', '2025-04-08 21:10:14', 1, 0, '2025-04-08 21:10:14');
-
 -- --------------------------------------------------------
 
 --
@@ -172,13 +177,6 @@ CREATE TABLE `rendelesek` (
   `sz_utca` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `rendelesek`
---
-
-INSERT INTO `rendelesek` (`id`, `ugyfel_id`, `kod`, `torolve`, `idopont`, `fizetendo`, `fizetesi_mod`, `kifizetve`, `teljesitve`, `nev`, `email`, `telefon`, `kulfoldi`, `orszag`, `irszam`, `varos`, `utca`, `sz_nev`, `sz_irszam`, `sz_varos`, `sz_utca`) VALUES
-(1, 1, '67f577d6bc8cb', 0, '2025-04-08 21:24:06', 59990, 1, '2025-04-08 21:24:06', '2025-04-08 21:24:06', 'admin', 'admin@admin.com', '+36 50 111 1111', 0, 'Magyarország', '1234', 'Pécs', 'Utca utca 2.', 'admin', '1234', 'Pécs', 'Utca utca 2.');
-
 -- --------------------------------------------------------
 
 --
@@ -192,13 +190,6 @@ CREATE TABLE `rendeles_tetelek` (
   `db` int(4) UNSIGNED NOT NULL,
   `ar_huf` bigint(6) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE=latin2_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `rendeles_tetelek`
---
-
-INSERT INTO `rendeles_tetelek` (`id`, `rendeles_id`, `arucikk_id`, `db`, `ar_huf`) VALUES
-(1, 1, 1, 1, 59990);
 
 -- --------------------------------------------------------
 
@@ -236,7 +227,7 @@ CREATE TABLE `ugyfel` (
 --
 
 INSERT INTO `ugyfel` (`id`, `email`, `nev`, `kod`, `jelszo`, `reg_idopont`, `megerositve`, `uj_email`, `uj_kod`, `session_id`, `ervenyes`, `telefon`, `kulfoldi`, `orszag`, `irszam`, `varos`, `utca`, `sz_nev`, `sz_irszam`, `sz_varos`, `sz_utca`, `role`) VALUES
-(1, 'admin@admin.com', 'admin', '', '$2y$12$.5xajt0wudFHfELJXXaCqudLPoPXafIKTXVItbLxTjFJs.d5RVUXS', '2025-04-08 21:10:00', '2025-04-08 21:10:00', '', '', 'oih060cs3cs0t43cc3tid23lgo', '2025-04-08 22:10:14', '+36 50 111 1111', 0, 'Magyarország', '1234', 'Pécs', 'Utca utca 2.', 'admin', '1234', 'Pécs', 'Utca utca 2.', 'admin');
+(1, 'admin@admin.com', 'admin', '', '$2y$12$.5xajt0wudFHfELJXXaCqudLPoPXafIKTXVItbLxTjFJs.d5RVUXS', '2025-04-08 21:10:00', '2025-04-08 21:10:00', '', '', 'cbnim1h76428r8rodt0epbsh3h', '2025-04-13 17:10:45', '+36 50 111 1111', 0, 'Magyarország', '1234', 'Pécs', 'Utca utca 2.', 'admin', '1234', 'Pécs', 'Utca utca 2.', 'admin');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -322,7 +313,7 @@ ALTER TABLE `ugyfel`
 -- AUTO_INCREMENT a táblához `arucikk`
 --
 ALTER TABLE `arucikk`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `kategoriak`
@@ -334,7 +325,7 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT a táblához `kosar`
 --
 ALTER TABLE `kosar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `megtekintve`
@@ -346,19 +337,19 @@ ALTER TABLE `megtekintve`
 -- AUTO_INCREMENT a táblához `naplo`
 --
 ALTER TABLE `naplo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `rendelesek`
 --
 ALTER TABLE `rendelesek`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `rendeles_tetelek`
 --
 ALTER TABLE `rendeles_tetelek`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `ugyfel`

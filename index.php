@@ -16,17 +16,17 @@ $haromnapja = date("Y-m-d", time()-86400*3);
 $sql = "DELETE FROM megtekintve WHERE mikor<'$haromnapja'";
 mysqli_query($kapcsolat, $sql);
 
-$jogosultsag = isset($_POST['jogosultsag']) ? $_POST['jogosultsag'] : 0;
-$kat1 = isset($_POST['kat1']) ? intval($_POST['kat1']) : 0;
-$kat2 = isset($_POST['kat2']) ? intval($_POST['kat2']) : 0;
-$kat3 = isset($_POST['kat3']) ? intval($_POST['kat3']) : 0;
-$szint = isset($_POST['szint']) ? intval($_POST['szint']) : 0;
-$mitkeres = isset($_POST['mitkeres']) ? $_POST['mitkeres'] : "";
-$leirasban = isset($_POST['leirasban']) ? intval($_POST['leirasban']) : 0;
-$sorrend = isset($_POST['sorrend']) ? $_POST['sorrend'] : "";
-$irany = isset($_POST['irany']) ? $_POST['irany'] : "";
-$oldal = isset($_POST['oldal']) ? intval($_POST['oldal']) : 1;
-$laponkent = isset($_POST['laponkent']) ? intval($_POST['laponkent']) : 5;
+$jogosultsag = isset($_REQUEST['jogosultsag']) ? $_REQUEST['jogosultsag'] : 0;
+$kat1 = isset($_REQUEST['kat1']) ? intval($_REQUEST['kat1']) : 0;
+$kat2 = isset($_REQUEST['kat2']) ? intval($_REQUEST['kat2']) : 0;
+$kat3 = isset($_REQUEST['kat3']) ? intval($_REQUEST['kat3']) : 0;
+$szint = isset($_REQUEST['szint']) ? intval($_REQUEST['szint']) : 0;
+$mitkeres = isset($_REQUEST['mitkeres']) ? $_REQUEST['mitkeres'] : "";
+$leirasban = isset($_REQUEST['leirasban']) ? intval($_REQUEST['leirasban']) : 0;
+$sorrend = isset($_REQUEST['sorrend']) ? $_REQUEST['sorrend'] : "";
+$irany = isset($_REQUEST['irany']) ? $_REQUEST['irany'] : "";
+$oldal = isset($_REQUEST['oldal']) ? intval($_REQUEST['oldal']) : 1;
+$laponkent = isset($_REQUEST['laponkent']) ? intval($_REQUEST['laponkent']) : 6;
 
 if ($szint == 1) {
   $kat2 = 0;
@@ -147,7 +147,7 @@ $oldalak = ceil($osszes / $laponkent);
 
     <div class="container mt-4">
       <!-- Webshop tartalma: kereső és kategória szűrők -->
-      <form name="listazas" action="index.php" method="POST" class="bg-light p-3 rounded">
+      <form name="listazas" action="index.php" method="GET" class="bg-light p-3 rounded">
         <input type="hidden" name="szint" value="0">
         <input type="hidden" name="jogosultsag" value="<?= $jogosultsag ?>">
         <div class="row">
@@ -185,8 +185,8 @@ $oldalak = ceil($osszes / $laponkent);
         <?php if ($kat1>0) { ?>
           <div class="mb-3">
             <label for="kat2" class="form-label"><b>Alkategóriák:</b></label>
-            <select name="kat2" class="form-select" onChange="document.listazas.szint.value=1; document.listazas.submit()">
-              <option value="0" <?php if ($kat2==0) { print "selected"; } ?>>Összes</option>
+            <select name="kat2" class="form-select" onChange="window.location.href='index.php?kat1=<?= $kat1 ?>&kat2=' + this.value + '&szint=2';">
+              <option value="0" <?php if ($kat2==0) { echo "selected"; } ?>>Összes</option>
               <?php
               $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2 IS NULL ORDER BY id";
               $eredmeny = mysqli_query($kapcsolat, $sql);
@@ -194,7 +194,7 @@ $oldalak = ceil($osszes / $laponkent);
                 $id = $sor["id"];
                 $nev = $sor["nev"];
                 ?>
-                <option value="<?= $id ?>" <?php if ($kat2==$id) { print "selected"; } ?>><?= $nev ?></option>
+                <option value="<?= $id ?>" <?php if ($kat2==$id) { echo "selected"; } ?>><?= $nev ?></option>
                 <?php
               }
               ?>
@@ -205,8 +205,8 @@ $oldalak = ceil($osszes / $laponkent);
         <?php if ($kat2>0) { ?>
           <div class="mb-3">
             <label for="kat3" class="form-label"><b>Alkategóriák:</b></label>
-            <select name="kat3" class="form-select" onChange="document.listazas.submit()">
-              <option value="0" <?php if ($kat3==0) { print "selected"; } ?>>összes</option>
+            <select name="kat3" class="form-select" onChange="window.location.href='index.php?kat1=<?= $kat1 ?>&kat2=<?= $kat2 ?>&kat3=' + this.value + '&szint=3';">
+              <option value="0" <?php if ($kat3==0) { echo "selected"; } ?>>Összes</option>
               <?php
               $sql = "SELECT * FROM kategoriak WHERE szulo1=$kat1 AND szulo2=$kat2 ORDER BY id";
               $eredmeny = mysqli_query($kapcsolat, $sql);
@@ -214,7 +214,7 @@ $oldalak = ceil($osszes / $laponkent);
                 $id = $sor["id"];
                 $nev = $sor["nev"];
                 ?>
-                <option value="<?= $id ?>" <?php if ($kat3==$id) { print "selected"; } ?>><?= $nev ?></option>
+                <option value="<?= $id ?>" <?php if ($kat3==$id) { echo "selected"; } ?>><?= $nev ?></option>
                 <?php
               }
               ?>
@@ -290,6 +290,28 @@ $oldalak = ceil($osszes / $laponkent);
     <?php } ?>
   </div>
 </div>
+<!-- Lapozás (külön form) -->
+<form action="index.php" method="POST">
+  <input type="hidden" name="jogosultsag" value="<?= $jogosultsag ?>">
+  <input type="hidden" name="kat1" value="<?= $kat1 ?>">
+  <input type="hidden" name="kat2" value="<?= $kat2 ?>">
+  <input type="hidden" name="kat3" value="<?= $kat3 ?>">
+  <input type="hidden" name="mitkeres" value="<?= htmlspecialchars($mitkeres) ?>">
+  <input type="hidden" name="leirasban" value="<?= $leirasban ?>">
+  <input type="hidden" name="sorrend" value="<?= $sorrend ?>">
+  <input type="hidden" name="irany" value="<?= $irany ?>">
+  <input type="hidden" name="laponkent" value="<?= $laponkent ?>">
+  
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      <?php for ($i = 1; $i <= $oldalak; $i++): ?>
+        <li class="page-item <?= ($i == $oldal) ? 'active' : '' ?>">
+          <button type="submit" name="oldal" value="<?= $i ?>" class="page-link"><?= $i ?></button>
+        </li>
+      <?php endfor; ?>
+    </ul>
+  </nav>
+</form>
 
     <?php include("alja.php"); ?>
   </div>

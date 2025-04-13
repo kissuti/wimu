@@ -232,7 +232,7 @@ elseif ($mit == "feltoltes") {
                 $leiras      = isset($_REQUEST['leiras']) ? $_REQUEST['leiras'] : "";
                 $hosszu_leiras = isset($_REQUEST['hosszu_leiras']) ? $_REQUEST['hosszu_leiras'] : "";
                 $raktaron    = isset($_REQUEST['raktaron']) ? $_REQUEST['raktaron'] : 0;
-                $stmt->bind_param("sssdssssiiii", $nev, $nev2, $rovidnev, $imgfile_name, $ar_huf, $egyseg, $leiras, $hosszu_leiras, $kat1, $kat2, $kat3, $raktaron);
+                $stmt->bind_param("ssssdsssiiii", $nev, $nev2, $rovidnev, $imgfile_name, $ar_huf, $egyseg, $leiras, $hosszu_leiras, $kat1, $kat2, $kat3, $raktaron);
                 $stmt->execute();
             } else {
                 $hiba = 1;
@@ -261,6 +261,7 @@ elseif ($mit == "feltoltes") {
               <p>A termék sikeresen fel lett véve.</p>
               <hr>
               <a href="termek_felvetel.php" class="btn btn-primary">Újabb termék felvitele</a>
+              <a href="../../index.php" class="btn btn-danger">Főoldal</a>
             </div>
           <?php
           } else {

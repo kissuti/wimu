@@ -25,13 +25,14 @@ $eredmeny = mysqli_query($kapcsolat, $sql);
     <h1 class="mb-4 text-primary">Összes árucikk listája</h1>
     <a href="../admin-index.php" class="btn btn-primary btn-danger" style="margin-bottom: 30px">Vissza az admin főoldalra</a>
     <table class="table table-bordered table-striped">
-        <thead>
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Név</th>
                 <th>Rövid név</th>
                 <th>Ár (HUF)</th>
                 <th>Raktáron</th>
+                <th>Kép</th>
                 <th>Műveletek</th>
             </tr>
         </thead>
@@ -44,17 +45,23 @@ $eredmeny = mysqli_query($kapcsolat, $sql);
                 <td><?= $sor['ar_huf'] ?></td>
                 <td><?= $sor['raktaron'] ?></td>
                 <td>
-                    <!-- Módosítás -->
+                    <?php if (!empty($sor['foto'])): ?>
+                        <img src="../../img/<?= htmlspecialchars($sor['foto']) ?>" alt="Termékkép" style="height: 80px;">
+                    <?php else: ?>
+                        <span class="text-muted">Nincs kép</span>
+                    <?php endif; ?>
+                </td>
+                <td>
                     <a href="termek_modositas2.php?id=<?= $sor['id'] ?>" class="btn btn-primary btn-sm">Szerkesztés</a>
-                    <!-- Törlés -->
                     <a href="termek_torles.php?id=<?= $sor['id'] ?>" class="btn btn-danger btn-sm" 
-                       onclick="return confirm('Biztosan törlöd ezt a terméket?');">
-                       Törlés
+                    onclick="return confirm('Biztosan törlöd ezt a terméket?');">
+                    Törlés
                     </a>
                 </td>
             </tr>
             <?php endwhile; ?>
         </tbody>
+
     </table>
 </div>
 <?php
