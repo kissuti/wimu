@@ -111,7 +111,7 @@ if ($belepve == 1) {
           </div>
           
           <div class="mt-4">
-            <button type="button" name="tovabb" id="tovabb" class="btn btngombok w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz(this)">A rendelés összegzése >></button>
+            <button type="button" name="tovabb" id="tovabb" class="btngombok w-100" onclick="this.value='Ellenőrzés folyamatban...'; this.disabled=true; ellenoriz(this)">A rendelés összegzése >></button>
           </div>
         </form>
       </div>

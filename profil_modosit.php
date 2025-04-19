@@ -15,7 +15,7 @@ if (!isset($_SESSION['belepve']) || $_SESSION['belepve'] != 1) {
 
 // Adatbázisból a felhasználó adatainak lekérdezése
 $id = $_SESSION['webshop_id'];
-$stmt = $kapcsolat->prepare("SELECT * FROM ugyfel WHERE id = ?");
+$stmt = $kapcsolat->prepare("SELECT id, nev, email FROM ugyfel WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $eredmeny = $stmt->get_result();
@@ -25,6 +25,7 @@ if ($eredmeny->num_rows === 0) {
 }
 
 $sor = $eredmeny->fetch_assoc();
+var_dump($sor);
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,37 +36,52 @@ $sor = $eredmeny->fetch_assoc();
   <link rel="stylesheet" href="styles/profilmodosit.css">
   <script type="text/javascript">
     function helyescim(emcim) {
-      return emcim.length >= 5 && emcim.indexOf("@") > 0 && emcim.length - emcim.indexOf("@") >= 6;
+        return emcim.length >= 5 && emcim.indexOf("@") > 0 && emcim.length - emcim.indexOf("@") >= 6;
     }
 
     function isEmpty(mit) {
-      return mit.trim().length === 0;
+        return mit.trim().length === 0;
     }
 
     function ellenoriz() {
-      const form = document.forms['urlap'];
-      let mehet = true;
+        const form = document.forms['urlap'];
+        let mehet = true;
 
-      if (isEmpty(form.nev.value)) {
-        alert('Kérlek add meg a neved!');
-        form.nev.focus();
-        mehet = false;
+        // Név ellenőrzése
+        if (isEmpty(form.nev.value)) {
+            alert('Kérlek add meg a neved!');
+            form.nev.focus();
+            mehet = false;
+        }
+
+        // E-mail ellenőrzése
+        if (mehet && !helyescim(form.email.value)) {
+            alert('A megadott e-mail cím helytelen!');
+            form.email.focus();
+            mehet = false;
+        }
+
+        // Jelszó ellenőrzése, ha van megadva
+        const ujJelszo = form.uj_jelszo.value;
+        const ujJelszo2 = form.uj_jelszo_2.value;
+
+        if (mehet && ujJelszo !== '') {
+            // Jelszó komplexitás ellenőrzése
+            if (!/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(ujJelszo)) {
+                alert('A jelszónak minimum 8 karakter, 1 nagybetű és 1 szám kell tartalmaznia!');
+                form.uj_jelszo.focus();
+                mehet = false;
+            } 
+            // Jelszó egyezés ellenőrzése
+            else if (ujJelszo !== ujJelszo2) {
+                alert('A két jelszó nem egyezik!');
+                form.uj_jelszo_2.focus();
+                mehet = false;
+            }
+        }
+
+        return mehet;
       }
-
-      if (mehet && !helyescim(form.email.value)) {
-        alert('A megadott e-mail cím helytelen!');
-        form.email.focus();
-        mehet = false;
-      }
-
-      if (mehet && form.uj_jelszo.value !== form.uj_jelszo_2.value) {
-        alert('A két jelszó nem egyezik!');
-        form.uj_jelszo_2.focus();
-        mehet = false;
-      }
-
-      return mehet;
-    }
   </script>
 </head>
 
@@ -94,9 +110,9 @@ $sor = $eredmeny->fetch_assoc();
                 <input type="text" name="nev" class="form-control modositinput border-5" value="<?= isset($sor['nev']) ? htmlspecialchars($sor['nev']) : ''  ?>" required>
               </div>
               <div class="mb-3">
-                <label class="form-label">E-mail cím:</label>
-                <input type="email" name="email" class="form-control modositinput border-5" 
-                      value="<?= isset($sor['email']) ? htmlspecialchars($sor['email']) : ''  ?>" required> 
+                  <label class="form-label">E-mail cím:</label>
+                  <input type="email" name="email" class="form-control modositinput border-5" 
+                          value="<?= htmlspecialchars($sor['email'] ?? '') ?>" required>
               </div>
 
               <div class="mb-3">

@@ -138,6 +138,7 @@ if (!isset($id)) {
     <meta name="cache-control" content="private, no-store, no-cache, must-revalidate">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/btn_gombok.css">
   </head>
 
   <body>
@@ -209,8 +210,13 @@ if (!isset($id)) {
                 }
               }
 
-              $sql = $kapcsolat->prepare("SELECT * FROM kosar WHERE ugyfel_id = ? AND rendeles_id = ?");
-              $sql->bind_param("ii", $uid, $id);
+              $sql = $kapcsolat->prepare("
+                  SELECT rt.*, a.nev, a.nev2, a.ar_huf 
+                  FROM rendeles_tetelek rt 
+                  INNER JOIN arucikk a ON rt.arucikk_id = a.id 
+                  WHERE rt.rendeles_id = ?
+              ");
+              $sql->bind_param("i", $id); // Csak a rendeles_id kell, mert az egyedi
               $sql->execute();
               $eredmeny = $sql->get_result();
 
@@ -300,7 +306,7 @@ if (!isset($id)) {
         <p class="text-dark"><?= $allapot ?></p>
 
         <div class="mt-4">
-          <a href="korabbi_rendelesek.php" class="btn btn-secondary">&laquo; Vissza a rendelések listájához</a>
+          <a href="korabbi_rendelesek.php" class="link-offset-2 link-underline link-underline-opacity-0 btngombok">&laquo; Vissza a rendelések listájához</a>
         </div>
       </form>
     </div>

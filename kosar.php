@@ -90,14 +90,14 @@ if (isset($_GET['torolni'])) {
           </div>
           <?php
         } else {
-          echo '<div class="alert alert-info text-center">A kosár üres.</div>';
+          echo '<div class="alert text-center">A kosár üres.</div>';
         }
         ?>
       </div>
     </div>
   </div>
   
-  <!-- Iframe méret beállítása (ha szükséges) -->
+  <!-- Iframe méret beállítása -->
   <script>
     const sorok = <?= $sorok ?>;
     const frameHeight = sorok > 0 ? 150 + (sorok * 50) : 150;

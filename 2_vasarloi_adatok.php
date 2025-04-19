@@ -39,24 +39,6 @@ if ($webshop_email != "" && $webshop_jelszo != "") {
     if ($kulfoldi == 1 && $orszag == "") {
       $orszag = "";
     }
-    if ($irszam == "") {
-      $irszam = "Ir.szám";
-    }
-    if ($varos == "") {
-      $varos = "Város v. Helységnév";
-    }
-    if ($utca == "") {
-      $utca = "utca, házszám stb.";
-    }
-    if ($sz_irszam == "") {
-      $sz_irszam = "ir.szám";
-    }
-    if ($sz_varos == "") {
-      $sz_varos = "Város v. Helységnév";
-    }
-    if ($sz_utca == "") {
-      $sz_utca = "utca, házszám stb.";
-    }
 
     $belepve = 1;
   }
@@ -198,9 +180,17 @@ if ($belepve == 1) {
         <div class="mb-3">
           <label for="irszam" class="form-label">Postázási cím:</label>
           <div class="d-flex">
-            <input type="text" name="irszam" class="form-control me-2 border-3" style="width: 100px;" value="<?= $irszam ?>" onfocus="if (this.value=='ir.szám') {this.value=''}">
-            <input type="text" name="varos" class="form-control me-2 border-3" value="<?= $varos ?>" onfocus="if (this.value=='város v. helységnév') {this.value=''}">
-            <input type="text" name="utca" class="form-control border-3" value="<?= $utca ?>" onfocus="if (this.value=='utca, házszám stb.') {this.value=''}">
+            <input type="text" name="irszam" class="form-control me-2 border-3" style="width: 100px;" 
+                  value="<?= htmlspecialchars($irszam) ?>" 
+                  placeholder="Ir.szám">
+            
+            <input type="text" name="varos" class="form-control me-2 border-3" 
+                  value="<?= htmlspecialchars($varos) ?>" 
+                  placeholder="Város v. helységnév">
+            
+            <input type="text" name="utca" class="form-control border-3" 
+                  value="<?= htmlspecialchars($utca) ?>" 
+                  placeholder="utca, házszám stb.">
           </div>
         </div>
 
@@ -218,15 +208,25 @@ if ($belepve == 1) {
 
         <div class="mb-3">
           <label for="sz_nev" class="form-label">Számlázási név:</label>
-          <input type="text" name="sz_nev" class="form-control border-3" value="<?= $sz_nev ?>">
+          <input type="text" name="sz_nev" class="form-control border-3" 
+                value="<?= htmlspecialchars($sz_nev) ?>" 
+                placeholder="Számlázási név / Cégnév">
         </div>
 
         <div class="mb-3">
           <label for="sz_irszam" class="form-label">Számlázási cím:</label>
           <div class="d-flex">
-            <input type="text" name="sz_irszam" class="form-control me-2 border-3" style="width: 100px;" value="<?= $sz_irszam ?>" onfocus="if (this.value=='ir.szám') {this.value=''}">
-            <input type="text" name="sz_varos" class="form-control me-2 border-3" value="<?= $sz_varos ?>" onfocus="if (this.value=='város v. helységnév') {this.value=''}">
-            <input type="text" name="sz_utca" class="form-control border-3" value="<?= $sz_utca ?>" onfocus="if (this.value=='utca, házszám, emelet, ajtó') {this.value=''}">
+            <input type="text" name="sz_irszam" class="form-control me-2 border-3" style="width: 100px;" 
+                  value="<?= htmlspecialchars($sz_irszam) ?>" 
+                  placeholder="ir.szám">
+            
+            <input type="text" name="sz_varos" class="form-control me-2 border-3" 
+                  value="<?= htmlspecialchars($sz_varos) ?>" 
+                  placeholder="város v. helységnév">
+            
+            <input type="text" name="sz_utca" class="form-control border-3" 
+                  value="<?= htmlspecialchars($sz_utca) ?>" 
+                  placeholder="utca, házszám stb.">
           </div>
         </div>
 

@@ -126,21 +126,7 @@ if (!mysqli_query($kapcsolat, $sql)) {
     die("Hiba a kosár frissítésénél: " . mysqli_error($kapcsolat));
 }
 
-// 4. Termékek raktárkészletének csökkentése
-$sql = "SELECT * FROM kosar WHERE ugyfel_id = ".intval($webshop_id)." AND rendeles_id = ".intval($rendeles_id);
-$eredmeny = mysqli_query($kapcsolat, $sql);
-
-while ($sor = mysqli_fetch_array($eredmeny)) {
-    $arucikk_id = intval($sor['arucikk_id']);
-    $db = intval($sor['db']);
-    
-    $update_sql = "UPDATE arucikk SET raktaron = raktaron - ".$db." WHERE id = ".$arucikk_id;
-    if (!mysqli_query($kapcsolat, $update_sql)) {
-        die("Hiba a raktárkészlet frissítésénél: " . mysqli_error($kapcsolat));
-    }
-}
-
-// 5. Kosár tételek törlése
+// 4. Kosár tételek törlése
 $sql = "DELETE FROM kosar WHERE ugyfel_id = ".intval($webshop_id)." AND rendeles_id = ".intval($rendeles_id);
 if (!mysqli_query($kapcsolat, $sql)) {
     die("Hiba a kosár tételek törlésénél: " . mysqli_error($kapcsolat));
@@ -155,13 +141,14 @@ if (!mysqli_query($kapcsolat, $sql)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/btn_gombok.css">
 </head>
 <body>
     <?php include("teteje.php"); ?>
 
     <div class="container mt-4">
         <div class="card shadow">
-            <div class="card-header bg-success text-white">
+            <div class="card-header" style="background-color: #bbbbbb;">
                 <h3 class="mb-0">Rendelés sikeres!</h3>
             </div>
             <div class="card-body">
@@ -171,7 +158,7 @@ if (!mysqli_query($kapcsolat, $sql)) {
                     <p>A rendelés részleteit elküldtük a <strong><?= htmlspecialchars($webshop_email) ?></strong> e-mail címre.</p>
                 </div>
                 <hr>
-                <a href="index.php" class="btn btn-lg btn-success">Vissza a főoldalra</a>
+                <a href="index.php" class="btngombok link-offset-2 link-underline link-underline-opacity-0">Vissza a főoldalra</a>
             </div>
         </div>
         

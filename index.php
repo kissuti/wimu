@@ -306,12 +306,12 @@ $oldalak = ceil($osszes / $laponkent);
     <ul class="pagination justify-content-center">
       <?php for ($i = 1; $i <= $oldalak; $i++): ?>
         <li class="page-item <?= ($i == $oldal) ? 'active' : '' ?>">
-          <button type="submit" name="oldal" value="<?= $i ?>" class="page-link"><?= $i ?></button>
+          <button type="submit" name="oldal" value="<?= $i ?>" class="btn btn-outline-success"><?= $i ?></button>
         </li>
       <?php endfor; ?>
     </ul>
   </nav>
-</form>
+</form> 
 
     <?php include("alja.php"); ?>
   </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 14. 21:41
+-- Létrehozás ideje: 2025. Ápr 20. 01:55
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.4.5
 
@@ -48,7 +48,7 @@ CREATE TABLE `arucikk` (
 --
 
 INSERT INTO `arucikk` (`id`, `nev`, `nev2`, `rovidnev`, `foto`, `leiras`, `hosszu_leiras`, `ar_huf`, `egyseg`, `kat1`, `kat2`, `kat3`, `raktaron`) VALUES
-(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz, például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 20),
+(1, 'Általános laptop', '', 'Laptop', 'altalanos_laptop.jpg', 'Általános felhasználásra, munkára és iskolára tökéletes.', 'Az általános laptop egy olyan sokoldalú, hordozható számítógép, melyet mindennapi feladatokhoz, például internetböngészéshez, irodai alkalmazások futtatásához, multimédiás tartalmak megtekintéséhez vagy könnyed játékhoz terveztek.', 59990, 'darab', 1, 2, 3, 19),
 (2, 'Ultrabook', '', 'Laptop', 'altalanos_laptop2.jpg', 'Elegáns, könnyű, könnyen hordózható.', 'Az ultrabook egy rendkívül vékony, könnyű és elegáns laptop, melyet a mobilitás és a stílus ötvözésére terveztek. Ezek az eszközök prémium anyagokból, például alumíniumból készülnek, így strapabíróak, mégis kompakt kialakításuknak köszönhetően könnyen beleférnek a táskába. Ultrabookokban energiahatékony, nagy teljesítményű processzorok, gyors SSD-meghajtók és elegendő RAM található, melyek biztosítják a zökkenőmentes multitaskingot és a gyors rendszerindítást. A 13 hüvelykes kijelzők magas felbontást és élénk, részletgazdag képet kínálnak, míg a modern csatlakozási lehetőségek, például USB-C, HDMI és WiFi, megkönnyítik a külső eszközök csatlakoztatását. Emellett az ultrabookok hosszan tartó akkumulátorüzemidővel és gyors töltési funkciókkal rendelkeznek, így ideálisak a folyamatos, útközbeni használathoz.', 99990, 'darab', 1, 2, 3, 10),
 (3, 'Gaming Laptop', '', 'Laptop', 'gaming_laptop.jpg', 'Nagy akkumulátor élettartam. Erős hardver. Kiváló hűtés.', 'A gaming laptopok egyik legfontosabb jellemzője az erős processzor, amely lehetővé teszi a gyors adatfeldolgozást és a gördülékeny játékélményt. Emellett a nagy teljesítményű dedikált videokártya elengedhetetlen, hogy a játékok grafikája részletgazdag és élethű legyen. A legtöbb gaming laptop legalább 16 GB RAM-mal rendelkezik, de a csúcskategóriás modellek akár 32 vagy 64 GB memóriával is felszerelhetők a maximális teljesítmény érdekében.', 124990, 'darab', 1, 2, 3, 10),
 (4, 'Munka állomás', '', 'workstation', 'workstation.jpg', 'A workstation egy professzionális, nagy teljesítményű számítógép.', 'A workstationok célja, hogy a professzionális felhasználók számára megbízható és nagy teljesítményű megoldást kínáljanak. Ezek a rendszerek általában többmagos, magas órajelű processzorokkal, 16 GB vagy annál nagyobb RAM-mal és professzionális, dedikált videókártyával vannak felszerelve. Az erőteljes hardver kombinálva van fejlett hűtési megoldásokkal, amelyek garantálják a stabil működést hosszú és intenzív munkamenetek alatt is. Emellett a széleskörű csatlakozási lehetőségek ? USB, HDMI, DisplayPort és Ethernet portok ? megkönnyítik a professzionális munkaállomásokba való integrációt. Ezek a jellemzők teszik a workstationokat ideálissá a grafikai tervezéshez, 3D rendereléshez, videószerkesztéshez és más, nagy számítási igényű feladatokhoz.', 99990, 'darab', 1, 2, 4, 30),
@@ -227,7 +227,8 @@ CREATE TABLE `ugyfel` (
 --
 
 INSERT INTO `ugyfel` (`id`, `email`, `nev`, `kod`, `jelszo`, `reg_idopont`, `megerositve`, `uj_email`, `uj_kod`, `session_id`, `ervenyes`, `telefon`, `kulfoldi`, `orszag`, `irszam`, `varos`, `utca`, `sz_nev`, `sz_irszam`, `sz_varos`, `sz_utca`, `role`) VALUES
-(1, 'admin@admin.com', 'admin', '', '$2y$12$.5xajt0wudFHfELJXXaCqudLPoPXafIKTXVItbLxTjFJs.d5RVUXS', '2025-04-08 21:10:00', '2025-04-08 21:10:00', '', '', 'cbnim1h76428r8rodt0epbsh3h', '2025-04-13 17:10:45', '+36 50 111 1111', 0, 'Magyarország', '1234', 'Pécs', 'Utca utca 2.', 'admin', '1234', 'Pécs', 'Utca utca 2.', 'admin');
+(1, 'admin@admin.com', 'admin', '', '$2y$12$mhcdS97o3oIJCa02IIsmKed2Cz4V2DImRNkkDCFQI93u5v3bdyAJG', '2025-04-20 01:41:24', '2025-04-20 01:41:24', '', '', '', '0000-00-00 00:00:00', '+36 50 111 1111', 0, 'Magyarország', '7632', 'Pécs', 'Utca utca 2.', 'admin', '7632', 'Pécs', 'Utca utca 2.', 'admin'),
+(2, 'profile@profile.com', 'Profile', '', '$2y$12$sAkmQ5ZYwoArDQ.Mwj/QQewIIrhsDBf7R/wzYEbc70lKB8WrqGqQW', '2025-04-20 01:54:47', '2025-04-20 01:54:47', '', '', NULL, NULL, '', 0, '', '', '', '', '', '', '', '', 'user');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -325,7 +326,7 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT a táblához `kosar`
 --
 ALTER TABLE `kosar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `megtekintve`
@@ -355,7 +356,7 @@ ALTER TABLE `rendeles_tetelek`
 -- AUTO_INCREMENT a táblához `ugyfel`
 --
 ALTER TABLE `ugyfel`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Megkötések a kiírt táblákhoz

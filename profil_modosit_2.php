@@ -37,10 +37,19 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-if (!empty($uj_jelszo) && $uj_jelszo !== $uj_jelszo_2) {
-    $_SESSION['hiba'] = "A jelszavak nem egyeznek!";
-    header("Location: profil_modosit.php");
-    exit();
+// Jelszó komplexitás ellenőrzése, ha meg van adva
+if (!empty($uj_jelszo)) {
+    if (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $uj_jelszo)) {
+        $_SESSION['hiba'] = "A jelszónak minimum 8 karakter, 1 nagybetű és 1 szám kell tartalmaznia!";
+        header("Location: profil_modosit.php");
+        exit();
+    }
+
+    if ($uj_jelszo !== $uj_jelszo_2) {
+        $_SESSION['hiba'] = "A jelszavak nem egyeznek!";
+        header("Location: profil_modosit.php");
+        exit();
+    }
 }
 
 // Ellenőrizzük, hogy az email már foglalt-e másik felhasználónál
@@ -57,15 +66,13 @@ if ($eredmeny->num_rows > 0) {
 
 // Jelszó frissítése, ha meg van adva
 if (!empty($uj_jelszo)) {
-  // password_hash függvény használata a jelszó titkosításához
-  $jelszo_hash = password_hash($uj_jelszo, PASSWORD_DEFAULT);
-  $stmt = $kapcsolat->prepare("UPDATE ugyfel SET nev = ?, email = ?, jelszo = ? WHERE id = ?");
-  $stmt->bind_param("sssi", $nev, $email, $jelszo_hash, $id);
+    $jelszo_hash = password_hash($uj_jelszo, PASSWORD_DEFAULT);
+    $stmt = $kapcsolat->prepare("UPDATE ugyfel SET nev = ?, email = ?, jelszo = ? WHERE id = ?");
+    $stmt->bind_param("sssi", $nev, $email, $jelszo_hash, $id);
 } else {
-  $stmt = $kapcsolat->prepare("UPDATE ugyfel SET nev = ?, email = ? WHERE id = ?");
-  $stmt->bind_param("ssi", $nev, $email, $id);
+    $stmt = $kapcsolat->prepare("UPDATE ugyfel SET nev = ?, email = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $nev, $email, $id);
 }
-
 
 if ($stmt->execute()) {
     $_SESSION['siker'] = "A profil adatai sikeresen frissítve!";

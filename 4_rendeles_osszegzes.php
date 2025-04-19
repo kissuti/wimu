@@ -107,7 +107,7 @@ $osszeg = intval($_POST['osszeg'] ?? 0);
                     <input type="hidden" name="fizet" value="<?= $fizet ?>">
                     
                     <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btngombok">
+                        <button type="submit" class="btngombok">
                             <i class="bi bi-check-circle"></i> Rendelés véglegesítése
                         </button>
                     </div>
